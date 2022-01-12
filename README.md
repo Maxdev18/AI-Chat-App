@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# AI Chat App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a complete full-stack chat app using primarily the MERN stack. The web application is also\
+published in a public [domain](insert url here). Some of the basic functionality of the app consists the user\
+being able to create rooms and joins rooms. One thing that mainly stands out is the integration of AI.\
 
-## Available Scripts
+### AI Features
 
-In the project directory, you can run:
+- Users are able to find and join rooms just by asking a command to the AI and the AI will automatically find\
+the room that the user is looking for.
+- The AI also has the ability of creating rooms on command, rather\
+than the user clicking through mulitple times to create a room.
+- Ability for adding people to a room on command rather than typing it out and maybe misspelling\
+a user name. Or, the user can tell the AI the user's id.
+- Can kick out people from a room.
 
-### `npm start`
+### About the AI
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- It is a 3rd party library called [AlanAI](https://alan.app/). It gives the ability for developers\
+to be able to add a voice assistant to their projects or application.
+- Open source library
+- Compatible with javascript so easy to learn, use, and maintain
+- #### How does it work?
+  If you are interested in how the AlanAI works, go to their docs [here](https://alan.app/docs/).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Application Features
 
-### `npm test`
+- Create rooms and talk to people
+- Make CRUD operations with integrated AI
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Application technologies
 
-### `npm run build`
+- The application is written in Javascript, React as the HTML portion, and CSS3.
+- The stack in which was used is the MERN stack.
+- MongoDB and mongoose were used for the purpose of storing necessary data from the user.
+- Used Bcrypt for password hashing and json web tokens for security and authentication.
+- For live persistent connection between clients, websockets were used from the\
+library Socket.IO.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Application back-end
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- There is an admin back-end route with overview of the site.
+- Includes a dashboard with current number of active sockets, total number of users registered,\
+current active users, etc.
+- Used a library called ChartJS for rendering charts and graphs easier.
+- No way for anyone to get into the admin panel, obviuosly for security reasons, so I have\
+taken screenshots instead.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Installation Requirements
 
-### `npm run eject`
+### `git clone https://github.com/Maxdev18/AI-Chat-App.git`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Clones the repository onto your system.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `npm install` or `npm i`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Install all necessary dependencies and packages required to run the application.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### `npm run dev`
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Runs both the front and back end servers concurrently and seperate from each other. Front-end runs\
+on `localhost:3000`, and back-end runs on `localhost:5000`. The back-end only contains\
+the back-end route/s for the admin login.
