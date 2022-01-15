@@ -27,7 +27,8 @@
     "start": "node server/server.js",
     "server": "nodemon server/server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "admin": "npm start --prefix admin-back-end",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run admin\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

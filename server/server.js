@@ -7,19 +7,25 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
 
 //View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../client/views/'));
+app.set('views', path.join(__dirname, '../admin-back-end/views/'));
 
 //Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:3002"],
     credentials: true
 }));
 
 app.use(express.json()) ;
 app.use(express.static('client'));
 app.use(express.urlencoded({ extended: true }));
+
+//Set basic routes
+app.get('/', (req, res) => {
+  res.send('Hello');
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
