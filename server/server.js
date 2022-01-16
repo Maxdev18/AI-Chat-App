@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
 const PORT = process.env.PORT || 5000;
+dotenv.config();
 
 //View engine
 app.set('view engine', 'ejs');
@@ -25,7 +26,28 @@ app.use(express.urlencoded({ extended: true }));
 
 //Set basic routes
 app.get('/', (req, res) => {
-  res.send('Hello');
+  res.send('Just the back-end route for controllers and other route handling');
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+//Client API routes
+
+
+//Admin API Routes
+
+
+//Connect to MongoDB
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_ID, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    .then(result => app.listen(PORT))
+    .then(console.log("Connected to MongoDB Successfully!"))
+    .catch(err => console.log(err));
+  } catch(err) {
+    console.error(err);
+  }
+};
+
+connectDB();
