@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/login.css';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:5000');
 
 function App() {
+
   return (
     <div className="title">
-      Admin Login
+      
     </div>
   );
 }
