@@ -1,10 +1,21 @@
 const express = require('express');
-const app = express();
+const app = require('express')();
+const http = require('http').Server(app);
 const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const io = require('socket.io')(http, {
+  cors: {
+    orgin: ["http://localhost:3000", "http://localhost:3002"],
+    credentials: true
+  }
+});
+
+//Require socket modules
+const clientSockets = require('./sockets/client-socket');
+const adminSockets = require('./sockets/admin-socket');
 
 const PORT = process.env.PORT || 5000;
 dotenv.config();
@@ -16,7 +27,7 @@ app.set('views', path.join(__dirname, '../admin-back-end/views/'));
 //Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ["http://localhost:3000", "http://localhost:3002", "http://localhost:4000"],
+    origin: ["http://localhost:3000", "http://localhost:3002"],
     credentials: true
 }));
 
@@ -42,7 +53,15 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
-    .then(result => app.listen(PORT))
+    .then(result => {
+      //Create instance of socket connection to the client
+      io.on('connection', socket => {
+        // Link socket emmiters and listeners from the required modules
+        adminSockets(socket);
+        clientSockets(socket);
+      })
+      http.listen(PORT);
+    })
     .then(console.log("Connected to MongoDB Successfully!"))
     .catch(err => console.log(err));
   } catch(err) {
