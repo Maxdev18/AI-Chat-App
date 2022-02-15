@@ -1,0 +1,33 @@
+/* home.css is global to all pages on the site */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Global color variables */
+/* Also using the 60/30/10 rule */
+:root {
+  /* 60% */
+  --sixty-color: #2D2D2A;
+  --sixty-color-light: #4c4c47;
+  /* 30% */
+  --thirty-color: #f6f8ff;
+
+  /* 10% */
+  --ten-color: #09bc8a;
+  --ten-color-light: #0fedaf;
+
+  /* Dashboard */
+  --dashboard-sidebar-color: #373737; 
+
+  /* Links */
+  --link-color: #16B1FF;
+
+  /* AI component */
+  --AI-color: #3971FF;
+
+  /* Online status */
+  --status-color: #E22929;
+}
