@@ -1,12 +1,12 @@
 import { React, Link } from '../client-imports';
-import '../styles/navigation.css';
+import '../styles/components/navigation.css';
 
-const Navigation = (props) => {
+export const Navigation = (props) => {
   // Initialize state variables
   let [ loggedIn, setIsLoggedIn ] = React.useState(false);
 
-  useEffect(() => {
-    setIsLoggedIn(props.loggedIn);
+  React.useEffect(() => {
+    //setIsLoggedIn(props.loggedIn);
   }, []);
 
   /* Function checks if user is logged in, if so 
@@ -14,7 +14,7 @@ const Navigation = (props) => {
   function checkLogin(login) {
     if(login) {
       return (
-        <Link to={`/dashboard/${user._id}`} className='btn-nav'>
+        <Link to={`/dashboard/`} className='btn-nav'>
           Open Dashboard
         </Link>
       );
@@ -40,5 +40,3 @@ const Navigation = (props) => {
     </div>
   );
 }
-
-module.exports = Navigation;
