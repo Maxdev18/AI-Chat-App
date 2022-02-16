@@ -1,9 +1,10 @@
 // Imports
 // Remember to check if compiles normally
-import { React, Router, Route, io } from './client-imports';
+import { BrowserRouter, React, Routes, Route, io } from './client-imports';
+import ReactDOM from 'react-dom';
 import { Landing } from './client-imports';
 
-import './styles/home.css';
+import './styles/index.css';
 
 const socket = io('http://localhost:5000');
 
@@ -11,10 +12,12 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Route exact path="/" component={Landing} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
 
-      </Router>  
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
