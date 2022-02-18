@@ -18,8 +18,14 @@ export const Landing = (props) => {
           <div className="header-cta-container">
             <Link to='/product' className="cta-learn cta-btn btn-style">Learn More</Link>
             <Link to='/register' className="cta-start cta-btnn btn-style">Get Started</Link>
-          </div>  
+          </div>
         </div>
+        <span className="header-circle header-circle-1"></span>
+        <span className="header-circle header-circle-2"></span>
+        <span className="header-circle header-circle-3"></span>
+        <span className="header-circle header-circle-4"></span>
+        <span className="header-circle header-circle-5"></span>
+        <span className="header-circle header-circle-6"></span>
       </div>
 
       {/* Main Content Section */}
