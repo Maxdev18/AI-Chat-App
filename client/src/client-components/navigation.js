@@ -4,6 +4,7 @@ import '../styles/components/navigation.css';
 export const Navigation = (props) => {
   // Initialize state variables
   let [ loggedIn, setIsLoggedIn ] = React.useState(false);
+  let [ menu, setMenu ] = React.useState(false);
 
   React.useEffect(() => {
     //setIsLoggedIn(props.loggedIn);
@@ -27,23 +28,27 @@ export const Navigation = (props) => {
     }
   }
 
+  function toggleMenu() {
+    setMenu(!menu);
+  }
+
   return (
     <div className='main-nav-container'>
       <Link to='/' className='logo'>Chatting AI</Link>
 
-        <div className='container-nav-links'>
+        <div className={`container-nav-links ${menu ? 'showMenu' : ''}`}>
           <Link to='/product' className='nav-link'>Product</Link>
           <Link to='/about' className='nav-link'>About</Link>
           <Link to='/contact' className='nav-link'>Contact</Link>
           {checkLogin(loggedIn)}
         </div>
-        
+
         {/* Burger Menu */}
-        <div className="burger-container">
-            <span className="burger-line burger-line-1"></span>
-            <span className="burger-line burger-line-2"></span>
-            <span className="burger-line burger-line-3"></span>
-          </div>
+        <div className={`burger-container ${menu ? 'showX' : ''}`} onClick={toggleMenu}>
+          <span className="burger-line burger-line-1"></span>
+          <span className="burger-line burger-line-2"></span>
+          <span className="burger-line burger-line-3"></span>
+        </div>
     </div>
   );
 }
