@@ -1,9 +1,252 @@
-/* Containers */
+/* main containers */
 .main-container {
   display: flex;
   flex-direction: column;
+  position: relative;
+  background-color: var(--sixty-color);
 }
 
-.header-container, .content-section-container {
-  padding: 0px clamp(60px, 15%, 300px);
+/* Header Section */
+.header-container {
+  display: flex;
+  justify-content: space-around;
+  padding: 0px clamp(30px, 10%, 200px);
+  height: 60vh;
+  margin-top: calc(96px + 10vh);
+}
+
+.header-main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 60px;
+}
+
+.header-cta-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 140px;
+}
+
+.header-title {
+  font-size: clamp(1.4rem, 3vw, 3rem);
+  color: white;
+}
+
+.header-img {
+  width: 100%
+}
+
+.cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 192px;
+  height: 36px;
+  padding: 6px 16px;
+  border-radius: 18px;
+  background-color: var(--ten-color);
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+/* Content Section */
+.content-section-container {
+  padding: 0px clamp(30px, 12%, 300px);
+  margin-top: 5vh;
+}
+
+.subsection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 180px;
+}
+
+.section-img {
+  width: 100%;
+}
+
+.section-text {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 60px;
+  color: white;
+}
+
+.section-text-1 {
+  margin-left: 60px;
+}
+
+.section-text-2 {
+  margin-right: 60px;
+}
+
+.section-title {
+  color: white;
+  margin: 14px 0;
+}
+
+.section-title-3 {
+  font-size: clamp(1.5rem, 10vw, 2.5rem);
+  margin-bottom: 50px;
+}
+
+.section-learn-btn {
+  margin-top: 30px;
+}
+
+.features-text-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-column-gap: 16px;
+}
+
+.feature-title, .feature-desc {
+  color: white;
+  text-align: center;
+}
+
+.feature-title {
+  font-size: clamp(1.4rem, 4vw, 3rem);
+}
+
+.feature-desc {
+  font-size: clamp(1.1rem, 1.5vw, 2rem);
+  margin: 26px 0;
+}
+
+/* Footer Section */
+.footer-title, .footer-link {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-link {
+  margin: 10px 0;
+}
+
+.footer-title-resources {
+  margin-top: 30px;
+}
+
+/* Hover animations */
+.cta-btn:hover {
+  transition: 400ms;
+  background-color: #07946c;
+}
+
+.footer-link:hover {
+  transition: 400ms;
+  color: var(--ten-color-light);
+}
+
+/* Media queries */
+@media screen and (max-width: 946px) {
+  .header-container {
+    height: 34vh;
+    margin-top: calc(96px + 10vh);
+  }
+
+  .header-cta-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .header-title {
+    text-align: center;
+  }
+
+  .header-img {
+    display: none;
+  }
+
+  .cta-btn {
+    width: 142px;
+    height: 32px;
+    padding: 4px 14px;
+    font-size: 1rem;
+  }
+
+  .subsection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .subsection-1, .feature-desc-3 {
+    margin-bottom: 80px;
+  }
+
+  .section-img {
+    width: 100%;
+  }
+
+  .section-text {
+    text-align: center;
+  }
+
+  .section-img-1 {
+    order: 2;
+  }
+
+  .subsection-3 {
+    margin-top: 80px;
+  }
+
+  .features-text-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    grid-row-gap: 24px;
+  }
+
+  /* Footer section */
+  footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px clamp(30px, 10%, 120px);
+    background-color: var(--sixty-color-light);
+  }
+
+  .footer-logo {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 456px) {
+  .header-cta-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+  }
+
+  /* Footer Section */
+  footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px clamp(16px, 8%, 60px);
+  }
+
+  .footer-logo {
+    margin-bottom: 30px;
+    font-size: clamp(1.7rem, 3vw, 2rem);
+  }
+
+  .footer-link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

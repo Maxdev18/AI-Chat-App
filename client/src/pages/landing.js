@@ -16,21 +16,16 @@ export const Landing = (props) => {
             your friends or community
             without pressing a key</h1>
           <div className="header-cta-container">
-            <Link to='/product' className="cta-learn cta-btn btn-style">Learn More</Link>
-            <Link to='/register' className="cta-start cta-btnn btn-style">Get Started</Link>
+            <Link to='/product' className="cta-learn cta-btn">Learn More</Link>
+            <Link to='/register' className="cta-start cta-btn">Get Started</Link>
           </div>
         </div>
-        <span className="header-circle header-circle-1"></span>
-        <span className="header-circle header-circle-2"></span>
-        <span className="header-circle header-circle-3"></span>
-        <span className="header-circle header-circle-4"></span>
-        <span className="header-circle header-circle-5"></span>
-        <span className="header-circle header-circle-6"></span>
+        <img src={require('../staticFiles/nlp-natural-language-processing-512.png')} alt="natural language processing" className="header-img" />
       </div>
 
       {/* Main Content Section */}
       <section className="content-section-container">
-        <div className="subsection-1">
+        <div className="subsection-1 subsection">
           <img src={require("../staticFiles/speed_priority_image.png")}
             alt="drawn computer"
             className="section-img section-img-1"/>
@@ -44,7 +39,7 @@ export const Landing = (props) => {
           </div>
         </div>
 
-        <div className="subsection-2">
+        <div className="subsection-2 subsection">
           <div className="section-text section-text-2">
             <h2 className="section-title section-title-2">AI driven application</h2>
             <p className="section-desc section-desc-2">
@@ -54,7 +49,7 @@ export const Landing = (props) => {
               for you to do whatever you need to do.
             </p>
 
-            <Link to="/product" className="section-learn-btn btn-style">Learn More</Link>
+            <Link to="/product" className="section-learn-btn cta-btn">Learn More</Link>
           </div>
 
           <img src={require("../staticFiles/nlpAI-image.png")}
@@ -62,7 +57,7 @@ export const Landing = (props) => {
             className="section-img section-img-2"/>
         </div>
 
-        <div className="subsection-3">
+        <div className="subsection-3 subsection">
           <h2 className="section-title section-title-3">Features</h2>
           <div className="features-text-container">
             <div className="feature-text feature-text-1">
@@ -99,16 +94,16 @@ export const Landing = (props) => {
 
       {/* Footer */}
       <footer className="footer-container">
-        <h1 className="logo">Chatting AI</h1>
+        <h1 className="logo footer-logo">Chatting AI</h1>
         <div className="footer-link-container">
           <div className="footer-links">
-            <h3 className="footer-title">Product</h3>
+            <h3 className="footer-title footer-title-products">Product</h3>
             <Link to="/about" className="footer-link">About</Link>
             <Link to="/guildlines" className="footer-link">Guidelines</Link>
             <Link to="/blog" className="footer-link">How was it made</Link>
           </div>
           <div className="footer-links">
-            <h3 className="footer-title">Resources</h3>
+            <h3 className="footer-title footer-title-resources">Resources</h3>
             <Link to="/contact" className="footer-link">Contact</Link>
             <Link to="/learn-ai-commands" className="footer-link">AI Commands</Link>
           </div>
