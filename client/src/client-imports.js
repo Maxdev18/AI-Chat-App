@@ -4,9 +4,12 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import io from "socket.io-client";
 
 // Client component imports
-import { Navigation } from '../src/client-components/navigation';
+import { Navigation } from './client-components/navigation';
+import { Footer } from './client-components/footer';
+
+// Client component page imports
 import { Landing } from './pages/landing';
-import { Footer } from '../src/client-components/footer';
+import { About } from './pages/about';
 
 // Exported NPM packages
 export {
@@ -22,5 +25,6 @@ export {
 export {
   Navigation,
   Landing,
-  Footer
+  Footer,
+  About
 }

@@ -1,0 +1,67 @@
+/* About default styling */
+
+  /* Containers */
+  .about-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: calc(96px + 10vh) 0;
+    padding: 0px clamp(30px, 12%, 300px);
+  }
+
+  .social-container {
+    margin-top: 60px;
+  }
+
+  /* Text */
+  .about-title {
+    font-size: clamp(2rem, 5vh, 6rem);
+  }
+
+  .subtitle {
+    margin-top: 54px;
+    margin-bottom: 16px;
+    color: var(--ten-color);
+    font-size: clamp(2rem, 3vh, 5rem);
+  }
+
+  .about-desc {
+    font-size: clamp(1rem, 2vh, 2rem);
+  }
+
+  /* Social Media Icons */
+  .social-links {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  .fa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border-radius: 50%;
+    color: white;
+    height: 50px;
+    width: 50px;
+    text-decoration: none;
+  }
+
+  .fa-twitter {
+    background-color: #55ACEE;
+  }
+
+  .fa-linkedin {
+    background-color: #0e76a8;
+  }
+
+/* Media queries */
+  /* Screens for tablets */
+  @media screen and (max-width: 1068px) {
+
+  }
+
+  /* Screens for phones */
+  @media screen and (max-width: 556px) {
+
+  }

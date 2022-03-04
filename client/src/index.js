@@ -2,7 +2,7 @@
 // Remember to check if compiles normally
 import { BrowserRouter, React, Routes, Route, io } from './client-imports';
 import ReactDOM from 'react-dom';
-import { Landing } from './client-imports';
+import { Landing, About } from './client-imports';
 
 import './styles/index.css';
 
@@ -15,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/about" element={<About />} />
 
         </Routes>
       </BrowserRouter>
