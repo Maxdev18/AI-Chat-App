@@ -1,3 +1,4 @@
+/* All styling out of media queries are by default */
 /* main containers */
 .main-container {
   display: flex;
@@ -11,8 +12,8 @@
   display: flex;
   justify-content: space-around;
   padding: 0px clamp(30px, 10%, 200px);
-  height: 60vh;
-  margin-top: calc(96px + 10vh);
+  height: 70vh;
+  margin: calc(96px + 10vh) 0;
 }
 
 .header-main-container {
@@ -20,6 +21,7 @@
   flex-direction: column;
   justify-content: center;
   margin-right: 60px;
+  width: 100%;
 }
 
 .header-cta-container {
@@ -29,7 +31,7 @@
 }
 
 .header-title {
-  font-size: clamp(1.4rem, 3vw, 3rem);
+  font-size: clamp(1.4rem, 4vw, 3rem);
   color: white;
 }
 
@@ -42,8 +44,7 @@
   align-items: center;
   justify-content: center;
   width: 192px;
-  height: 36px;
-  padding: 6px 16px;
+  padding: 8px 16px;
   border-radius: 18px;
   background-color: var(--ten-color);
   color: white;
@@ -62,7 +63,13 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 180px;
+  margin-bottom: 100px;
+}
+
+.subsection-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .section-img {
@@ -94,6 +101,14 @@
   margin-bottom: 50px;
 }
 
+.section-desc {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
 .section-learn-btn {
   margin-top: 30px;
 }
@@ -110,32 +125,17 @@
 }
 
 .feature-title {
-  font-size: clamp(1.4rem, 4vw, 3rem);
+  height: 30%;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.feature-text {
+  overflow-y: hidden;
 }
 
 .feature-desc {
-  font-size: clamp(1.1rem, 1.5vw, 2rem);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
   margin: 26px 0;
-}
-
-/* Footer Section */
-.footer-title, .footer-link {
-  color: white;
-  text-decoration: none;
-}
-
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.footer-link {
-  margin: 10px 0;
-}
-
-.footer-title-resources {
-  margin-top: 30px;
 }
 
 /* Hover animations */
@@ -150,16 +150,33 @@
 }
 
 /* Media queries */
+/* Screens for tablets */
+@media screen and (max-width: 1068px) {
+  .header-cta-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cta-learn {
+    margin-bottom: 30px;
+  }
+}
+
 @media screen and (max-width: 946px) {
+  .header-main-container {
+    margin: 0px;
+  }
+
   .header-container {
-    height: 34vh;
-    margin-top: calc(96px + 10vh);
+    height: 40vh;
+    margin: calc(96px + 10vh) 0 0 0;
   }
 
   .header-cta-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin-top: 60px;
   }
 
   .header-title {
@@ -171,10 +188,9 @@
   }
 
   .cta-btn {
-    width: 142px;
-    height: 32px;
-    padding: 4px 14px;
-    font-size: 1rem;
+    width: 192px;
+    padding: 6px 14px;
+    font-size: 1.5rem;
   }
 
   .subsection {
@@ -188,19 +204,19 @@
   }
 
   .section-img {
-    width: 100%;
+    width: 50%;
   }
 
   .section-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 60px 0;
     text-align: center;
   }
 
   .section-img-1 {
     order: 2;
-  }
-
-  .subsection-3 {
-    margin-top: 80px;
   }
 
   .features-text-container {
@@ -209,21 +225,10 @@
     grid-template-rows: auto auto auto;
     grid-row-gap: 24px;
   }
-
-  /* Footer section */
-  footer {
-    display: flex;
-    justify-content: space-between;
-    padding: 30px clamp(30px, 10%, 120px);
-    background-color: var(--sixty-color-light);
-  }
-
-  .footer-logo {
-    display: block;
-  }
 }
 
-@media screen and (max-width: 456px) {
+/* Screens for phones */
+@media screen and (max-width: 556px) {
   .header-cta-container {
     display: flex;
     flex-direction: column;
@@ -231,22 +236,7 @@
     height: 50%;
   }
 
-  /* Footer Section */
-  footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px clamp(16px, 8%, 60px);
-  }
-
-  .footer-logo {
-    margin-bottom: 30px;
-    font-size: clamp(1.7rem, 3vw, 2rem);
-  }
-
-  .footer-link-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .feature-title {
+    height: 20%;
   }
 }

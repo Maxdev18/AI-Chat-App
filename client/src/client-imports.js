@@ -6,6 +6,7 @@ import io from "socket.io-client";
 // Client component imports
 import { Navigation } from '../src/client-components/navigation';
 import { Landing } from './pages/landing';
+import { Footer } from '../src/client-components/footer';
 
 // Exported NPM packages
 export {
@@ -20,5 +21,6 @@ export {
 // Exported Client Components
 export {
   Navigation,
-  Landing
+  Landing,
+  Footer
 }
