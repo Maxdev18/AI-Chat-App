@@ -1,0 +1,76 @@
+/* Footer Section Defualt Styling */
+footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 50px 0;
+  background-color: var(--sixty-color-light);
+}
+
+.footer-link-container {
+  display: flex;
+}
+
+.footer-title, .footer-link {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-links-prod {
+  margin-right: 50px;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-link {
+  margin: 10px 0;
+}
+
+/* Media Queries */
+/* Screens for tablets */
+@media screen and (max-width: 946px) {
+  footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px clamp(30px, 10%, 120px);
+    background-color: var(--sixty-color-light);
+  }
+
+  .footer-logo {
+    display: block;
+  }
+}
+
+/* Screens for phones */
+@media screen and (max-width: 556px) {
+  footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px clamp(16px, 8%, 60px);
+  }
+
+  .footer-logo {
+    margin-bottom: 30px;
+    font-size: clamp(1.7rem, 3vw, 2rem);
+  }
+
+  .footer-link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+  }
+
+  .footer-title-resources {
+    margin-top: 30px;
+  }
+}
