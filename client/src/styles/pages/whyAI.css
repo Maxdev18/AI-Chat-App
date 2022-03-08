@@ -1,0 +1,22 @@
+/* Containers */
+.why-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: calc(96px + 10vh) 0;
+  padding: 0px clamp(30px, 20%, 300px);
+}
+
+/* Text styling */
+.why-title {
+  font-size: clamp(2rem, 5vh, 6rem);
+  margin-bottom: 30px;
+}
+
+.why-desc {
+  font-size: clamp(1rem, 2vh, 2rem);
+}
+
+.why-link {
+  text-decoration: none;
+}

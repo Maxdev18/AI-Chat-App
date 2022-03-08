@@ -54,14 +54,3 @@
   .fa-linkedin {
     background-color: #0e76a8;
   }
-
-/* Media queries */
-  /* Screens for tablets */
-  @media screen and (max-width: 1068px) {
-
-  }
-
-  /* Screens for phones */
-  @media screen and (max-width: 556px) {
-
-  }

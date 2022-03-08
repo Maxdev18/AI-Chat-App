@@ -10,6 +10,7 @@ import { Footer } from './client-components/footer';
 // Client component page imports
 import { Landing } from './pages/landing';
 import { About } from './pages/about';
+import { WhyAIPage } from './pages/whyAI';
 
 // Exported NPM packages
 export {
@@ -26,5 +27,6 @@ export {
   Navigation,
   Landing,
   Footer,
-  About
+  About,
+  WhyAIPage
 }
