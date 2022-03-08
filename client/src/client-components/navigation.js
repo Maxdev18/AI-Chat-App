@@ -36,19 +36,19 @@ export const Navigation = (props) => {
     <div className='main-nav-container'>
       <Link to='/' className='logo'>Chatting AI</Link>
 
-        <div className={`container-nav-links ${menu ? 'showMenu' : ''}`}>
-          <Link to='/product' className='nav-link'>Product</Link>
-          <Link to='/about' className='nav-link'>About</Link>
-          <Link to='/contact' className='nav-link'>Contact</Link>
-          {checkLogin(loggedIn)}
-        </div>
+      <div className={`container-nav-links ${menu ? 'showMenu' : ''}`}>
+        <Link to='/why-ai' className='nav-link'>Why AI</Link>
+        <Link to='/about' className='nav-link'>About</Link>
+        <Link to='/contact' className='nav-link'>Contact</Link>
+        {checkLogin(loggedIn)}
+      </div>
 
-        {/* Burger Menu */}
-        <div className={`burger-container ${menu ? 'showX' : ''}`} onClick={toggleMenu}>
-          <span className="burger-line burger-line-1"></span>
-          <span className="burger-line burger-line-2"></span>
-          <span className="burger-line burger-line-3"></span>
-        </div>
+      {/* Burger Menu */}
+      <div className={`burger-container ${menu ? 'showX' : ''}`} onClick={toggleMenu}>
+        <span className="burger-line burger-line-1"></span>
+        <span className="burger-line burger-line-2"></span>
+        <span className="burger-line burger-line-3"></span>
+      </div>
     </div>
   );
 }
