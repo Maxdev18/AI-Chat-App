@@ -11,6 +11,8 @@ import { Footer } from './client-components/footer';
 import { Landing } from './pages/landing';
 import { About } from './pages/about';
 import { WhyAIPage } from './pages/whyAI';
+import { Guidelines } from './pages/guidelines';
+import { HowWasItMade } from './pages/howWasItMade';
 
 // Exported NPM packages
 export {
@@ -28,5 +30,7 @@ export {
   Landing,
   Footer,
   About,
-  WhyAIPage
+  WhyAIPage,
+  Guidelines,
+  HowWasItMade
 }
