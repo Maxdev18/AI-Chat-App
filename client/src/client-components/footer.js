@@ -9,7 +9,7 @@ export const Footer = () => {
           <div className="footer-links footer-links-prod">
             <h3 className="footer-title footer-title-products">Product</h3>
             <Link to="/about" className="footer-link">About</Link>
-            <Link to="/guildlines" className="footer-link">Guidelines</Link>
+            <Link to="/guidelines" className="footer-link">Guidelines</Link>
             <Link to="/blog" className="footer-link">How was it made</Link>
           </div>
           <div className="footer-links">
