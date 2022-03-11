@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import io from "socket.io-client";
+import emailjs from '@emailjs/browser';
 
 // Client component imports
 import { Navigation } from './client-components/navigation';
@@ -13,6 +14,7 @@ import { About } from './pages/about';
 import { WhyAIPage } from './pages/whyAI';
 import { Guidelines } from './pages/guidelines';
 import { HowWasItMade } from './pages/howWasItMade';
+import { Contact } from './pages/contact';
 
 // Exported NPM packages
 export {
@@ -21,7 +23,8 @@ export {
   Routes,
   Route,
   Link,
-  io
+  io,
+  emailjs
 }
 
 // Exported Client Components
@@ -32,5 +35,6 @@ export {
   About,
   WhyAIPage,
   Guidelines,
-  HowWasItMade
+  HowWasItMade,
+  Contact
 }
