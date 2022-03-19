@@ -30,6 +30,7 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  overflow-y: hidden;
 }
 
 .nav-link {

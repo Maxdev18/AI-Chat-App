@@ -9,14 +9,14 @@
 
 /* Text Styling */
 .guidelines-title {
-  font-size: clamp(2rem, 5vh, 6rem);
+  font-size: clamp(2rem, 5vw, 6rem);
   margin-bottom: 30px;
   text-align: center;
 }
 
 .guidelines-desc, .guidelines-sub-desc {
   color:rgba(0, 0, 0, .8);
-  font-size: clamp(.8rem, 2vh, 2rem);
+  font-size: clamp(.8rem, 2vw, 2rem);
 }
 
 .guidelines-desc {

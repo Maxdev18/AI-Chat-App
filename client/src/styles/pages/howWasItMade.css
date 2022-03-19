@@ -9,7 +9,7 @@
 
 /* Text Styling */
 .temp-h1 {
-  margin-top: calc(96px + 10vh);
+  margin-top: calc(96px + 10vw);
   font-size: clamp(2rem, 6vh, 6rem);
   text-align: center;
 }

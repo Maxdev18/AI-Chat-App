@@ -9,7 +9,7 @@
 
 .contact-title {
   margin-bottom: 30px;
-  font-size: clamp(2rem, 5vh, 6rem);
+  font-size: clamp(2rem, 5vw, 6rem);
 }
 
 /* Form */

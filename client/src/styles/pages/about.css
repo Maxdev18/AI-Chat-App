@@ -15,18 +15,18 @@
 
   /* Text */
   .about-title {
-    font-size: clamp(2rem, 5vh, 6rem);
+    font-size: clamp(2rem, 5vw, 6rem);
   }
 
   .subtitle {
     margin-top: 54px;
     margin-bottom: 16px;
     color: var(--ten-color);
-    font-size: clamp(2rem, 3vh, 5rem);
+    font-size: clamp(2rem, 3vw, 5rem);
   }
 
   .about-desc {
-    font-size: clamp(1rem, 2vh, 2rem);
+    font-size: clamp(1rem, 2vw, 2rem);
   }
 
   /* Social Media Icons */
