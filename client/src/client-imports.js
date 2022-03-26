@@ -15,6 +15,7 @@ import { WhyAIPage } from './pages/whyAI';
 import { Guidelines } from './pages/guidelines';
 import { HowWasItMade } from './pages/howWasItMade';
 import { Contact } from './pages/contact';
+import { Commands } from './pages/commands';
 
 // Exported NPM packages
 export {
@@ -36,5 +37,6 @@ export {
   WhyAIPage,
   Guidelines,
   HowWasItMade,
-  Contact
+  Contact,
+  Commands
 }

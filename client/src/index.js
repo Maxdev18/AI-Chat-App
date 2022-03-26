@@ -2,7 +2,7 @@
 // Remember to check if compiles normally
 import { BrowserRouter, React, Routes, Route, io } from './client-imports';
 import ReactDOM from 'react-dom';
-import { Landing, About, WhyAIPage, Guidelines, HowWasItMade, Contact } from './client-imports';
+import { Landing, About, WhyAIPage, Guidelines, HowWasItMade, Contact, Commands } from './client-imports';
 
 import './styles/index.css';
 
@@ -20,6 +20,7 @@ function App() {
           <Route path="/guidelines" element={<Guidelines />} />
           <Route path="/blog" element={<HowWasItMade />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/learn-ai-commands" element={<Commands />} />
         </Routes>
       </BrowserRouter>
     </div>

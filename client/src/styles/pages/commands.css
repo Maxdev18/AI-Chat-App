@@ -1,0 +1,83 @@
+/* Containers */
+.commands-container {
+  display: flex;
+  flex-direction: column;
+  margin: calc(96px + 10vh) 0;
+  padding: 0px clamp(3vw, 24vw, 30vw);
+}
+
+.commands-sub-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.commands-docs-desc-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content */
+.commands-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 30px;
+  padding-left: 20px;
+  color: var(--sixty-color-light);
+  float: left;
+}
+
+.commands-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--ten-color);
+  height: 100%;
+  width: 8px;
+}
+  /* Command Section */
+  .commands-section {
+    margin-top: 80px;
+    margin-bottom: 24px;
+    color: var(--ten-color);
+  }
+
+  .command-wrapper-container{
+    display: flex;
+    flex-direction: column;
+    margin: 14px 0;
+  }
+
+  .command-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+/* Text Styling */
+.p-txt {
+  font-size: clamp(1rem, 2vw, 1.1rem);
+}
+
+.commands-sub-title {
+  margin-top: 22px;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  color: var(--sixty-color-light);
+}
+
+.com {
+  margin-top: 20px;
+  font-weight: bold;
+  color: var(--sixty-color-light);
+}
+
+.commands-sub-title {
+  margin-bottom: 10px;
+}
+
+/* Media Queries */
+@media screen and (max-width: 556px) {
+  /* Containers */
+  .commands-container {
+    padding: 0 8%;
+  }
+}
