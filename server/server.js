@@ -14,7 +14,6 @@ const io = require('socket.io')(http, {
 
 //Require socket modules
 const clientSockets = require('./sockets/client-socket');
-const adminSockets = require('./sockets/admin-socket');
 
 const PORT = process.env.PORT || 5000;
 dotenv.config();
@@ -43,7 +42,7 @@ app.get('/', (req, res) => {
 //Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_ID, {
+    await mongoose.connect(process.env.MONGO_ID.toString(), {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
@@ -51,7 +50,6 @@ const connectDB = async () => {
       //Create instance of socket connection to the client
       io.on('connection', socket => {
         // Link socket emmiters and listeners from the required modules
-        adminSockets(socket);
         clientSockets(socket);
       })
       http.listen(PORT);
