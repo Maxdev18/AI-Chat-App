@@ -1,14 +1,13 @@
 const express = require('express');
 const app = require('express')();
 const http = require('http').Server(app);
-const path = require('path');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const io = require('socket.io')(http, {
   cors: {
-    orgin: ["http://localhost:3000", "http://localhost:3002"],
+    orgin: ["http://localhost:3000"],
     credentials: true
   }
 });
@@ -22,12 +21,11 @@ dotenv.config();
 
 //View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../admin-back-end/views/'));
 
 //Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ["http://localhost:3000", "http://localhost:3002"],
+    origin: ["http://localhost:3000"],
     credentials: true
 }));
 
@@ -41,10 +39,6 @@ app.get('/', (req, res) => {
 });
 
 //Client API routes
-
-
-//Admin API Routes
-
 
 //Connect to MongoDB
 const connectDB = async () => {
