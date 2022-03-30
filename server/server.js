@@ -42,7 +42,7 @@ app.get('/', (req, res) => {
 //Connect to MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_ID.toString(), {
+    await mongoose.connect(process.env.MONGO_ID, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
