@@ -27,7 +27,7 @@
   "scripts": {
     "start": "node server/server.js",
     "server": "nodemon server/server.js",
-    "client": "npm start --prefix client",
+    "client": "npm run ec2-dev --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "eject": "react-scripts eject"
   },
