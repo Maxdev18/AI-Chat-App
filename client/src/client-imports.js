@@ -1,6 +1,6 @@
 // NPM packages imports
 import * as React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import io from "socket.io-client";
 import emailjs from '@emailjs/browser';
 
@@ -21,9 +21,9 @@ import { Login } from './pages/login';
 // Exported NPM packages
 export {
   React,
-  BrowserRouter,
-  Routes,
+  Switch,
   Route,
+  Router,
   Link,
   io,
   emailjs
