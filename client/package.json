@@ -18,6 +18,7 @@
   },
   "scripts": {
     "start-client": "react-scripts start",
+    "publishToHeroku": "cd ../ && git subtree push --prefix client heroku-chattingai-frontend master || true",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

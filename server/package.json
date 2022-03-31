@@ -28,7 +28,7 @@
     "start": "node server/server.js",
     "server": "node server/server.js",
     "client": "npm start --prefix client",
-    "publishToHeroku": "git subtree push --prefix server heroku-chattingai-backend master || true",
+    "publishToHeroku": "cd ../ && git subtree push --prefix server heroku-chattingai-backend master || true",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "eject": "react-scripts eject"
   },
