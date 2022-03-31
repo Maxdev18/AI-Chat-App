@@ -1,4 +1,5 @@
-import { React, Link } from '../client-imports';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/components/footer.css';
 
 export const Footer = () => {
