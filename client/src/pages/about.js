@@ -85,8 +85,8 @@ export const About = () => {
             socials down below
           </p>
           <div className="social-links">
-            <a href="https://twitter.com/MaximMelnik10" className="fa fa-twitter" target="_blank"></a>
-            <a href="https://www.linkedin.com/in/maxim-melnik-770a34219/" className="fa fa-linkedin" target="_blank"></a>
+            <a href="https://twitter.com/MaximMelnik10" className="fa fa-twitter" target="_blank" rel="noreferrer">{''}</a>
+            <a href="https://www.linkedin.com/in/maxim-melnik-770a34219/" className="fa fa-linkedin" target="_blank" rel="noreferrer">{''}</a>
           </div>
         </div>
       </div>
