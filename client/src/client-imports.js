@@ -17,6 +17,7 @@ import { HowWasItMade } from './pages/howWasItMade';
 import { Contact } from './pages/contact';
 import { Commands } from './pages/commands';
 import { Login } from './pages/login';
+import { Register } from './pages/register';
 
 // Exported NPM packages
 export {
@@ -40,5 +41,6 @@ export {
   HowWasItMade,
   Contact,
   Commands,
-  Login
+  Login,
+  Register
 }

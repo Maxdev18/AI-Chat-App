@@ -123,6 +123,7 @@
 .feature-title, .feature-desc {
   color: white;
   text-align: center;
+  overflow-y: hidden;
 }
 
 .feature-title {
@@ -235,9 +236,5 @@
     flex-direction: column;
     align-items: center;
     height: 50%;
-  }
-
-  .feature-title {
-    height: 20%;
   }
 }
