@@ -1,8 +1,10 @@
 // NPM packages imports
 import * as React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import io from "socket.io-client";
+import Axios from 'axios';
 import emailjs from '@emailjs/browser';
+import { gapi } from 'gapi-script';
 
 // Client component imports
 import { Navigation } from './client-components/navigation';
@@ -22,12 +24,14 @@ import { Register } from './pages/register';
 // Exported NPM packages
 export {
   React,
-  Switch,
+  Routes,
   Route,
   Router,
   Link,
   io,
-  emailjs
+  Axios,
+  emailjs,
+  gapi
 }
 
 // Exported Client Components

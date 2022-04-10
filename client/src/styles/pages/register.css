@@ -6,6 +6,8 @@
   justify-content: center;
   background-color: var(--sixty-color);
   height: 100vh;
+  width: 100%;
+  position: fixed;
 }
 
 .register-container {
@@ -25,4 +27,17 @@
   flex-direction: column;
   align-items: center;
   width: 80%;
+}
+
+/* Media Queries */
+@media screen and (max-width: 1080px) {
+  .register-container {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 654px) {
+  .register-container {
+    width: 80%;
+  }
 }
