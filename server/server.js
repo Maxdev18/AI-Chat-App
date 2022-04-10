@@ -23,8 +23,6 @@ const authRoutes = require('./routes/authentication');
 const PORT = process.env.PORT || 5000;
 dotenv.config();
 
-console.log(PORT);
-
 //View engine
 app.set('view engine', 'ejs');
 

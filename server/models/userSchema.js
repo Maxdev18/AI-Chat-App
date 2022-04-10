@@ -32,6 +32,30 @@ const UserSchema = new Schema({
       required: true
     }]
   },
+  settings: {
+    type: Object,
+    required: true,
+    default: {
+      profilePic: {
+        type: Object,
+        required: true,
+        default: {
+          pic: {
+            type: String,
+            required: true
+          },
+          hex: {
+            type: String,
+            default: ''
+          }
+        }
+      },
+      bio: {
+        type: String,
+        default: ''
+      },
+    }
+  },
   isActive: {
     type: Boolean,
     default: false

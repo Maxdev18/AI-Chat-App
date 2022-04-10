@@ -2,36 +2,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
 
-// Check environment variable to redirect to the correct url
-function checkEnvironment() {
-  if(process.env.PORT === 5000) return res.status(200).redirect("http://localhost:3000/dashboard");
-  return res.status(200).redirect("http://chattingai-frontend.herokuapp.com/dashboard");
-}
-
-// Sign the JWT
-function signJWT(dbUser) {
-  jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
-    if(err) return res.json({message: err});
-    res.cookie("token", token, { httpOnly: true });
-  });
-
-  // Check env port variable
-  checkEnvironment();
-}
-
 // Generate a userId for use within the application
 function generateUserAppId() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const nums = '1234567890';
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
   let id, user;
 
   while(!user) {
-    for(let i = 0; i < 5; i++) {
-      id += chars[Math.floor(Math.random() * 26)];
-    }
-
-    for(let i = 0; i < 4; i++) {
-      id += nums[Math.floor(Math.random() * 10)];
+    for(let i = 0; i < 9; i++) {
+      id += chars[Math.floor(Math.random() * 36)];
     }
 
     user = User.findOne({ userAppId: id })
@@ -47,9 +25,27 @@ function generateUserAppId() {
   return id;
 }
 
+// Generate default user profile picture
+function generateProfilePic(pic) {
+  let profilePic = {};
+
+  // Generate random hex code for profile background color
+  const possibleHex = 'ABCDEF1234567890';
+  let hex;
+
+  for(let i = 0; i < 6; i++) {
+    hex += possibleHex[Math.floor(Math.random() * 16)]
+  }
+
+  profilePic.pic = pic;
+  profilePic.hex = hex;
+  return profilePic;
+}
+
 // Register controller registerates a new user
 exports.register = async (req, res) => {
   let newUser = req.body;
+  console.log(newUser);
 
   // Check if email already exists within the database
   const takenEmail = await User.findOne({ email: newUser.email });
@@ -65,26 +61,32 @@ exports.register = async (req, res) => {
     const dbUser = new User({
       name: newUser.name,
       email: newUser.email,
-      username: newUser.username,
       password: newUser.password,
       googleSignIn: newUser.googleSignIn,
       userAppId,
       joinedRooms: [],
+      settings: {
+        profilePic: newUser.imageUrl,
+      },
       isActive: true
     });
 
     dbUser.save(err => {
-      console.log(err);
+      err ? console.log(err) : null;
     });
 
+    console.log(res)
     // Assign the user a JWT
-    signJWT(dbUser);
+    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+      if(err) return res.json({message: err});
+      res.cookie("token", token, { httpOnly: true });
+    });
   }
 
   // Check if the password and confirmed password are the same
   if(newUser.password === newUser.confirmPassword) {
     // Hash the user's password
-    newUser.password = await bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(), null);
+    newUser.password = await bcrypt.hash(newUser.password, bcrypt.genSaltSync(), null);
 
     const userAppId = generateUserAppId();
     
@@ -92,10 +94,12 @@ exports.register = async (req, res) => {
     const dbUser = new User({
       name: newUser.name,
       email: newUser.email,
-      username: newUser.username,
       password: newUser.password,
       userAppId,
       joinedRooms: [],
+      settings: {
+        profilePic: generateProfilePic(newUser.name[0])
+      },
       isActive: true
     });
 
@@ -104,7 +108,10 @@ exports.register = async (req, res) => {
     });
 
     // Assign the user a JWT
-    signJWT(dbUser);
+    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+      if(err) return res.json({message: err});
+      res.cookie("token", token, { httpOnly: true });
+    });
   } else {
     res.json("Sorry, the passwords don't match");
   }
@@ -115,10 +122,15 @@ exports.login = async (req, res) => {
 
   const dbUser = await User.findOne({ email: user.email });
 
-  if(user.googleSignIn === true) {
+  if(user.googleSignIn === true && dbUser) {
     // Assign the user a JWT
-    signJWT(dbUser);
-    return checkEnvironment()
+    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+      if(err) return res.json({message: err});
+      res.cookie("token", token, { httpOnly: true });
+    });
+
+    if(!process.env.PORT) return res.status(200).redirect("http://localhost:3000/dashboard");
+    return res.status(200).redirect("http://chattingai-frontend.herokuapp.com/dashboard");
   }
 
   if(!dbUser) {
@@ -129,7 +141,13 @@ exports.login = async (req, res) => {
       .then(isCorrect => {
         if(isCorrect) {
           // Sign the user's token
-          signJWT(dbUser);
+          jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+            if(err) return res.json({message: err});
+            res.cookie("token", token, { httpOnly: true });
+          });
+
+          if(!process.env.PORT) return res.status(200).redirect("http://localhost:3000/dashboard");
+          return res.status(200).redirect("http://chattingai-frontend.herokuapp.com/dashboard");
         } else {
           return res.json({message: "Sorry, invalid email or password"})
         }
@@ -162,6 +180,6 @@ exports.checkAuth = async (req, res) => {
   } catch {
     //Clear cookie with token if expired or doesn't exist
     res.clearCookie('token');
-    process.env.PORT === 5000 ? res.status(200).redirect("http://localhost:3000") : res.status(200).redirect("http://chattingai-frontend.herokuapp.com");
+    !process.env.PORT ? res.status(200).redirect("http://localhost:3000") : res.status(200).redirect("http://chattingai-frontend.herokuapp.com");
   }
 }
