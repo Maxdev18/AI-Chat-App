@@ -11,6 +11,15 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  googleSignIn: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  userAppId: {
+    type: String,
+    required: true
+  },
   password: {
     type: String,
     required: true

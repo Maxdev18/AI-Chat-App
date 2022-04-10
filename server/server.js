@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 const app = require('express')();
 const http = require('http').Server(app);
 const dotenv = require('dotenv');
@@ -12,11 +13,17 @@ const io = require('socket.io')(http, {
   }
 });
 
-//Require socket modules
+// Require socket modules
 const clientSockets = require('./sockets/client-socket');
 
+// Require routes
+const authRoutes = require('./routes/authentication');
+
+// Set up for development and production enviornments
 const PORT = process.env.PORT || 5000;
 dotenv.config();
+
+console.log(PORT);
 
 //View engine
 app.set('view engine', 'ejs');
@@ -24,7 +31,7 @@ app.set('view engine', 'ejs');
 //Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://chattingai-frontend-herokuapp.com"],
     credentials: true
 }));
 
@@ -38,6 +45,7 @@ app.get('/', (req, res) => {
 });
 
 //Client API routes
+app.use('/auth', authRoutes);
 
 //Connect to MongoDB
 const connectDB = async () => {
