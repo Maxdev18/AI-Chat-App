@@ -1,6 +1,6 @@
 // NPM packages imports
 import * as React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import io from "socket.io-client";
 import Axios from 'axios';
 import emailjs from '@emailjs/browser';
@@ -21,6 +21,9 @@ import { Commands } from './pages/commands';
 import { Login } from './pages/login';
 import { Register } from './pages/register';
 
+// Application pages and components
+import { Dashboard } from './pages/application/dashboard';
+
 // Exported NPM packages
 export {
   React,
@@ -28,6 +31,8 @@ export {
   Route,
   Router,
   Link,
+  Navigate,
+  useNavigate,
   io,
   Axios,
   emailjs,
@@ -47,4 +52,9 @@ export {
   Commands,
   Login,
   Register
+}
+
+// Exported application pages and components
+export {
+  Dashboard
 }
