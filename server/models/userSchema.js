@@ -22,7 +22,8 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    default: 'false'
   },
   joinedRooms: {
     type: Array,
@@ -55,10 +56,6 @@ const UserSchema = new Schema({
         default: ''
       },
     }
-  },
-  isActive: {
-    type: Boolean,
-    default: false
   }
 }, { timestamps: true });
 
