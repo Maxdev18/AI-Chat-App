@@ -1,5 +1,3 @@
-// Imports
-// Remember to check if compiles normally
 import { React, Router, Routes, Route, io, gapi, Axios } from './client-imports';
 import ReactDOM from 'react-dom';
 import { Landing, About, WhyAIPage, Guidelines, HowWasItMade, Contact, Commands, Login, Register } from './client-imports';
@@ -15,6 +13,7 @@ function App() {
   let [user, setUser] = React.useState(null);
 
   Axios.defaults.baseURL = "http://localhost:5000";
+  const token = localStorage.getItem('token');
 
   React.useEffect(()=> {
     function start() {
@@ -26,6 +25,7 @@ function App() {
     gapi.load('client:auth2', start);
 
     const token = localStorage.getItem('token');
+
     if(token) {
       async function retrieveUser() {
         const user = await Axios.get('/auth/checkauth', { params: { token } })
@@ -35,12 +35,13 @@ function App() {
           .catch(err => {
             console.error(err);
           });
-  
+
           console.log(user);
           if(user) {
             setUser(user);
             setIsLoggedIn(true);
           } else {
+            console.log("clearing local...");
             localStorage.clear();
             setUser(null);
             setIsLoggedIn(false);

@@ -128,19 +128,13 @@ exports.login = async (req, res) => {
 
   const dbUser = await User.findOne({ email: user.email });
 
-  if(!user.googleSignIn) {
-    return res.status(400).json({message: "Sorry, seems like this email has signed up with google, please sign in with google instead"});
-  } else if(user.googleSignIn === true && dbUser) {
-    // Assign the user a JWT
-    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
-      if(err) return res.json({message: err});
-      return res.json({ success: true, token });
-    });
-  } else if(!dbUser) {
+  if(!dbUser) {
     return res.status(400).json({message: "Sorry, invalid email"})
-  } else {
+  }
+
+  if(!user.googleSignIn && dbUser) {
     // Check if the password are the same
-    bcrypt.compare(user.passsword, dbUser.password)
+    bcrypt.compare(user.password, dbUser.password)
     .then(isCorrect => {
       if(isCorrect) {
         // Sign the user's token
@@ -150,8 +144,16 @@ exports.login = async (req, res) => {
         });
       } else {
         return res.status(400).json({message: "Sorry, invalid email or password"});
-      }
+      };
     });
+  } else if(user.googleSignIn === true && dbUser.googleSignIn === true) {
+    // Assign the user a JWT
+    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+      if(err) return res.json({message: err});
+      return res.json({ success: true, token });
+    });
+  } else {
+    return res.status(400).json({message: "Sorry, seems like this email has signed up with google, please sign in with google instead"});
   }
 }
 

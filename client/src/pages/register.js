@@ -4,17 +4,35 @@ import GoogleButton from 'react-google-button';
 import '../styles/pages/register.css';
 
 export const Register = () => {
-  const navigate  = useNavigate();
+  // Form data
+  let [form, setForm] = React.useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
 
-  const registerUser = () => {
-    Axios.post('/auth/register').then(data => {
-      if(data.data.success) {
-        localStorage.setItem('token', data.data.token);
-        navigate('/dashboard');
-      }
-    }).catch(err => {
-      console.error(err);
-    });
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setForm(prevState => ({
+        ...prevState,
+        [name]: value
+    }));
+  };
+
+  const navigate = useNavigate();
+
+  const registerUser = (formData) => {
+    Axios.post('/auth/register', formData)
+      .then(data => {
+        console.log(data);
+        if(data.data.success) {
+          localStorage.setItem('token', data.data.token);
+          navigate('/dashboard');
+        }
+      }).catch(err => {
+        console.error(err);
+      });
   }
 
   const responseGoogle = res => {
@@ -28,7 +46,7 @@ export const Register = () => {
 
     Axios.post('/auth/register', userdata).then(data => {
       if(data.data.success) {
-        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('token', JSON.stringify(data.data.token));
         navigate('/dashboard');
       }
     }).catch(err=> {
@@ -46,16 +64,16 @@ export const Register = () => {
       <div className="register-container">
         <div className="register-sub-container">
           <h1 className="login-title">Register</h1>
-          <form id="form" method="POST" action="/auth/register">
-            <input className="form-input name-input" type="text" name="name" placeholder="Name..."/>
-            <input className="form-input email-input" type="email" name="email" placeholder="Email..."/>
+          <div id="form">
+            <input className="form-input name-input" type="text" name="name" placeholder="Name..." value={form.name} onChange={handleChange}/>
+            <input className="form-input email-input" type="email" name="email" placeholder="Email..." value={form.email} onChange={handleChange}/>
             <div className="rand-cont">
-              <input className="form-input password-input" type="password" name="password" placeholder="Password..."/>
-              <input className="form-input password-input" type="password" name="confirmPassword" placeholder="Confirm password..."/>
+              <input className="form-input password-input" type="password" name="password" placeholder="Password..." value={form.password} onChange={handleChange}/>
+              <input className="form-input password-input" type="password" name="confirmPassword" placeholder="Confirm password..." value={form.confirmPassword} onChange={handleChange}/>
               <Link to="/login" className="link">Already have an account?</Link>
             </div>
-            <button type="submit" className="btn-submit btn-login" onClick={registerUser}>Register</button>
-          </form>
+            <button type="submit" className="btn-submit btn-login" onClick={() => registerUser(form)}>Register</button>
+          </div>
 
           <GoogleLogin 
             render={renderProps => (

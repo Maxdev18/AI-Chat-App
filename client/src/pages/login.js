@@ -4,10 +4,24 @@ import GoogleButton from 'react-google-button';
 import '../styles/pages/login.css';
 
 export const Login = () => {
+  // Form data
+  let [form, setForm] = React.useState({
+    email: '',
+    password: ''
+  });
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setForm(prevState => ({
+        ...prevState,
+        [name]: value
+    }));
+  };
+
   const navigate = useNavigate();
 
-  const loginUser = () => {
-    Axios.post('/auth/login').then(data => {
+  const loginUser = (formData) => {
+    Axios.post('/auth/login', formData).then(data => {
       if(data.data.success) {
         localStorage.setItem('token', data.data.token);
         navigate('/dashboard');
@@ -27,7 +41,7 @@ export const Login = () => {
     if(profile) {
       Axios.post('/auth/login', userData).then(data => {
         if(data.data.success) {
-          localStorage.setItem('token', data.data.token);
+          localStorage.setItem('token', JSON.stringify(data.data.token));
           navigate('/dashboard');
         }
       });
@@ -40,15 +54,15 @@ export const Login = () => {
       <div className="login-container">
         <div className="login-sub-container">
           <h1 className="login-title">Login</h1>
-          <form id="form" method="POST" action="/auth/login">
-              <input className="form-input email-input" type="text" name="email" placeholder="Email..."/>
+          <div id="form">
+              <input className="form-input email-input" type="text" name="email" placeholder="Email..." value={form.email} onChange={handleChange}/>
 
               <div className="rand-cont">
-                <input className="form-input password-input" type="password" name="password" placeholder="Password..."/>
+                <input className="form-input password-input" type="password" name="password" placeholder="Password..." value={form.password} onChange={handleChange}/>
                 <Link to="/reset-password" className="link">Forgot password?</Link>
               </div>
-            <button type="submit" className="btn-submit btn-login" onClick={loginUser}>Login</button>
-          </form>
+            <button type="submit" className="btn-submit btn-login" onClick={() => loginUser(form)}>Login</button>
+          </div>
 
           <div className="line-container">
             <span className="line line1"></span>
