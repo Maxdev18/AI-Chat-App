@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const io = require('socket.io')(http, {
   cors: {
-    orgin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000"],
     credentials: true
   }
 });
@@ -23,15 +23,13 @@ const authRoutes = require('./routes/authentication');
 const PORT = process.env.PORT || 5000;
 dotenv.config();
 
-console.log(PORT);
-
 //View engine
 app.set('view engine', 'ejs');
 
 //Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ["http://localhost:3000", "http://chattingai-frontend-herokuapp.com"],
+    origin: ["http://localhost:3000"],
     credentials: true
 }));
 

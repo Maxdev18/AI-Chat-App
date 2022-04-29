@@ -1,43 +1,25 @@
+const emailjs = require('emailjs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema');
 
-// Check environment variable to redirect to the correct url
-function checkEnvironment() {
-  if(process.env.PORT === 5000) return res.status(200).redirect("http://localhost:3000/dashboard");
-  return res.status(200).redirect("http://chattingai-frontend.herokuapp.com/dashboard");
-}
-
-// Sign the JWT
-function signJWT(dbUser) {
-  jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
-    if(err) return res.json({message: err});
-    res.cookie("token", token, { httpOnly: true });
-  });
-
-  // Check env port variable
-  checkEnvironment();
-}
-
 // Generate a userId for use within the application
-function generateUserAppId() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const nums = '1234567890';
-  let id, user;
+async function generateUserAppId() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+  let id = '', user;
 
   while(!user) {
-    for(let i = 0; i < 5; i++) {
-      id += chars[Math.floor(Math.random() * 26)];
+    for(let i = 0; i < 9; i++) {
+      id += chars[Math.floor(Math.random() * 36)];
     }
 
-    for(let i = 0; i < 4; i++) {
-      id += nums[Math.floor(Math.random() * 10)];
-    }
+    user = await User.findOne({ userAppId: id })
+      .then(data => {
+        return data;
+      });
 
-    user = User.findOne({ userAppId: id })
     if(user) {
-      user = '';
-      id = '';
+      user = '', id = '';
       continue;
     } else {
       break;
@@ -45,6 +27,23 @@ function generateUserAppId() {
   }
   
   return id;
+}
+
+// Generate default user profile picture
+function generateProfilePic(pic) {
+  let profilePic = {};
+
+  // Generate random hex code for profile background color
+  const hexChars = 'ABCDEF1234567890';
+  let hex;
+
+  for(let i = 0; i < 6; i++) {
+    hex += hexChars[Math.floor(Math.random() * 16)]
+  }
+
+  profilePic.pic = pic;
+  profilePic.hex = hex;
+  return profilePic;
 }
 
 // Register controller registerates a new user
@@ -55,58 +54,72 @@ exports.register = async (req, res) => {
   const takenEmail = await User.findOne({ email: newUser.email });
 
   if(takenEmail) {
-    res.json({ message: "Sorry, this email is already taken"});
+    return res.status(400).json({ message: "Sorry, this email is already taken"});
   }
 
   if(newUser.googleSignIn === true) {
-    const userAppId = generateUserAppId();
+    const userAppId = await generateUserAppId();
 
     // Save user to the DB
     const dbUser = new User({
       name: newUser.name,
       email: newUser.email,
-      username: newUser.username,
-      password: newUser.password,
       googleSignIn: newUser.googleSignIn,
       userAppId,
       joinedRooms: [],
-      isActive: true
+      settings: {
+        profilePic: {
+          pic: newUser.imageUrl,
+          hex: ''
+        },
+        bio: ''
+      }
     });
 
     dbUser.save(err => {
-      console.log(err);
+      err ? console.log(err) : null;
     });
 
     // Assign the user a JWT
-    signJWT(dbUser);
-  }
-
-  // Check if the password and confirmed password are the same
-  if(newUser.password === newUser.confirmPassword) {
+    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+      if(err) return res.json({message: err});
+      res.json({success: true, token});
+    });
+  } else if(newUser.password && newUser.password === newUser.confirmPassword) { // Check if the password and confirmed password are the same
     // Hash the user's password
-    newUser.password = await bcrypt.hashSync(newUser.password, bcrypt.genSaltSync(), null);
+    newUser.password = await bcrypt.hash(newUser.password, bcrypt.genSaltSync(), null);
 
-    const userAppId = generateUserAppId();
-    
+    // Generate unique id and default profile
+    const userAppId = await generateUserAppId();
+    const profile = generateProfilePic(newUser.name[0]);
+
     // Save user to the DB
     const dbUser = new User({
       name: newUser.name,
       email: newUser.email,
-      username: newUser.username,
       password: newUser.password,
       userAppId,
       joinedRooms: [],
-      isActive: true
+      settings: {
+        profilePic: {
+          pic: profile.pic,
+          hex: profile.hex
+        },
+        bio: ''
+      }
     });
 
     dbUser.save(err => {
-      console.log(err);
+      err ? console.log(err) : null;
     });
 
     // Assign the user a JWT
-    signJWT(dbUser);
+    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+      if(err) return res.json({message: err});
+      res.json({ success: true, token });
+    });
   } else {
-    res.json("Sorry, the passwords don't match");
+    res.status(400).json("Sorry, the passwords don't match");
   }
 }
 
@@ -115,53 +128,78 @@ exports.login = async (req, res) => {
 
   const dbUser = await User.findOne({ email: user.email });
 
-  if(user.googleSignIn === true) {
+  if(!user.googleSignIn) {
+    return res.status(400).json({message: "Sorry, seems like this email has signed up with google, please sign in with google instead"});
+  } else if(user.googleSignIn === true && dbUser) {
     // Assign the user a JWT
-    signJWT(dbUser);
-    return checkEnvironment()
-  }
-
-  if(!dbUser) {
-    return res.json({message: "Sorry, invalid email"})
+    jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+      if(err) return res.json({message: err});
+      return res.json({ success: true, token });
+    });
+  } else if(!dbUser) {
+    return res.status(400).json({message: "Sorry, invalid email"})
   } else {
     // Check if the password are the same
     bcrypt.compare(user.passsword, dbUser.password)
-      .then(isCorrect => {
-        if(isCorrect) {
-          // Sign the user's token
-          signJWT(dbUser);
-        } else {
-          return res.json({message: "Sorry, invalid email or password"})
-        }
-      });
+    .then(isCorrect => {
+      if(isCorrect) {
+        // Sign the user's token
+        jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
+          if(err) return res.json({message: err});
+          res.json({success: true, token});
+        });
+      } else {
+        return res.status(400).json({message: "Sorry, invalid email or password"});
+      }
+    });
   }
 }
 
 exports.logout = async (req, res) => {
-  res.clearCookie("token");
   res.send({ success: true });
 }
 
-exports.forgotPassword = async (req, res) => {
-
-}
-
 exports.resetPassword = async (req, res) => {
+  const email = req.body.email;
+  if(!email === '') {
+    res.status(400).send('email required');
+  }
 
+  User.findOne({ email }).then(user => {
+    if(user == null) {
+      console.error('email not in database');
+      res.status(403).send('email not in db');
+    } else {
+      const token = crypto.randomBytes(6).toString('hex');
+      const emailData = { email, token };
+
+      try {
+        emailjs.sendForm(processs.env.EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailData,emailData,EMAILJS_USER_ID)
+          .then(result => {
+            console.log(result.text);
+          }, error => {
+            console.log(error.text);
+          });
+      } catch(err){
+        console.log(err, 'Email not sent...');
+      }
+      console.log('sending email');
+    }
+  });
 }
 
 // Middleware function to check the authentication status of the user
 exports.checkAuth = async (req, res) => {
-  const token = req.cookies.token
+  const token = req.query.token;
 
   //Try to verify token and return data if verified
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET)
-    req.user = user
-    res.json(req.user)
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if(err) return res.status(401).json({ msg: 'Token is not valid'  });
+      req.user = decoded.user;
+      res.json({data: req.user, token});
+    });
   } catch {
-    //Clear cookie with token if expired or doesn't exist
-    res.clearCookie('token');
-    process.env.PORT === 5000 ? res.status(200).redirect("http://localhost:3000") : res.status(200).redirect("http://chattingai-frontend.herokuapp.com");
+    res.status(500).json({ msg: 'Server Error' });
   }
 }

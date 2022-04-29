@@ -1,14 +1,11 @@
 import { React, Link } from '../client-imports';
+import { UserLoggedIn } from '../contexts/contexts';
 import '../styles/components/navigation.css';
 
-export const Navigation = (props) => {
+export const Navigation = () => {
   // Initialize state variables
-  let [ loggedIn, setIsLoggedIn ] = React.useState(false);
+  let { isLoggedIn, setIsLoggedIn } = React.useContext(UserLoggedIn);
   let [ menu, setMenu ] = React.useState(false);
-
-  React.useEffect(() => {
-    //setIsLoggedIn(props.loggedIn);
-  }, []);
 
   /* Function checks if user is logged in, if so 
     renders "Go to dashboard", if not, then renders "login" */
@@ -40,7 +37,7 @@ export const Navigation = (props) => {
         <Link to='/why-ai' className='nav-link'>Why AI</Link>
         <Link to='/about' className='nav-link'>About</Link>
         <Link to='/contact' className='nav-link'>Contact</Link>
-        {checkLogin(loggedIn)}
+        {checkLogin(isLoggedIn)}
       </div>
 
       {/* Burger Menu */}
