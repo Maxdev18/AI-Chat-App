@@ -1,11 +1,18 @@
-import { React, Link, Axios } from '../client-imports';
+import { React, Link, Axios, useNavigate } from '../client-imports';
 import GoogleLogin from 'react-google-login';
 import GoogleButton from 'react-google-button';
 import '../styles/pages/login.css';
 
 export const Login = () => {
-  const loginUser = () => {
+  const navigate = useNavigate();
 
+  const loginUser = () => {
+    Axios.post('/auth/login').then(data => {
+      if(data.data.success) {
+        localStorage.setItem('token', data.data.token);
+        navigate('/dashboard');
+      }
+    });
   };
 
   const responseGoogle = res => {
@@ -16,12 +23,16 @@ export const Login = () => {
       googleSignIn: true
     }
 
-    console.log(res.profileObj);
     // If profile object exists then send it to our registration api route
-    if(res.profileObj) {
-      Axios.post('/auth/login', userData);
+    if(profile) {
+      Axios.post('/auth/login', userData).then(data => {
+        if(data.data.success) {
+          localStorage.setItem('token', data.data.token);
+          navigate('/dashboard');
+        }
+      });
     }
-    return
+    return;
   }
 
   return (
@@ -29,14 +40,14 @@ export const Login = () => {
       <div className="login-container">
         <div className="login-sub-container">
           <h1 className="login-title">Login</h1>
-          <form id="form" onClick={loginUser}>
+          <form id="form" method="POST" action="/auth/login">
               <input className="form-input email-input" type="text" name="email" placeholder="Email..."/>
 
               <div className="rand-cont">
                 <input className="form-input password-input" type="password" name="password" placeholder="Password..."/>
                 <Link to="/reset-password" className="link">Forgot password?</Link>
               </div>
-            <button type="submit" className="btn-submit btn-login">Login</button>
+            <button type="submit" className="btn-submit btn-login" onClick={loginUser}>Login</button>
           </form>
 
           <div className="line-container">
