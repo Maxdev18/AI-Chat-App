@@ -1,4 +1,5 @@
 import { React, Link, Axios, useNavigate } from '../client-imports';
+import { UserContext } from '../contexts/contexts';
 import GoogleLogin from 'react-google-login';
 import GoogleButton from 'react-google-button';
 import '../styles/pages/login.css';
@@ -9,6 +10,8 @@ export const Login = () => {
     email: '',
     password: ''
   });
+
+  let { user, setUser } = React.useContext(UserContext);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -24,7 +27,8 @@ export const Login = () => {
     Axios.post('/auth/login', formData).then(data => {
       if(data.data.success) {
         localStorage.setItem('token', data.data.token);
-        navigate('/dashboard');
+        setUser(data.data._doc);
+        navigate(`/dashboard/id=${data.data._doc._id}`);
       }
     });
   };
@@ -42,7 +46,8 @@ export const Login = () => {
       Axios.post('/auth/login', userData).then(data => {
         if(data.data.success) {
           localStorage.setItem('token', JSON.stringify(data.data.token));
-          navigate('/dashboard');
+          setUser(data.data._doc);
+          navigate(`/dashboard/id=${data.data._doc._id}`);
         }
       });
     }

@@ -116,7 +116,7 @@ exports.register = async (req, res) => {
     // Assign the user a JWT
     jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
       if(err) return res.json({message: err});
-      res.json({ success: true, token });
+      res.json({ ...dbUser, success: true, token });
     });
   } else {
     res.status(400).json("Sorry, the passwords don't match");
@@ -150,7 +150,7 @@ exports.login = async (req, res) => {
     // Assign the user a JWT
     jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
       if(err) return res.json({message: err});
-      return res.json({ success: true, token });
+      return res.json({ ...dbUser, success: true, token });
     });
   } else {
     return res.status(400).json({message: "Sorry, seems like this email has signed up with google, please sign in with google instead"});
@@ -196,10 +196,10 @@ exports.checkAuth = async (req, res) => {
 
   //Try to verify token and return data if verified
   try {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(JSON.parse(token), process.env.JWT_SECRET, (err, decoded) => {
       if(err) return res.status(401).json({ msg: 'Token is not valid'  });
       req.user = decoded.user;
-      res.json({data: req.user, token});
+      res.json({...req.user, token});
     });
   } catch {
     res.status(500).json({ msg: 'Server Error' });

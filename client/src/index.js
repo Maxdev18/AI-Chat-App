@@ -13,40 +13,40 @@ function App() {
   let [user, setUser] = React.useState(null);
 
   Axios.defaults.baseURL = "http://localhost:5000";
-  const token = localStorage.getItem('token');
 
   React.useEffect(()=> {
-    function start() {
-      gapi.client.init({
-        clientId: process.env.REACT_APP_OAUTH_SECRET,
-        scope: "https://www.googleapis.com/auth/userinfo.email"
-      })
-    }
-    gapi.load('client:auth2', start);
-
     const token = localStorage.getItem('token');
 
     if(token) {
+      // Connect to Google API
+      function start() {
+        gapi.client.init({
+          clientId: process.env.REACT_APP_OAUTH_SECRET,
+          scope: "https://www.googleapis.com/auth/userinfo.email"
+        })
+      }
+      gapi.load('client:auth2', start);
+
+      // Check authentication
       async function retrieveUser() {
         const user = await Axios.get('/auth/checkauth', { params: { token } })
           .then(res => {
-            return res;
+            return res.data;
           })
           .catch(err => {
             console.error(err);
           });
 
-          console.log(user);
-          if(user) {
-            setUser(user);
-            setIsLoggedIn(true);
-          } else {
-            console.log("clearing local...");
-            localStorage.clear();
-            setUser(null);
-            setIsLoggedIn(false);
-            window.location.pathname = '/login';
-          }
+        console.log(user);
+        if(user) {
+          setUser(user);
+          setIsLoggedIn(true);
+        } else {
+          localStorage.clear();
+          setUser(null);
+          setIsLoggedIn(false);
+          window.location.pathname = '/login';
+        }
       }
       retrieveUser();
     }
@@ -66,7 +66,7 @@ function App() {
             <Route exact path="/learn-ai-commands" element={<Commands/>} />
             <Route exact path="/login" element={<Login/>} />
             <Route exact path="/register" element={<Register/>} />
-            <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/dashboard/:id" element={<Dashboard />} />
           </Routes>
         </UserContext.Provider>
         </UserLoggedIn.Provider>

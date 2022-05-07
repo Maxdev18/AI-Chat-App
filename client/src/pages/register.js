@@ -1,5 +1,6 @@
 import { React, Link, Axios, useNavigate } from '../client-imports';
-import {GoogleLogin, GoogleLogout} from 'react-google-login';
+import { UserContext } from '../contexts/contexts';
+import {GoogleLogin} from 'react-google-login';
 import GoogleButton from 'react-google-button';
 import '../styles/pages/register.css';
 
@@ -11,6 +12,8 @@ export const Register = () => {
     password: '',
     confirmPassword: ''
   });
+
+  let { user, setUser } = React.useContext(UserContext);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -28,7 +31,8 @@ export const Register = () => {
         console.log(data);
         if(data.data.success) {
           localStorage.setItem('token', data.data.token);
-          navigate('/dashboard');
+          setUser(data.data._doc);
+          navigate(`/dashboard/id=${data.data._doc._id}`);
         }
       }).catch(err => {
         console.error(err);
@@ -47,7 +51,8 @@ export const Register = () => {
     Axios.post('/auth/register', userdata).then(data => {
       if(data.data.success) {
         localStorage.setItem('token', JSON.stringify(data.data.token));
-        navigate('/dashboard');
+        setUser(data.data._doc);
+        navigate(`/dashboard/id=${data.data._doc._id}`);
       }
     }).catch(err=> {
         console.error(err);
@@ -83,7 +88,7 @@ export const Register = () => {
                 marginTop: "30px"
               }}>Sign up with Google</GoogleButton>
             )}
-            clientId={process.env.OAUTH_SECRET}
+            clientId={process.env.REACT_APP_OAUTH_SECRET}
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
