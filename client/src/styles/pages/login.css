@@ -4,9 +4,9 @@
   align-items: center;
   justify-content: center;
   background-color: var(--sixty-color);
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  position: fixed;
+  padding: 60px 0px;
 }
 
 .login-container {
@@ -17,7 +17,6 @@
   border-radius: 20px;
   box-shadow: 0px 0px 16px;
   background-color: var(--sixty-color-light);
-  height: 66vh;
   width: 30%;
 }
 
