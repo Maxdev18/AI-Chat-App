@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const bodyParser = require('body-parser');
 const app = require('express')();
 const http = require('http').Server(app);
 const dotenv = require('dotenv');
@@ -33,6 +33,7 @@ app.use(cors({
     credentials: true
 }));
 
+app.use(bodyParser.json());
 app.use(express.json()) ;
 app.use(express.static('client'));
 app.use(express.urlencoded({ extended: true }));
