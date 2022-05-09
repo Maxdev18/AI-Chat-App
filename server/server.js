@@ -29,7 +29,7 @@ app.set('view engine', 'ejs');
 //Middleware
 app.use(cookieParser());
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://chattingai-frontend.herokuapp.com"],
     credentials: true
 }));
 

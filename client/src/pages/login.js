@@ -30,6 +30,9 @@ export const Login = () => {
         setUser(data.data._doc);
         navigate(`/dashboard/id=${data.data._doc._id}`);
       }
+    })
+    .catch(err => {
+      if(err) console.error(err);
     });
   };
 
