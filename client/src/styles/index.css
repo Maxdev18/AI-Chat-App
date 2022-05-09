@@ -8,6 +8,11 @@
   position: relative;
 }
 
+body{
+  min-height: 300px;
+  height: 100%; 
+}
+
 /* Global color variables */
 /* Also using the 60/30/10 rule */
 :root {

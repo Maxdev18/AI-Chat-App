@@ -83,7 +83,7 @@ exports.register = async (req, res) => {
     // Assign the user a JWT
     jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
       if(err) return res.json({message: err});
-      res.json({success: true, token});
+      res.json({...dbUser, success: true, token});
     });
   } else if(newUser.password && newUser.password === newUser.confirmPassword) { // Check if the password and confirmed password are the same
     // Hash the user's password
@@ -140,7 +140,7 @@ exports.login = async (req, res) => {
         // Sign the user's token
         jwt.sign({user: dbUser}, process.env.JWT_SECRET, { expiresIn: '1y' }, (err, token) => {
           if(err) return res.json({message: err});
-          res.json({success: true, token});
+          res.json({...dbUser, success: true, token});
         });
       } else {
         return res.status(400).json({message: "Sorry, invalid email or password"});

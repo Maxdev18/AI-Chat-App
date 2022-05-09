@@ -26,6 +26,7 @@ export const Login = () => {
   const loginUser = (formData) => {
     Axios.post('/auth/login', formData).then(data => {
       if(data.data.success) {
+        console.log(data.data);
         localStorage.setItem('token', data.data.token);
         setUser(data.data._doc);
         navigate(`/dashboard/id=${data.data._doc._id}`);
