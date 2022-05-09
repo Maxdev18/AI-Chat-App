@@ -8,11 +8,17 @@ import './styles/index.css';
 
 const socket = io('http://localhost:5000');
 
+// Set base url for axios
+const domainName = window.location.hostname;
+if(domainName === "localhost") {
+  Axios.defaults.baseURL = "http://localhost:5000";
+} else {
+  Axios.defaults.baseURL = "https://chattingai-backend.herokuapp.com"; 
+}
+
 function App() {
   let [isLoggedIn, setIsLoggedIn] = React.useState(false);
   let [user, setUser] = React.useState(null);
-
-  Axios.defaults.baseURL = "http://localhost:5000";
 
   React.useEffect(()=> {
     const token = localStorage.getItem('token');
