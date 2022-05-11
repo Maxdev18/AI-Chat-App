@@ -1,12 +1,18 @@
-import { React, Router, Routes, Route, io, gapi, Axios } from './client-imports';
+import { React, Router, Routes, Route, gapi, Axios } from './client-imports';
 import ReactDOM from 'react-dom';
+import socketIOClient from "socket.io-client";
 import { Landing, About, WhyAIPage, Guidelines, HowWasItMade, Contact, Commands, Login, Register } from './client-imports';
 import { Dashboard } from "./client-imports";
 import { UserContext, UserLoggedIn } from './contexts/contexts';
 
 import './styles/index.css';
 
-const socket = io('http://localhost:5000');
+let endpoint;
+if(window.location.hostname === 'localhost') {
+  endpoint = 'http://localhost:5000';
+} else {
+  endpoint = 'https://chattingai-frontend.herokuapp.com';
+}
 
 // Set base url for axios
 const domainName = window.location.hostname;
@@ -72,7 +78,7 @@ function App() {
             <Route exact path="/learn-ai-commands" element={<Commands/>} />
             <Route exact path="/login" element={<Login/>} />
             <Route exact path="/register" element={<Register/>} />
-            <Route exact path="/dashboard/:id" element={<Dashboard />} />
+            <Route exact path="/dashboard/:id" element={<Dashboard endpoint={endpoint}/>} />
           </Routes>
         </UserContext.Provider>
         </UserLoggedIn.Provider>

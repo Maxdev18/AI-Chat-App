@@ -1,17 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = require('express')();
-const http = require('http').Server(app);
+const http = require('http');
+const server = http.createServer(app);
 const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const io = require('socket.io')(http, {
+const io = require('socket.io')(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://chattingai-frontend.herokuapp.com"],
     credentials: true
-  }
-});
+  }});
 
 // Require socket modules
 const clientSockets = require('./sockets/client-socket');
@@ -56,10 +56,11 @@ const connectDB = async () => {
     .then(result => {
       //Create instance of socket connection to the client
       io.on('connection', socket => {
+        console.log("Socket has been established...");
         // Link socket emmiters and listeners from the required modules
         clientSockets(socket);
       })
-      http.listen(PORT);
+      server.listen(PORT);
     })
     .then(console.log("Connected to MongoDB Successfully!"))
     .catch(err => console.log(err));
