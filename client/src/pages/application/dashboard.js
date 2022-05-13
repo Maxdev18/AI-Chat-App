@@ -12,10 +12,8 @@ export const Dashboard = ({endpoint}) => {
   React.useEffect(() => {
     const socket = socketIOClient(endpoint);
 
-    socket.on('connect', (err, data) => {
+    socket.on('connectTo', (data, err) => {
       if(err) return console.error(err);
-
-      console.log(data);
       setResponse(data);
     });
 
@@ -25,8 +23,10 @@ export const Dashboard = ({endpoint}) => {
   return (
     <div className="dashboard-main-container">
       <div className="dashboard-container">
-        Dashboard
-        It's {response}
+        <RoomNavbar />
+        <div className="main-chat-container">
+          <NavbarDashboard />
+        </div>
       </div>
     </div>
   )

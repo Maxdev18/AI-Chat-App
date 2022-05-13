@@ -1,6 +1,5 @@
 import { React, Router, Routes, Route, gapi, Axios } from './client-imports';
 import ReactDOM from 'react-dom';
-import socketIOClient from "socket.io-client";
 import { Landing, About, WhyAIPage, Guidelines, HowWasItMade, Contact, Commands, Login, Register } from './client-imports';
 import { Dashboard } from "./client-imports";
 import { UserContext, UserLoggedIn } from './contexts/contexts';
@@ -25,6 +24,7 @@ if(domainName === "localhost") {
 function App() {
   let [isLoggedIn, setIsLoggedIn] = React.useState(false);
   let [user, setUser] = React.useState(null);
+  let [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(()=> {
     const token = localStorage.getItem('token');
@@ -62,6 +62,7 @@ function App() {
       }
       retrieveUser();
     }
+    setIsLoading(false);
   }, []);
 
   return (
@@ -78,8 +79,15 @@ function App() {
             <Route exact path="/learn-ai-commands" element={<Commands/>} />
             <Route exact path="/login" element={<Login/>} />
             <Route exact path="/register" element={<Register/>} />
-            <Route exact path="/dashboard/:id" element={<Dashboard endpoint={endpoint}/>} />
           </Routes>
+            {isLoading ? (
+              <div className="App">Loading...</div>
+            ) : (
+              <Routes>
+                <Route exact path="/dashboard/:id" element={<Dashboard endpoint={endpoint}/>} />
+              </Routes>
+            )}
+            
         </UserContext.Provider>
         </UserLoggedIn.Provider>
       </Router>

@@ -1,0 +1,68 @@
+/* Containers */
+.nav-app-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 30px;
+  width: 100%;
+  height: 100%;
+}
+
+.main-chat-container {
+  background-color: #4C4C47;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 320px;
+}
+
+.searchRoom {
+  padding: 8px 16px;
+  background-color: rgba(196, 196, 196, .4);
+  border: 0px;
+  border-radius: 20px;
+  outline: none;
+  color: white;
+}
+
+.searchRoom::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.btn-searchRoom {
+  background-color: var(--ten-color-light);
+  border: 0px;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 110px;
+  height: 100%;
+  padding: 6px 12px;
+  margin-left: 20px;
+}
+
+.btn-searchRoom:hover {
+  transition: 300ms ease-in-out;
+  background-color: var(--ten-color);
+}
+
+/* Profile container */
+.profile-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 140px; 
+}
+
+.help-link {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: rgba(255, 255, 255, .7);
+}
+
+.user-profile {
+  padding: 11px 13px;
+  border-radius: 50%;
+  cursor: pointer;
+}

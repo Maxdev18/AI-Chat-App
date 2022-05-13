@@ -5,13 +5,17 @@ import GoogleButton from 'react-google-button';
 import '../styles/pages/login.css';
 
 export const Login = () => {
-  // Form data
+  let { user, setUser } = React.useContext(UserContext);
   let [form, setForm] = React.useState({
     email: '',
     password: ''
   });
 
-  let { user, setUser } = React.useContext(UserContext);
+  React.useEffect(() => {
+    if(user) {
+      navigate(`/dashboard/id=${user._id}`)
+    }
+  }, [user]);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -26,7 +30,6 @@ export const Login = () => {
   const loginUser = (formData) => {
     Axios.post('/auth/login', formData).then(data => {
       if(data.data.success) {
-        console.log(data.data);
         localStorage.setItem('token', data.data.token);
         setUser(data.data._doc);
         navigate(`/dashboard/id=${data.data._doc._id}`);

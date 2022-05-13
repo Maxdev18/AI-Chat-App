@@ -1,0 +1,24 @@
+/* Containers */
+.roomNavbar-container {
+  background-color: #6a6a6a;
+  height: 100vh;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .6);
+  width: clamp(300px, 400px, 500px);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 8vh;
+  border-bottom: 1px solid black;
+}
+
+.logo-dashboard {
+  color: white;
+  text-align: center;
+}
+
+.logo-dashboard span {
+  color: var(--ten-color);
+}
