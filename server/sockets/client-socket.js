@@ -3,8 +3,6 @@ module.exports = socket => {
   let date;
   setInterval(() => {
     date = new Date;
-    socket.emit('connect', date);
+    socket.emit('connectTo', date);
   }, 1000);
-  
-  
 }

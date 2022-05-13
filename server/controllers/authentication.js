@@ -35,7 +35,7 @@ function generateProfilePic(pic) {
 
   // Generate random hex code for profile background color
   const hexChars = 'ABCDEF1234567890';
-  let hex;
+  let hex = '';
 
   for(let i = 0; i < 6; i++) {
     hex += hexChars[Math.floor(Math.random() * 16)]
@@ -196,7 +196,7 @@ exports.checkAuth = async (req, res) => {
 
   //Try to verify token and return data if verified
   try {
-    jwt.verify(JSON.parse(token), process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if(err) return res.status(401).json({ msg: 'Token is not valid'  });
       req.user = decoded.user;
       res.json({...req.user, token});

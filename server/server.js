@@ -18,6 +18,8 @@ const clientSockets = require('./sockets/client-socket');
 
 // Require routes
 const authRoutes = require('./routes/authentication');
+const roomRoutes = require('./routes/room.router');
+const messageRoutes = require('./routes/message.router');
 
 // Set up for development and production enviornments
 const PORT = process.env.PORT || 5000;
@@ -43,8 +45,10 @@ app.get('/', (req, res) => {
   res.send('Just the back-end route for controllers and other route handling');
 });
 
-//Client API routes
-app.use('/auth', authRoutes);
+//API routes
+app.use('/auth',authRoutes);
+app.use('/api/application/rooms', roomRoutes);
+app.use('/api/application/messages', messageRoutes);
 
 //Connect to MongoDB
 const connectDB = async () => {
