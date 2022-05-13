@@ -46,6 +46,7 @@
 
 /* Button and burger menu */
 .btn-nav {
+  font-size: 1.2rem;
   width: 132px;
   height: 36px;
   padding: 6px 16px;
@@ -54,6 +55,7 @@
 }
 
 .burger-container {
+  overflow-y: hidden;
   display: none;
 }
 

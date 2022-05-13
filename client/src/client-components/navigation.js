@@ -1,9 +1,11 @@
 import { React, Link } from '../client-imports';
 import { UserLoggedIn } from '../contexts/contexts';
 import '../styles/components/navigation.css';
+import { UserContext } from '../contexts/contexts';
 
 export const Navigation = () => {
   // Initialize state variables
+  const { user, setUser } = React.useContext(UserContext);
   let { isLoggedIn, setIsLoggedIn } = React.useContext(UserLoggedIn);
   let [ menu, setMenu ] = React.useState(false);
 
@@ -12,8 +14,8 @@ export const Navigation = () => {
   function checkLogin(login) {
     if(login) {
       return (
-        <Link to={`/dashboard/`} className='btn-nav'>
-          Open Dashboard
+        <Link to={`/dashboard/id=${user._id}`} className='btn-nav'>
+          Dashboard
         </Link>
       );
     } else {
