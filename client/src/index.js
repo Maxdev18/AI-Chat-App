@@ -28,6 +28,7 @@ function App() {
 
   React.useEffect(()=> {
     const token = localStorage.getItem('token');
+    const userID = localStorage.getItem('userID');
 
     if(token) {
       // Connect to Google API
@@ -41,7 +42,7 @@ function App() {
 
       // Check authentication
       async function retrieveUser() {
-        const user = await Axios.get('/auth/checkauth', { params: { token } })
+        const userDB = await Axios.get('/auth/checkauth', { params: { token: JSON.parse(token), id: JSON.parse(userID) } })
           .then(res => {
             return res.data;
           })
@@ -49,9 +50,9 @@ function App() {
             console.error(err);
           });
 
-        console.log(user);
-        if(user) {
-          setUser(user);
+        console.log(userDB);
+        if(userDB) {
+          setUser(userDB._doc);
           setIsLoggedIn(true);
         } else {
           localStorage.clear();

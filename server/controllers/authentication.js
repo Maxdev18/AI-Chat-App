@@ -196,10 +196,10 @@ exports.checkAuth = async (req, res) => {
 
   //Try to verify token and return data if verified
   try {
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err) => {
       if(err) return res.status(401).json({ msg: 'Token is not valid'  });
-      req.user = decoded.user;
-      res.json({...req.user, token});
+      const user = await User.findById(req.query.id);
+      res.json({...user, token});
     });
   } catch {
     res.status(500).json({ msg: 'Server Error' });
