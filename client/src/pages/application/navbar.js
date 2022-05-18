@@ -31,7 +31,7 @@ export const NavbarDashboard = (props) => {
 
     if(user.googleSignIn) {
       return (
-        <img src={user.settings.profilePic.pic} className="user-profile-setting" alt="profile image"></img>
+        <img src={user.settings.profilePic.pic} className="user-profile-google" alt="profile image" onClick={toggleProfileSettings}></img>
       )
     } else {
       return (
