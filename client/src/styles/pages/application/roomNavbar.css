@@ -4,6 +4,7 @@
   height: 100vh;
   box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .6);
   width: clamp(300px, 400px, 500px);
+  z-index: 10;
 }
 
 .logo-container {
@@ -17,6 +18,7 @@
 .logo-dashboard {
   color: white;
   text-align: center;
+  letter-spacing: 5px;
 }
 
 .logo-dashboard span {

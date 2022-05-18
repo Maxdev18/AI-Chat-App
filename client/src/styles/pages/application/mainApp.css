@@ -1,0 +1,14 @@
+/* Containers */
+.main-app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  height: 92vh;
+  width: 100%;
+  background-color: var(--sixty-color);
+}
+
+.main-app-container h1 {
+  color: rgba(255, 255, 255, .7);
+}
