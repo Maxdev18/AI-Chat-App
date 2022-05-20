@@ -20,6 +20,7 @@ const clientSockets = require('./sockets/client-socket');
 const authRoutes = require('./routes/authentication');
 const roomRoutes = require('./routes/room.router');
 const messageRoutes = require('./routes/message.router');
+const updateRoutes = require('./routes/update.router');
 
 // Set up for development and production enviornments
 const PORT = process.env.PORT || 5000;
@@ -49,6 +50,7 @@ app.get('/', (req, res) => {
 app.use('/auth',authRoutes);
 app.use('/api/application/rooms', roomRoutes);
 app.use('/api/application/messages', messageRoutes);
+app.use('/api/application/update', updateRoutes);
 
 //Connect to MongoDB
 const connectDB = async () => {
