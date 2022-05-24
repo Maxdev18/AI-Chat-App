@@ -4,8 +4,8 @@ import { SettingToggle, CreateRoomToggle } from '../../contexts/contexts';
 import { Axios, Link } from '../../client-imports';
 import { UserContext } from '../../contexts/contexts';
 
-export const NavbarDashboard = (props) => {
-  const { user, setuser } = React.useContext(UserContext);
+export const NavbarDashboard = () => {
+  const { user } = React.useContext(UserContext);
   const { toggleSettings, setToggleSettings } = React.useContext(SettingToggle);
   const { togCreateRoom, setTogCreateRoom } = React.useContext(CreateRoomToggle);
   let [search, setSearch] = React.useState('');
@@ -31,12 +31,18 @@ export const NavbarDashboard = (props) => {
 
     if(user.googleSignIn) {
       return (
-        <img src={user.settings.profilePic.pic} className="user-profile-google" alt="profile image" onClick={toggleProfileSettings}></img>
+        <img src={user.settings.profilePic.pic} className="user-profile-google" alt="" onClick={toggleProfileSettings}></img>
       )
     } else {
       return (
         <div className="user-profile" style={profileStyles} onClick={toggleProfileSettings}>
-          {user.settings.profilePic.pic}
+          {user.settings.profilePic.pic.length > 1 ? (
+            <img className="profileImgNav" src={user.settings.profilePic.pic} alt=""></img>
+          ) : (
+            <>
+              {user.settings.profilePic.pic}
+            </>
+          )}
         </div>
       )
     }
@@ -45,7 +51,7 @@ export const NavbarDashboard = (props) => {
   return (
     <div className="nav-app-container">
       <div className="search-container">
-        <input className="searchRoom" name="searchRoom" placeholder="Find room..." onChange={e => setSearch(e.value)}/>
+        <input className="searchRoom" name="searchRoom" placeholder="Find room..." onChange={e => setSearch(e.target.value)}/>
         <button className="btn-searchRoom" onClick={joinRoom}>Join Room</button>
       </div>
       <div className="profile-nav-container">
