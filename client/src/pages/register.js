@@ -58,11 +58,6 @@ export const Register = () => {
         console.error(err);
       });
   }
-  // const logout = () => {
-  //   Axios.get('/auth/logout', {
-  //     withCredentials: true
-  //   });
-  // }
 
   return (
     <div className="register-main-container">
