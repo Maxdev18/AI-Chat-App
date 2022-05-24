@@ -13,6 +13,8 @@ const io = require('socket.io')(server, {
     credentials: true
   }});
 
+const updateControllers = require('./controllers/update.controller');
+
 // Require socket modules
 const clientSockets = require('./sockets/client-socket');
 
@@ -46,7 +48,6 @@ app.get('/', (req, res) => {
   res.send('Just the back-end route for controllers and other route handling');
 });
 
-const updateControllers = require('./controllers/update.controller');
 app.get('/images/:imgUrl', updateControllers.getProfile)
 
 //API routes
