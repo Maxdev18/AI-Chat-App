@@ -46,6 +46,9 @@ app.get('/', (req, res) => {
   res.send('Just the back-end route for controllers and other route handling');
 });
 
+const updateControllers = require('./controllers/update.controller');
+app.get('/images/:imgUrl', updateControllers.getProfile)
+
 //API routes
 app.use('/auth',authRoutes);
 app.use('/api/application/rooms', roomRoutes);
