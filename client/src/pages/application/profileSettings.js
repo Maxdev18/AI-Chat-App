@@ -1,4 +1,4 @@
-import { React, Axios } from '../../client-imports';
+import { React, Axios, useNavigate } from '../../client-imports';
 import { UserContext } from '../../contexts/contexts';
 import '../../styles/pages/application/profileSettings.css';
 
@@ -6,6 +6,7 @@ export const ProfileSettings = () => {
   const { user, setUser } = React.useContext(UserContext);
   let [ name, setName ] = React.useState(user.name);
   let [ bio, setBio ] = React.useState(user.settings.bio);
+  const navigate = useNavigate()
 
   let profileData = {
     id: user._id,
@@ -13,8 +14,22 @@ export const ProfileSettings = () => {
     bio
   }
 
+  function logout() {
+    localStorage.clear();
+    navigate('/login');
+  }
+
   function updateProfile() {
     Axios.post('/api/application/update/update-profile', profileData)
+      .then(() => {
+        setUser(prev => ({
+          ...prev,
+          settings: {
+            ...prev.settings,
+            bio: profileData.bio
+          }
+        }))
+      })
       .catch(err=> {
         if(err) console.error(err);
       });
@@ -32,6 +47,7 @@ export const ProfileSettings = () => {
       }
     };
 
+    // Post image to the server and to database
     Axios.post('/api/application/update/update-profile', formData, config)
       .then(data => {
         setUser(prev => ({
@@ -93,12 +109,14 @@ export const ProfileSettings = () => {
           <input value={name} placeholder="Name..." onChange={e => setName(e.target.value)}/>
         </div>
         <div className="input-profile-main-cont">
-          <span>Your ID: </span>
-          {user.userAppId}
+          <p>{"ID: " + user.userAppId}</p>
+          <p>Share your id with someone you know to start a converstion!</p>
+          <p>Warning: Only share with people you know so you won't get spams from uknown sources or hackers.</p>
         </div>
       </div>
       <div className="save-btn-cont">
         <button className="save-btn" onClick={updateProfile}>Save</button>
+        <button className="logout-btn" onClick={logout}>Logout</button>
       </div>
     </div>
   )

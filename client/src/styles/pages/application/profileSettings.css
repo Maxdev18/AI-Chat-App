@@ -2,16 +2,19 @@
 .profile-settings-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100%;
-  width: 70%;
+  min-height: 100%;
+  width: 100%;
   color: white;
-  padding-top: 36px;
+  padding-left: 52px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .profile-cont {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 46px;
   width: 100%;
 }
 
@@ -26,6 +29,7 @@
   border-radius: 50%;
   cursor: pointer;
   overflow-y: hidden;
+  margin-bottom: 36px;
 }
 
 .noProfileImg {
@@ -48,22 +52,15 @@
 
 .profile-desc {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
   margin-top: 56px;
-}
-
-.input-profile-main-cont {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 40%;
 }
 
 .input-profile-container {
   display: flex;
   flex-direction: column;
+  width: 400px;
 }
 
 .bio {
@@ -74,7 +71,7 @@
   color: rgba(255, 255, 255, 0.7);
   outline: none;
   resize: none;
-  height: 100%;
+  height: 140px;
   width: 400px;
 }
 
@@ -85,8 +82,13 @@
 
 .input-profile-container span {
   padding-bottom: 12px;
-  text-align: center;
   overflow-y: hidden;
+}
+
+.input-profile-main-cont p {
+  width: 60%;
+  padding: .3rem;
+  color: rgba(255, 255, 255, .7);
 }
 
 .input-profile-container input {
@@ -97,10 +99,13 @@
   background-color: rgba(0, 0, 0, .4);
   color: rgba(255, 255, 255, 0.7);
   outline: none;
+  margin-bottom: 56px;
 }
 
 .save-btn-cont {
-  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  margin: 22px 0px;
   width: 100%;
 }
 
@@ -118,37 +123,24 @@
   background-color: var(--ten-color);
 }
 
+.save-btn, .logout-btn {
+  margin: 16px 0px;
+}
+
+.logout-btn {
+  border: 0px;
+  border-radius: 20px;
+  width: 98px;
+  padding: 8px;
+  cursor: pointer;
+  background-color: rgb(255, 128, 128);
+}
+
+.logout-btn:hover {
+  transition: 400ms ease-in-out;
+  background-color: rgb(255, 82, 82);
+}
+
 /* Media Queries */
 @media screen and (max-width: 1380px) {
-  .profile-cont {
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .profile-desc {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .user-profile-setting {
-    margin-bottom: 36px;
-  }
-
-  .bio {
-    height: 120px;
-  }
-
-  .input-profile-container input {
-    margin-bottom: 56px;
-  }
-
-  .save-btn-cont {
-    margin-top: 22px;
-    display: flex;
-    justify-content: center;
-  }
-
-  .input-profile-main-cont {
-    width: fit-content;
-  }
 }
