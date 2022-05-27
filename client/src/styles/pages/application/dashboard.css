@@ -17,3 +17,10 @@
   grid-template-columns: auto 1fr;
   grid-template-rows: 100%;
 }
+
+/* Media Queries */
+@media screen and (max-width: 878px) {
+  .main-chat-container {
+    width: 100vw;
+  }
+}
