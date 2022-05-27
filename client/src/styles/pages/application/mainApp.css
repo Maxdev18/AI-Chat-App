@@ -1,14 +1,21 @@
 /* Containers */
 .main-app-container {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  height: 92vh;
+  height: 100%;
+  padding-top: 62px;
   width: 100%;
   background-color: var(--sixty-color);
+  overflow-x: overlay;
 }
 
 .main-app-container h1 {
   color: rgba(255, 255, 255, .7);
+}
+
+/* Media Queries */
+@media screen and (max-width: 896px) {
+  
 }

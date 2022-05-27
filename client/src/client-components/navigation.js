@@ -11,8 +11,8 @@ export const Navigation = () => {
 
   /* Function checks if user is logged in, if so 
     renders "Go to dashboard", if not, then renders "login" */
-  function checkLogin(login) {
-    if(login) {
+  function checkLogin() {
+    if(isLoggedIn) {
       return (
         <Link to={`/dashboard/id=${user._id}`} className='btn-nav'>
           Dashboard
@@ -39,7 +39,7 @@ export const Navigation = () => {
         <Link to='/why-ai' className='nav-link'>Why AI</Link>
         <Link to='/about' className='nav-link'>About</Link>
         <Link to='/contact' className='nav-link'>Contact</Link>
-        {checkLogin(isLoggedIn)}
+        {checkLogin()}
       </div>
 
       {/* Burger Menu */}

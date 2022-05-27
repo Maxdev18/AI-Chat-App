@@ -3,7 +3,7 @@
   background-color: #6a6a6a;
   height: 100vh;
   box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, .6);
-  width: clamp(300px, 400px, 500px);
+  width: 340px;
   z-index: 10;
 }
 
@@ -12,7 +12,6 @@
   align-items: center;
   justify-content: center;
   height: 8vh;
-  border-bottom: 1px solid black;
 }
 
 .logo-dashboard {
@@ -23,4 +22,9 @@
 
 .logo-dashboard span {
   color: var(--ten-color);
+}
+
+/* Media Queries */
+@media screen and (max-width: 896px) {
+  
 }
