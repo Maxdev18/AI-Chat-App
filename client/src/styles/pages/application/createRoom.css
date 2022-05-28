@@ -1,6 +1,56 @@
 /* Containers */
 .create-room-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  color: white;
+  padding-left: 52px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
+
+.upload-room-profile {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.room-profile {
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.btn-create {
+  border: 0px;
+  border-radius: 20px;
+  width: 98px;
+  padding: 8px;
+  margin-top: 38px;
+  background-color: var(--ten-color-light);
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  transition: 400ms ease-in-out;
+  background-color: var(--ten-color);
+}
+
+.desc {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 20px;
+  border: 0px;
+  background-color: rgba(0, 0, 0, .4);
+  color: rgba(255, 255, 255, 0.7);
+  outline: none;
+  resize: none;
+  height: 140px;
+  width: 400px;
+}
+
+.desc::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Media Queries */

@@ -6,7 +6,7 @@ export const ProfileSettings = () => {
   const { user, setUser } = React.useContext(UserContext);
   let [ name, setName ] = React.useState(user.name);
   let [ bio, setBio ] = React.useState(user.settings.bio);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   let profileData = {
     id: user._id,

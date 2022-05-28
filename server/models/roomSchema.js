@@ -6,6 +6,9 @@ const RoomSchema = new Schema({
     type: String,
     required: true
   },
+  roomDesc: {
+    type: String
+  },
   roomId: {
     type: String,
     required: true
@@ -21,7 +24,12 @@ const RoomSchema = new Schema({
   },
   admin: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
+  },
+  adminName: {
+    type: String,
+    required: true
   },
   members: {
     type: Array,
@@ -29,6 +37,17 @@ const RoomSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User'
     }]
+  },
+  settings: {
+    type: Object,
+    default: {
+      hex: {
+        type: String
+      },
+      profilePic: {
+        type: String,
+      }
+    }
   }
 }, { timestamps: true });
 
