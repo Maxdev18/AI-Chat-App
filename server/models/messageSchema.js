@@ -12,13 +12,17 @@ const MessageSchema = new Schema({
     ref: 'User',
     required: true
   },
-  body: {
+  creatorName: {
+    type: String,
+    required: true
+  },
+  messageBody: {
     type: String,
     required: true
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now()
   }
 });
 

@@ -13,6 +13,11 @@ const RoomSchema = new Schema({
     type: String,
     required: true
   },
+  roomType: {
+    type: String,
+    required: true,
+    defualt: 'channel'
+  },
   messages: {
     type: Array,
     required: true,

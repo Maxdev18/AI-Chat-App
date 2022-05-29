@@ -61,10 +61,11 @@ exports.createRoom = async (req, res) => {
       roomName: room.roomName,
       roomDesc: room.roomDesc,
       roomId: await generateRoomId(),
+      roomType: 'channel',
       messages: [],
       admin: room.admin,
       adminName: room.adminName,
-      members: [],
+      members: [room.admin],
       settings: {
         hex: '',
         profilePic: imgUrl
@@ -77,10 +78,11 @@ exports.createRoom = async (req, res) => {
       roomName: room.roomName,
       roomDesc: room.roomDesc,
       roomId: await generateRoomId(),
+      roomType: 'channel',
       messages: [],
       admin: room.admin,
       adminName: room.adminName,
-      members: [],
+      members: [room.admin],
       settings: {
         hex: profile.hex,
         profilePic: profile.pic
@@ -112,7 +114,31 @@ exports.updateRoom = async (req, res) => {
 }
 
 exports.getRoom = async (req, res) => {
-  const roomUrl = req.params.imgUrl;
+  const roomID = req.query;
+  let roomIDs = []
+  let rooms = [];
+
+  for(let i = 0; i < Object.keys(roomID).length; i++) {
+    const id = JSON.parse(roomID[i]);
+    roomIDs.push({ id })
+  }
+
+  for(room in roomIDs) {
+    await Room.findById(roomIDs[room].id)
+      .then(data => {
+        rooms.push(data);
+      })
+      .catch(err => {
+        if(err) console.error(err);
+        return res.status(500).json({ message: "Unable to fetch room data..." });
+      })
+  }
+  
+  if(rooms.length === roomIDs.length) {
+    return res.status(200).json({ rooms, message: 'Retrieved room data successsfully...'});
+  } else {
+    return res.status(500).json({ message: "Unable to fetch room data..." })
+  }
 }
 
 exports.deleteRoom = async (req, res) => {
