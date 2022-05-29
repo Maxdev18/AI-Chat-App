@@ -1,13 +1,29 @@
 import '../../styles/pages/application/roomNavbar.css';
-import React from 'react';
 import { UserContext } from '../../contexts/contexts';
-import { Axios } from '../../client-imports';
+import { Axios, React } from '../../client-imports';
 
 export const RoomNavbar = () => {
   const { user, setUser } = React.useContext(UserContext);
+  let [ joinedRooms, setJoinedRooms ] = React.useState([]);
+  
+  React.useEffect(async () => {
+    if(user) {
+    await Axios.get('/api/application/rooms/get-room', { params: user.joinedRooms })
+      .then(res => {
+        let rooms = [];
+        for(let i = 0; i < Object.keys(res.data.rooms).length; i++) {
+          rooms.push(res.data.rooms[i]);
+        }
+        setJoinedRooms(rooms);
+      })
+      .catch(err => {
+        if(err) console.error(err);
+      })
+    }
+  }, [user]);
 
   async function goToRoom(roomId) {
-    const messages = await Axios.get(`/api/application/get-messages/id=${roomId}`)
+    const messages = await Axios.get(`/api/application/get-messages/${roomId}`)
       .then(data => {
         console.log(data.data);
         return data.data;
@@ -15,7 +31,7 @@ export const RoomNavbar = () => {
   }
 
   // Map through rooms which the current user has joined and render them
-  const renderRooms = (roomsArr) => {
+  function renderRooms(roomsArr) {
     const profileStyles = {
       backgroundColor: user.settings.profilePic.hex
     }
@@ -28,7 +44,6 @@ export const RoomNavbar = () => {
           ) : (
             <img src={user.settings.profilePic.pic} style={profileStyles} alt="profile image">{user.settings.profilePic.pic}</img>
           )}
-          
         </div>
       )
     })
@@ -43,7 +58,7 @@ export const RoomNavbar = () => {
 
         {/* Dynamic component */}
         {/* Has to be implemented later on since rooms are required to render component */}
-        {user ? renderRooms(user.joinedRooms) : null}
+        {/* {user ? renderRooms(user.joinedRooms) : null} */}
       </div>
     </div>
   )

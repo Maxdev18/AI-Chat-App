@@ -37,7 +37,7 @@ export const CreateRoom = () => {
       .then(data => {
         setUser(prev => ({
           ...prev,
-
+          joinedRooms: [...prev.joinedRooms, data.data._id]
         }));
       })
       .catch(err => {
@@ -49,9 +49,9 @@ export const CreateRoom = () => {
       return (
         <label htmlFor="inputTag" className="user-profile-setting room-profile" onChange={updateRoomProfile}>
           {profileUrl ? (
-            <img src={profileUrl} className="upload-room-profile" alt="upload an image for the room"></img>
+            <img src={profileUrl} className="upload-room-profile" alt="upload a pic for the room"></img>
           ) : (
-            <img src={ProfilePlaceholder} className="upload-room-profile" alt="upload an image for the room"></img>
+            <img src={ProfilePlaceholder} className="upload-room-profile" alt="upload a pic for the room"></img>
           )}
           
           <input id="inputTag" type="file" accept="image/png, image/jpg, image/gif, image/jpeg"/>
