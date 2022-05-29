@@ -28,9 +28,9 @@ export const Register = () => {
   const registerUser = (formData) => {
     Axios.post('/auth/register', formData)
       .then(data => {
-        console.log(data);
         if(data.data.success) {
-          localStorage.setItem('token', data.data.token);
+          localStorage.setItem('token', JSON.stringify(data.data.token));
+          localStorage.setItem('userID', JSON.stringify(data.data._doc._id));
           setUser(data.data._doc);
           navigate(`/dashboard/id=${data.data._doc._id}`);
         }
