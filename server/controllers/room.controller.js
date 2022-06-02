@@ -62,7 +62,6 @@ exports.createRoom = async (req, res) => {
       roomDesc: room.roomDesc,
       roomId: await generateRoomId(),
       roomType: 'channel',
-      messages: [],
       admin: room.admin,
       adminName: room.adminName,
       members: [room.admin],
@@ -71,7 +70,8 @@ exports.createRoom = async (req, res) => {
         profilePic: imgUrl
       }
     });
-    await newRoom.save();
+    const savedRoom = await newRoom.save();
+    res.status(200).json(savedRoom, { message: "Created room successfully..." });
   } else {
     const profile = generateProfilePic(room.roomName[0]);
     const newRoom = new Room({
@@ -79,7 +79,6 @@ exports.createRoom = async (req, res) => {
       roomDesc: room.roomDesc,
       roomId: await generateRoomId(),
       roomType: 'channel',
-      messages: [],
       admin: room.admin,
       adminName: room.adminName,
       members: [room.admin],
@@ -88,25 +87,10 @@ exports.createRoom = async (req, res) => {
         profilePic: profile.pic
       }
     });
-    await newRoom.save();
+    const savedRoom = await newRoom.save();
+    res.status(200).json(savedRoom, { message: "Created room successfully..." });
   }
-
-  const roomdb = await Room.find({ admin: room.admin });
-
-  await User.findOneAndUpdate({ _id: room.admin }, {
-    $push: {
-      joinedRooms: {
-        _id: roomdb[roomdb.length - 1]._id
-      }
-    }
-  })
-  .then(() => {
-    res.status(200).json({ ...roomdb, message: "Room created successfully..."});
-  })
-  .catch(err => {
-    if(err) console.error(err);
-    res.status(500).json({ message: 'Oops, something went wrong...' });
-  })
+  
 }
 
 exports.updateRoom = async (req, res) => {
@@ -135,10 +119,44 @@ exports.getRoom = async (req, res) => {
   }
   
   if(rooms.length === roomIDs.length) {
-    return res.status(200).json({ rooms, message: 'Retrieved room data successsfully...'});
+    return res.status(200).json({ rooms, message: 'Retrieved room data successfully...'});
   } else {
     return res.status(500).json({ message: "Unable to fetch room data..." })
   }
+}
+
+exports.joinRoom = async (req, res) => {
+  const userId = req.body.id;
+  const roomId = req.body.search
+
+  // Find room or user in db and get data
+  const channelRoom = await Room.findOneAndUpdate({ roomId: roomId }, {
+      $push: {
+        members: { _id: userId }
+      }
+    })
+    .then(data => {
+      return data;
+    })
+
+  // If want to start a private conversation with a person then the room doesn't exist in the first place
+  // so we have to create a new room if we dont find it
+  const privateRoom = await User.findOne({ userAppId: roomId })
+    .then(async (data) => {
+      const newRoom = new Room({
+        members: [{ id: data._id }, { id: userId }]
+      })
+      const room = await newRoom.save();
+      return room;
+    })
+
+    if(privateRoom) {
+      return res.status(200).json({ privateRoom, message: 'User found successfully...' });
+    } else if(channelRoom) {
+      return res.status(200).json({ channelRoom, message: 'Channel found successfully...' });
+    } else {
+      return res.status(500).json({ message: 'Room or user has not been found...' });
+    }
 }
 
 exports.deleteRoom = async (req, res) => {

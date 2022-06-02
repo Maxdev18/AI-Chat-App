@@ -14,7 +14,7 @@ exports.deleteMessage = async (req, res) => {
 }
 
 exports.getMessages = async (req, res) => {
-  const userId = req.params.id;
+  const roomId = req.params.id;
   const roomData = req.body;
   console.log(roomData);
   const messages = await Message.find({roomId: ObjectId(message.roomId)});

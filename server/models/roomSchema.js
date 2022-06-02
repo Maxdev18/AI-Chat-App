@@ -4,28 +4,19 @@ const { Schema } = mongoose;
 const RoomSchema = new Schema({
   roomName: {
     type: String,
-    required: true
   },
   roomDesc: {
     type: String
   },
   roomId: {
     type: String,
-    required: true
-  },
-  roomType: {
-    type: String,
-    required: true,
-    defualt: 'channel'
   },
   admin: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
   },
   adminName: {
     type: String,
-    required: true
   },
   members: {
     type: Array,
@@ -35,15 +26,7 @@ const RoomSchema = new Schema({
     }]
   },
   settings: {
-    type: Object,
-    default: {
-      hex: {
-        type: String
-      },
-      profilePic: {
-        type: String,
-      }
-    }
+    type: Object
   }
 }, { timestamps: true });
 
