@@ -25,14 +25,6 @@ const UserSchema = new Schema({
     required: true,
     default: 'false'
   },
-  joinedRooms: {
-    type: Array,
-    default: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Room',
-      required: true
-    }]
-  },
   settings: {
     type: Object,
     required: true,

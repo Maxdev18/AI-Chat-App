@@ -66,7 +66,6 @@ exports.register = async (req, res) => {
       email: newUser.email,
       googleSignIn: newUser.googleSignIn,
       userAppId,
-      joinedRooms: [],
       settings: {
         profilePic: {
           pic: newUser.imageUrl,
@@ -99,7 +98,6 @@ exports.register = async (req, res) => {
       email: newUser.email,
       password: newUser.password,
       userAppId,
-      joinedRooms: [],
       settings: {
         profilePic: {
           pic: profile.pic,
