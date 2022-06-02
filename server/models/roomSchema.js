@@ -18,15 +18,6 @@ const RoomSchema = new Schema({
     required: true,
     defualt: 'channel'
   },
-  messages: {
-    type: Array,
-    required: true,
-    default: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Message',
-      required: true
-    }]
-  },
   admin: {
     type: Schema.Types.ObjectId,
     ref: 'User',

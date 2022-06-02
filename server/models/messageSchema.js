@@ -7,16 +7,16 @@ const MessageSchema = new Schema({
     ref: 'Room',
     required: true
   },
-  creator: {
+  sender: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  creatorName: {
+  senderName: {
     type: String,
     required: true
   },
-  messageBody: {
+  text: {
     type: String,
     required: true
   },
@@ -24,7 +24,7 @@ const MessageSchema = new Schema({
     type: Date,
     default: Date.now()
   }
-});
+}, { timestamps: true });
 
 const Message = mongoose.model('Message', MessageSchema);
 
