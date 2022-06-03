@@ -2,25 +2,9 @@ import '../../styles/pages/application/roomNavbar.css';
 import { UserContext } from '../../contexts/contexts';
 import { Axios, React } from '../../client-imports';
 
-export const RoomNavbar = () => {
+export const RoomNavbar = ({rooms, setRooms}) => {
+  let [ friends, setFriends ] = React.useState([]);
   const { user, setUser } = React.useContext(UserContext);
-  let [ joinedRooms, setJoinedRooms ] = React.useState([]);
-  
-  React.useEffect(async () => {
-    if(user) {
-    await Axios.get('/api/application/rooms/get-room', { params: user.joinedRooms })
-      .then(res => {
-        let rooms = [];
-        for(let i = 0; i < Object.keys(res.data.rooms).length; i++) {
-          rooms.push(res.data.rooms[i]);
-        }
-        setJoinedRooms(rooms);
-      })
-      .catch(err => {
-        if(err) console.error(err);
-      })
-    }
-  }, [user]);
 
   async function goToRoom(roomId) {
     const messages = await Axios.get(`/api/application/get-messages/${roomId}`)
@@ -30,22 +14,94 @@ export const RoomNavbar = () => {
       })
   }
 
-  // Map through rooms which the current user has joined and render them
-  function renderRooms(roomsArr) {
-    const profileStyles = {
-      backgroundColor: user.settings.profilePic.hex
+  // This useEffect is for fetching room profile data escpecially for private chats
+  React.useEffect(() => {
+    if(rooms) {
+    async function getRoomData() {
+      let friendIds = [];
+      rooms.map(room => {
+        let bool = room.members.find(m => m !== user._id);
+        if(bool) return friendIds = room.members.filter(m => m !== user._id);
+        return null;
+      });
+
+      await Axios.get('/api/application/rooms/getUsers', { params: friendIds })
+        .then(data => {
+          setFriends(data.data.userData);
+        })
+        .catch(err => {
+          console.error(err);
+        })
+    }
+    getRoomData()
     }
     
-    return roomsArr.map((room, index) => {
-      return (
-        <div className="joined-room-container" key={index} onClick={() => goToRoom(room.roomId)}>
-          {user.googleSignIn ? (
-            <img src={user.settings.profilePic.pic} alt="profile image"></img>
-          ) : (
-            <img src={user.settings.profilePic.pic} style={profileStyles} alt="profile image">{user.settings.profilePic.pic}</img>
-          )}
-        </div>
-      )
+  }, [rooms])
+
+  function renderFriendProfile(membersArr, friendsArr) {
+    let friendId = [];
+    membersArr.find(member => {
+      let bool = friendsArr.find(friend => friend._id === member) != 'undefined';
+      if(bool) return friendId = membersArr.filter(m => m !== user._id);
+      return null;
+    });
+    
+    if(friendId[0]) {
+      return friendsArr.map((friend, index) => {
+        const profileStyles = {
+          backgroundColor: '#' + friend.settings.profilePic.hex
+        }
+
+        return (
+          <div className="friend-profile-container" key={index}>
+            {friend.settings.profilePic.hex ? (
+              <div className="room-profile" style={profileStyles}>{friend.settings.profilePic.pic}</div>
+            ) : (
+              <img src={friend.settings.profilePic.pic} alt="profile" />
+            )}
+            <div className="profile-info-container">
+              {friend.name}
+            </div>
+            <div className="unread-messages-container">3</div>
+          </div>
+        )
+      })
+    }
+  }
+  
+  function renderRooms(roomsArr) {
+    return roomsArr?.map((room, index) => {
+      let profileStyles;
+      if(room.roomId) {
+        profileStyles = {
+          backgroundColor: "#" + room.settings.hex
+        }
+      }
+    
+      // If roomId exists then renders channel profile, else, then renders friend
+      if(room.roomId) {
+        return (
+          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id)}>
+            {room.settings.hex ? (
+              <div className="room-profile" style={profileStyles}>
+                {room.settings.profilePic}
+              </div>
+            ) : (
+              <img src={room.settings.profilePic} alt="profile"></img>
+            )}
+            <div className="profile-info-container">
+              {room.roomName}
+            </div>
+            <div className="unread-messages-container">3</div>
+          </div>
+        )
+      } else if(room.members.length === 2) {
+        return (
+          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id)}>
+            {renderFriendProfile(room.members, friends)}
+          </div>
+        )
+      }
     })
   }
 
@@ -58,7 +114,9 @@ export const RoomNavbar = () => {
 
         {/* Dynamic component */}
         {/* Has to be implemented later on since rooms are required to render component */}
-        {/* {user ? renderRooms(user.joinedRooms) : null} */}
+      </div>
+      <div className="rooms-container">
+        {rooms ? renderRooms(rooms) : null}
       </div>
     </div>
   )

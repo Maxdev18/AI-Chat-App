@@ -4,7 +4,7 @@ import { SettingToggle, CreateRoomToggle } from '../../contexts/contexts';
 import { Axios, Link } from '../../client-imports';
 import { UserContext } from '../../contexts/contexts';
 
-export const NavbarDashboard = () => {
+export const NavbarDashboard = ({ setRooms }) => {
   const { user } = React.useContext(UserContext);
   const { toggleSettings, setToggleSettings } = React.useContext(SettingToggle);
   const { togCreateRoom, setTogCreateRoom } = React.useContext(CreateRoomToggle);
@@ -13,6 +13,15 @@ export const NavbarDashboard = () => {
   // Add join room function
   function joinRoom() {
     // axios post request to find and join room
+    Axios.post('/api/application/rooms/join-room', { id: user._id, search })
+      .then(data => {
+        console.log(data.data);
+        // update user state here
+        setRooms(data.data.members);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   function toggleProfileSettings() {
@@ -47,7 +56,7 @@ export const NavbarDashboard = () => {
       )
     }
   }
-  
+  // OAQNPCHCN pavel's app id
   return (
     <div className="nav-app-container">
       <div className="search-container">

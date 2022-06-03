@@ -4,7 +4,7 @@ import { CreateRoom } from './createRoom';
 import { SettingToggle, CreateRoomToggle } from '../../contexts/contexts';
 import React from 'react';
 
-export const MainApp = () => {
+export const MainApp = ({ rooms, setRooms }) => {
   const { toggleSettings, setToggleSettings } = React.useContext(SettingToggle);
   const { togCreateRoom, setTogCreateRoom } = React.useContext(CreateRoomToggle);
 
@@ -17,7 +17,7 @@ export const MainApp = () => {
   
   return (
     <div className="main-app-container">
-      {togCreateRoom ? <CreateRoom /> : null}
+      {togCreateRoom ? <CreateRoom rooms={rooms} setRooms={setRooms}/> : null}
       {toggleSettings ? <ProfileSettings /> : null}
       {togCreateRoom && toggleSettings ? <h1>Start a conversation...</h1> : null}
       {togCreateRoom === false && toggleSettings === false ? <h1>Start a conversation...</h1> : null}

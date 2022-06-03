@@ -5,7 +5,7 @@ import { UserContext } from '../../contexts/contexts';
 import ProfilePlaceholder from '../../staticFiles/camera-icon.png';
 import '../../styles/pages/application/createRoom.css';
 
-export const CreateRoom = () => {
+export const CreateRoom = ({rooms, setRooms}) => {
   const { user, setUser } = React.useContext(UserContext);
   let [ roomName, setRoomName ] = React.useState('');
   let [ roomDescription, setRoomDescription ] = React.useState('');
@@ -35,10 +35,9 @@ export const CreateRoom = () => {
 
     Axios.post(`/api/application/rooms/create-room`, formData, config)
       .then(data => {
-        setUser(prev => ({
-          ...prev,
-          joinedRooms: [...prev.joinedRooms, data.data._id]
-        }));
+        console.log(data.data)
+        setRooms([...rooms, data.data.savedRoom])
+        console.log(rooms);
       })
       .catch(err => {
         if(err) console.error(err);
