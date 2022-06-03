@@ -86,7 +86,7 @@ exports.createRoom = async (req, res) => {
       }
     });
     const savedRoom = await newRoom.save();
-    res.status(200).json(savedRoom, { message: "Created room successfully..." });
+    res.status(200).json({savedRoom, message: "Created room successfully..." });
   }
   
 }
@@ -96,31 +96,35 @@ exports.updateRoom = async (req, res) => {
 }
 
 exports.getRoom = async (req, res) => {
-  const roomID = req.query;
-  let roomIDs = []
-  let rooms = [];
+  const user = req.query[0];
 
-  for(let i = 0; i < Object.keys(roomID).length; i++) {
-    const id = JSON.parse(roomID[i]);
-    roomIDs.push({ id })
+  const rooms = await Room.find({
+    members: { $in: [user] },
+  })
+  .catch(err => {
+    console.error(err);
+    return res.status(500).json(err);
+  });
+
+  return res.status(200).json({ rooms, message: 'Retrieved room data successfully...'});
+}
+
+exports.getUsers = async (req, res) => {
+  let parsedUsers = [];
+
+  for(user in req.query) {
+    parsedUsers.push(req.query[user])
   }
 
-  for(room in roomIDs) {
-    await Room.findById(roomIDs[room].id)
-      .then(data => {
-        rooms.push(data);
-      })
-      .catch(err => {
-        if(err) console.error(err);
-        return res.status(500).json({ message: "Unable to fetch room data..." });
-      })
-  }
+  const userData = await User.find({ _id: {
+    $in: parsedUsers
+  }})
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json(err);
+    })
   
-  if(rooms.length === roomIDs.length) {
-    return res.status(200).json({ rooms, message: 'Retrieved room data successfully...'});
-  } else {
-    return res.status(500).json({ message: "Unable to fetch room data..." })
-  }
+  return res.status(200).json({ userData, message: 'Retrieved user data successfully...' });
 }
 
 exports.joinRoom = async (req, res) => {
@@ -130,7 +134,7 @@ exports.joinRoom = async (req, res) => {
   // Find room or user in db and get data
   const channelRoom = await Room.findOneAndUpdate({ roomId: roomId }, {
       $push: {
-        members: { _id: userId }
+        members: userId
       }
     })
     .then(data => {
@@ -142,7 +146,7 @@ exports.joinRoom = async (req, res) => {
   const privateRoom = await User.findOne({ userAppId: roomId })
     .then(async (data) => {
       const newRoom = new Room({
-        members: [{ id: data._id }, { id: userId }]
+        members: [data._id, userId]
       })
       const room = await newRoom.save();
       return room;

@@ -23,6 +23,7 @@ const roomController = require('../controllers/room.controller');
 router.post('/create-room', upload.single('file'), roomController.createRoom);
 router.put('/update-room', roomController.updateRoom);
 router.get('/get-room', roomController.getRoom);
+router.get('/getUsers', roomController.getUsers);
 router.post('/join-room', roomController.joinRoom);
 router.get('/delete-room/:roomid', roomController.deleteRoom);
 
