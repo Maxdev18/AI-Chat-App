@@ -8,9 +8,9 @@ import './styles/index.css';
 
 let endpoint;
 if(window.location.hostname === 'localhost') {
-  endpoint = 'http://localhost:5000';
+  endpoint = 'ws://localhost:5000';
 } else {
-  endpoint = 'https://chattingai-frontend.herokuapp.com';
+  endpoint = 'ws://chattingai-backend.herokuapp.com';
 }
 
 // Set base url for axios
@@ -50,7 +50,6 @@ function App() {
             console.error(err);
           });
 
-        console.log(userDB);
         if(userDB) {
           setUser(userDB._doc);
           setIsLoggedIn(true);
