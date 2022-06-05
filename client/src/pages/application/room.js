@@ -17,7 +17,7 @@ export const Room =() => {
       setMessages({...messages, messages: [getMessages]})
     }
     getMessages();
-  }, []);
+  }, [messages.roomId]);
 
   return (
     <div>

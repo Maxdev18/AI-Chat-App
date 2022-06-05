@@ -84,7 +84,7 @@ function App() {
               <div className="App">Loading...</div>
             ) : (
               <Routes>
-                <Route exact path="/dashboard/:id" element={<Dashboard endpoint={endpoint}/>} />
+                <Route path="/dashboard/:id" element={<Dashboard endpoint={endpoint}/>} />
               </Routes>
             )}
             

@@ -13,7 +13,7 @@ export const Login = () => {
 
   React.useEffect(() => {
     if(user) {
-      navigate(`/dashboard/id=${user._id}`)
+      navigate(`/dashboard/${user._id}`)
     }
   }, [user]);
 
