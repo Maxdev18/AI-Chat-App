@@ -7,3 +7,7 @@ export const UserLoggedIn = createContext(false);
 export const SettingToggle = createContext(false);
 
 export const CreateRoomToggle = createContext(false);
+
+export const RoomToggle = createContext(false);
+
+export const Messages = createContext(null);

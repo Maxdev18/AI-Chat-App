@@ -4,14 +4,16 @@ import { React, Axios } from '../../client-imports';
 import { NavbarDashboard } from './navbar';
 import { RoomNavbar } from './roomNavbar';
 import { MainApp } from './mainApp';
-import { SettingToggle, CreateRoomToggle } from '../../contexts/contexts';
+import { SettingToggle, CreateRoomToggle, RoomToggle, Messages } from '../../contexts/contexts';
 import { UserContext } from '../../contexts/contexts';
 
 export const Dashboard = ({endpoint}) => {
   const { user } = React.useContext(UserContext);
   let [togCreateRoom, setTogCreateRoom] = React.useState(false);
   let [toggleSettings, setToggleSettings] = React.useState(false);
+  let [toggleRoom, setToggleRoom] = React.useState(false);
   let [rooms, setRooms] = React.useState([]);
+  let [messages, setMessages] = React.useState(null);
   const socket = React.useRef();
 
   // Establish a websocket connection when logged into the dashboard
@@ -43,8 +45,10 @@ export const Dashboard = ({endpoint}) => {
   }, [user]);
 
   return (
+    <RoomToggle.Provider value={{toggleRoom, setToggleRoom}}>
     <SettingToggle.Provider value={{toggleSettings, setToggleSettings}}>
     <CreateRoomToggle.Provider value={{togCreateRoom, setTogCreateRoom}}>
+    <Messages.Provider value={{messages, setMessages}}>
       <div className="dashboard-main-container">
         <div className="dashboard-container">
           <RoomNavbar rooms={rooms} setRooms={setRooms}/>
@@ -54,7 +58,9 @@ export const Dashboard = ({endpoint}) => {
           </div>
         </div>
       </div>
+    </Messages.Provider>
     </CreateRoomToggle.Provider>
     </SettingToggle.Provider>
+    </RoomToggle.Provider>
   )
 }

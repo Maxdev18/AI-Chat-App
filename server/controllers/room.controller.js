@@ -164,3 +164,7 @@ exports.joinRoom = async (req, res) => {
 exports.deleteRoom = async (req, res) => {
 
 }
+
+exports.getMessages = async (req, res) => {
+  
+}

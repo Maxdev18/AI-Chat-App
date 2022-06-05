@@ -1,17 +1,16 @@
 import '../../styles/pages/application/roomNavbar.css';
-import { UserContext } from '../../contexts/contexts';
+import { UserContext, RoomToggle, Messages } from '../../contexts/contexts';
 import { Axios, React } from '../../client-imports';
 
 export const RoomNavbar = ({rooms, setRooms}) => {
   let [ friends, setFriends ] = React.useState([]);
-  const { user, setUser } = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
+  const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
+  const { messages, setMessages } = React.useContext(Messages);
 
   async function goToRoom(roomId) {
-    const messages = await Axios.get(`/api/application/get-messages/${roomId}`)
-      .then(data => {
-        console.log(data.data);
-        return data.data;
-      })
+    setMessages({roomId});
+    setToggleRoom(true);
   }
 
   // This useEffect is for fetching room profile data escpecially for private chats
