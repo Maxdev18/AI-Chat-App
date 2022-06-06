@@ -1,1 +1,48 @@
-/* Containers */
+/* Room main */
+.room-cont {
+  display: flex;
+  flex-direction: column;
+  padding-left: 52px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Messages */
+.messages-cont {
+  height: 86%;
+  width: 70%;
+}
+
+/* Send message */
+.send-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--sixty-color-light);
+  width: 70%;
+  border-radius: 30px;
+}
+
+.send-cont input {
+  border: 0px;
+  flex: 4;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 12px 8px;
+  outline: none;
+  color: white;
+}
+
+.send-cont input::placeholder {
+  color: rgba(255, 255, 255, .3);
+  font-size: 1rem;
+}
+
+.send-cont button {
+  color: white;
+  border: 0px;
+  background-color: rgba(0,0,0,0);
+  padding: 12px 0;
+  cursor: pointer;
+  font-size: 1rem;
+  flex: 1;
+}
