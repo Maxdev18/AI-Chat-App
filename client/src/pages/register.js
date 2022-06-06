@@ -32,7 +32,7 @@ export const Register = () => {
           localStorage.setItem('token', JSON.stringify(data.data.token));
           localStorage.setItem('userID', JSON.stringify(data.data._doc._id));
           setUser(data.data._doc);
-          navigate(`/dashboard/id=${data.data._doc._id}`);
+          navigate(`/dashboard/${data.data._doc._id}`);
         }
       }).catch(err => {
         console.error(err);
@@ -52,7 +52,7 @@ export const Register = () => {
       if(data.data.success) {
         localStorage.setItem('token', JSON.stringify(data.data.token));
         setUser(data.data._doc);
-        navigate(`/dashboard/id=${data.data._doc._id}`);
+        navigate(`/dashboard/${data.data._doc._id}`);
       }
     }).catch(err=> {
         console.error(err);
