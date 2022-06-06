@@ -166,5 +166,29 @@ exports.deleteRoom = async (req, res) => {
 }
 
 exports.getMessages = async (req, res) => {
+  const roomId = req.query[0];
   
+  const messages = await Message.find({ roomId }).sort({ createdAt: -1 })
+    .catch(err => {
+      return res.status(500).json(err);
+    })
+  
+  return res.status(200).json({ messages });
+}
+
+exports.saveMessage = async (req, res) => {
+  const { text, sender, senderName } = req.body;
+  const { roomId } = req.params;
+
+  // Save to db
+  const message = new Message({
+    roomId,
+    sender,
+    senderName,
+    text
+  });
+
+  await message.save();
+  
+  res.status(200).json({ message: 'Successfully saved message...'});
 }

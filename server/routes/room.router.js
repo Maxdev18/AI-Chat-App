@@ -21,9 +21,11 @@ const upload = multer({storage: fileStorageEngine});
 const roomController = require('../controllers/room.controller');
 
 router.post('/create-room', upload.single('file'), roomController.createRoom);
+router.post('/save-message/:roomid', roomController.saveMessage);
 router.put('/update-room', roomController.updateRoom);
 router.get('/get-room', roomController.getRoom);
 router.get('/getUsers', roomController.getUsers);
+router.get('/get-messages', roomController.getMessages);
 router.post('/join-room', roomController.joinRoom);
 router.get('/delete-room/:roomid', roomController.deleteRoom);
 
