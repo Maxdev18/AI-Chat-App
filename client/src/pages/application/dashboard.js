@@ -20,7 +20,7 @@ export const Dashboard = ({endpoint}) => {
   React.useEffect(() => {
     socket.current = io(endpoint);
     socket.current.on("connection", data => {
-      console.log(data);
+      
     });
   }, [endpoint]);
 

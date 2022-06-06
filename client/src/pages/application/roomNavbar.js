@@ -5,8 +5,8 @@ import { Axios, React } from '../../client-imports';
 export const RoomNavbar = ({rooms, setRooms}) => {
   let [ friends, setFriends ] = React.useState([]);
   const { user } = React.useContext(UserContext);
-  const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
-  const { messages, setMessages } = React.useContext(Messages);
+  const { setToggleRoom } = React.useContext(RoomToggle);
+  const { setMessages } = React.useContext(Messages);
 
   async function goToRoom(roomId) {
     setMessages({roomId});
