@@ -36,7 +36,7 @@ export const MainApp = ({ rooms, setRooms }) => {
     <div className="main-app-container">
       {togCreateRoom ? <CreateRoom rooms={rooms} setRooms={setRooms}/> : null}
       {toggleSettings ? <ProfileSettings /> : null}
-      {toggleRoom ? <Room /> : null}
+      {toggleRoom ? <Room rooms={rooms} /> : null}
       {(togCreateRoom === toggleSettings) && toggleRoom === false ? <h1>Start a conversation...</h1> : null}
     </div>
   )

@@ -3,10 +3,24 @@ import { Messages, UserContext } from '../../contexts/contexts';
 import { Message } from './message';
 import '../../styles/pages/application/room.css';
 
-export const Room =() => {
+export const Room =({ rooms }) => {
   const { user } = React.useContext(UserContext);
   const { messages, setMessages } = React.useContext(Messages);
   let [text, setText] = React.useState('');
+
+  // Get room object for current room
+  let isChannel;
+  function checkIsChannel() {
+    for(let i = 0; i < rooms.length; i++) {
+      if(rooms[i]._id === messages.roomId) {
+        if(rooms[i].roomId) {
+          return isChannel = true;
+        }
+        isChannel = false;
+      }
+    }
+  }
+  checkIsChannel();
 
   React.useEffect(() => {
     async function getMessages() {
@@ -27,15 +41,24 @@ export const Room =() => {
     await Axios.post(`/api/application/messages/create-message/${messages.roomId}`, { 
       text, 
       sender: user._id, 
-      senderName: user.name
+      senderName: user.name,
+      senderProfile: {
+        picUrl: user.settings.profilePic.pic,
+        hex: user.settings.profilePic.hex
+      }
     }).then(data => {
-      setMessages(prev => ({
-        ...prev,
-        messages: [
-          ...prev.messages,
-          data.data.message
-        ]
-      }))
+      try {
+        setMessages(prev => ({
+          ...prev,
+          messages: [
+            ...prev.messages,
+            data.data.message
+          ]
+        }))
+      } catch {
+        setMessages({messages: [data.data.message]})
+      }
+      
     }).catch(err => {
         console.error(err);
       });
@@ -49,6 +72,7 @@ export const Room =() => {
         {messages.roomId ? messages.messages?.map((message, index) => {
           const msg = {
             senderName: message.senderName,
+            senderProfile: message.senderProfile,
             text: message.text,
             createdAt: message.createdAt
           }
@@ -56,6 +80,7 @@ export const Room =() => {
           if(message.sender === user._id) {
             return (
               <Message 
+                isChannel={isChannel}
                 right={true}
                 key={index}
                 msg={msg}
@@ -64,6 +89,7 @@ export const Room =() => {
           } else {
             return (
               <Message 
+                isChannel={isChannel}
                 left={true}
                 key={index}
                 msg={msg}/>

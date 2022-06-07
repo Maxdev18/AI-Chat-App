@@ -16,6 +16,9 @@ const MessageSchema = new Schema({
     type: String,
     required: true
   },
+  senderProfile: {
+    type: Object
+  },
   text: {
     type: String,
     required: true
