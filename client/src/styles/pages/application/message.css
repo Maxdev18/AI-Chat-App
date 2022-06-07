@@ -5,25 +5,55 @@
   color: white;
 }
 
-.message div{
-  font-size: 14px;
-  width: fit-content;
+.message-cont {
+  overflow: auto;
+  position: relative;
+  max-width: 70%;
+  min-height: 48px;
+  float: left;
+  display: flex;
 }
 
-.message div p {
-  width:  60px;
-  height: auto;
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.user-profile-msg {
   position: relative;
+  min-width: 48px;
+  min-height: 100%;
+}
+
+.profile-msg {
+  position: absolute;
+  min-width: 48px;
+  bottom: 0px;
+}
+
+.left-cont {
+  position: relative;
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .right, .left {
+  font-size: 14px;
+  width: fit-content;
   display: flex;
   border-radius: 10px;
   padding: 6px;
 }
 
+.time{
+  min-width: 48px;
+  position: relative;
+  height: auto;
+}
+
 .right {
   float: right;
+  max-width: 70%;
   background-color: var(--ten-color);
 }
 
@@ -34,10 +64,11 @@
 
 .right p span, .left p span {
   position: absolute;
+  width: fit-content;
+  height: 14px;
   bottom: 0px;
   right: 0px;
   font-size: 10px;
-  margin-left: 16px;
 }
 
 .right p span {
