@@ -7,28 +7,35 @@ export const Room =() => {
   const { user } = React.useContext(UserContext);
   const { messages, setMessages } = React.useContext(Messages);
   let [text, setText] = React.useState('');
+
   React.useEffect(() => {
     async function getMessages() {
-      const getMessages = await Axios.get(`/api/application/rooms/get-messages`, { params: messages.roomId })
+      const getMessages = await Axios.get(`/api/application/messages/get-messages`, { params: messages.roomId })
       .then(data => {
         return data.data.messages;
       })
       .catch(err => {
         console.error(err);
       })
-      console.log(getMessages)
       setMessages({...messages, messages: [...getMessages]});
-      console.log(messages.messages);
     }
     getMessages();
   }, [messages.roomId]);
 
   async function handleSend() {
     // Future socket connection and save to db
-    await Axios.post(`/api/application/rooms/save-message/${messages.roomId}`, { 
+    await Axios.post(`/api/application/messages/create-message/${messages.roomId}`, { 
       text, 
       sender: user._id, 
       senderName: user.name
+    }).then(data => {
+      setMessages(prev => ({
+        ...prev,
+        messages: [
+          ...prev.messages,
+          data.data.message
+        ]
+      }))
     }).catch(err => {
         console.error(err);
       });
@@ -45,7 +52,7 @@ export const Room =() => {
             text: message.text,
             createdAt: message.createdAt
           }
-          
+
           if(message.sender === user._id) {
             return (
               <Message 
