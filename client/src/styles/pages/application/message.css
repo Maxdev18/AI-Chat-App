@@ -1,19 +1,49 @@
 /* Message */
 .message {
   width: 100%;
+  margin-bottom: 18px;
   color: white;
 }
 
+.message div{
+  font-size: 14px;
+  width: fit-content;
+}
+
+.message div p {
+  width:  60px;
+  height: auto;
+  position: relative;
+}
+
 .right, .left {
+  display: flex;
   border-radius: 10px;
+  padding: 6px;
 }
 
 .right {
   float: right;
-  background-color: var(--ten-light);
+  background-color: var(--ten-color);
 }
 
 .left {
   float: left;
   background-color: rgba(255, 255, 255, .2);
+}
+
+.right p span, .left p span {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  font-size: 10px;
+  margin-left: 16px;
+}
+
+.right p span {
+  color: rgba(0, 0, 0, .5);
+}
+
+.left p span {
+  color: rgba(255, 255, 255, .5);
 }
