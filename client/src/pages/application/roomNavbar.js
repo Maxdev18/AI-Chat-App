@@ -5,12 +5,16 @@ import { Axios, React } from '../../client-imports';
 export const RoomNavbar = ({rooms, setRooms}) => {
   let [ friends, setFriends ] = React.useState([]);
   const { user } = React.useContext(UserContext);
-  const { setToggleRoom } = React.useContext(RoomToggle);
-  const { setMessages } = React.useContext(Messages);
+  const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
+  const { messages, setMessages } = React.useContext(Messages);
 
   async function goToRoom(roomId) {
-    setMessages({roomId});
-    setToggleRoom(true);
+    if(toggleRoom === true && roomId === messages.roomId) {
+      return null;
+    } else {
+      setToggleRoom(true);
+      setMessages({roomId});
+    }
   }
 
   // This useEffect is for fetching room profile data escpecially for private chats
@@ -76,7 +80,7 @@ export const RoomNavbar = ({rooms, setRooms}) => {
           backgroundColor: "#" + room.settings.hex
         }
       }
-    
+
       // If roomId exists then renders channel profile, else, then renders friend
       if(room.roomId) {
         return (

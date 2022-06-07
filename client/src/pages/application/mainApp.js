@@ -10,6 +10,11 @@ export const MainApp = ({ rooms, setRooms }) => {
   const { togCreateRoom, setTogCreateRoom } = React.useContext(CreateRoomToggle);
   const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
 
+  const el = document.getElementById('chat-feed');
+  if(el) {
+    el.scrollTop = el.scrollHeight;
+  }
+
   // Manage all toggles for application
   React.useEffect(() => {
     if(togCreateRoom) {

@@ -31,7 +31,10 @@ export const Room =({ rooms }) => {
       .catch(err => {
         console.error(err);
       })
-      setMessages({...messages, messages: [...getMessages]});
+      
+      if(getMessages[0] !== null) {
+        setMessages({...messages, messages: [...getMessages]});
+      }
     }
     getMessages();
   }, [messages.roomId]);
@@ -69,7 +72,7 @@ export const Room =({ rooms }) => {
     <div className="room-cont">
       <div className="messages-cont">
         {/* Render Messages */}
-        {messages.roomId ? messages.messages?.map((message, index) => {
+        {messages.roomId && messages.messages ? messages.messages?.map((message, index) => {
           const msg = {
             senderName: message.senderName,
             senderProfile: message.senderProfile,

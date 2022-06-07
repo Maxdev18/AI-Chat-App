@@ -13,7 +13,7 @@ export const Dashboard = ({endpoint}) => {
   let [toggleSettings, setToggleSettings] = React.useState(false);
   let [toggleRoom, setToggleRoom] = React.useState(false);
   let [rooms, setRooms] = React.useState([]);
-  let [messages, setMessages] = React.useState(null);
+  let [messages, setMessages] = React.useState([]);
   const socket = React.useRef();
 
   // Establish a websocket connection when logged into the dashboard
