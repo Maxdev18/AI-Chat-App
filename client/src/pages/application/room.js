@@ -39,6 +39,12 @@ export const Room =({ rooms }) => {
     getMessages();
   }, [messages.roomId]);
 
+  React.useEffect(() => {
+    // Select the messages container and allow auto scroll on new message
+    const el = document.querySelector('.messages-cont');
+    if(el) el.scrollTop = el.scrollHeight;
+  }, [messages.messages?.length])
+
   async function handleSend() {
     // Future socket connection and save to db
     await Axios.post(`/api/application/messages/create-message/${messages.roomId}`, { 
