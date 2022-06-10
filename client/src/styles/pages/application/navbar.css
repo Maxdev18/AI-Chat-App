@@ -75,3 +75,23 @@
   cursor: pointer;
   color: rgba(255, 255, 255, .7);
 }
+
+/* Room Profile */
+.room-basics {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+  color: white;
+}
+
+.room-info {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  margin-left: 1rem;
+}
+
+.room-info span {
+  font-size: 12px;
+}
