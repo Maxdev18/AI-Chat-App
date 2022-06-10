@@ -26,7 +26,7 @@ export const Message = ({ right, left, msg, isChannel }) => {
         <div className="message">
           <div className="message-cont">
           <div className="user-profile-msg">
-            {msg.senderProfile.hex ? (
+            {msg.senderProfile.picUrl.length === 1 ? (
               <div className="user-profile profile-msg" style={profileStyle}>{msg.senderProfile.picUrl}</div>
             ) : (
               <img className="user-profile profile-msg" src={msg.senderProfile.picUrl} alt="user profile" />

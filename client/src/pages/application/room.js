@@ -47,31 +47,33 @@ export const Room =({ rooms }) => {
 
   async function handleSend() {
     // Future socket connection and save to db
-    await Axios.post(`/api/application/messages/create-message/${messages.roomId}`, { 
-      text, 
-      sender: user._id, 
-      senderName: user.name,
-      senderProfile: {
-        picUrl: user.settings.profilePic.pic,
-        hex: user.settings.profilePic.hex
-      }
-    }).then(data => {
-      try {
-        setMessages(prev => ({
-          ...prev,
-          messages: [
-            ...prev.messages,
-            data.data.message
-          ]
-        }))
-      } catch {
-        setMessages({messages: [data.data.message]})
-      }
-      
-    }).catch(err => {
-        console.error(err);
-      });
-    setText('');
+    if(text !== '') {
+      await Axios.post(`/api/application/messages/create-message/${messages.roomId}`, { 
+        text, 
+        sender: user._id, 
+        senderName: user.name,
+        senderProfile: {
+          picUrl: user.settings.profilePic.pic,
+          hex: user.settings.profilePic.hex
+        }
+      }).then(data => {
+        try {
+          setMessages(prev => ({
+            ...prev,
+            messages: [
+              ...prev.messages,
+              data.data.message
+            ]
+          }))
+        } catch {
+          setMessages({messages: [data.data.message]})
+        }
+        
+      }).catch(err => {
+          console.error(err);
+        });
+      setText('');
+    }
   }
 
   return (

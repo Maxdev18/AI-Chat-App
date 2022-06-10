@@ -4,7 +4,7 @@ import { React, Axios } from '../../client-imports';
 import { NavbarDashboard } from './navbar';
 import { RoomNavbar } from './roomNavbar';
 import { MainApp } from './mainApp';
-import { SettingToggle, CreateRoomToggle, RoomToggle, Messages } from '../../contexts/contexts';
+import { SettingToggle, CreateRoomToggle, RoomToggle, Messages, ProfileToggle } from '../../contexts/contexts';
 import { UserContext } from '../../contexts/contexts';
 
 export const Dashboard = ({endpoint}) => {
@@ -12,7 +12,10 @@ export const Dashboard = ({endpoint}) => {
   let [togCreateRoom, setTogCreateRoom] = React.useState(false);
   let [toggleSettings, setToggleSettings] = React.useState(false);
   let [toggleRoom, setToggleRoom] = React.useState(false);
+  let [toggleProfile, setToggleProfile] = React.useState(false);
+  
   let [rooms, setRooms] = React.useState([]);
+  let [friendProfiles, setFriendProfiles] = React.useState([]);
   let [messages, setMessages] = React.useState([]);
   const socket = React.useRef();
 
@@ -48,17 +51,19 @@ export const Dashboard = ({endpoint}) => {
     <RoomToggle.Provider value={{toggleRoom, setToggleRoom}}>
     <SettingToggle.Provider value={{toggleSettings, setToggleSettings}}>
     <CreateRoomToggle.Provider value={{togCreateRoom, setTogCreateRoom}}>
+    <ProfileToggle.Provider value={{toggleProfile, setToggleProfile}}>
     <Messages.Provider value={{messages, setMessages}}>
       <div className="dashboard-main-container">
         <div className="dashboard-container">
-          <RoomNavbar rooms={rooms} setRooms={setRooms}/>
+          <RoomNavbar setFriendProfiles={setFriendProfiles} rooms={rooms} />
           <div className="main-chat-container">
-            <NavbarDashboard setRooms={setRooms}/>
-            <MainApp rooms={rooms} setRooms={setRooms}/>
+            <NavbarDashboard profiles={friendProfiles} rooms={rooms} setRooms={setRooms}/>
+            <MainApp profiles={friendProfiles} rooms={rooms} setRooms={setRooms}/>
           </div>
         </div>
       </div>
     </Messages.Provider>
+    </ProfileToggle.Provider>
     </CreateRoomToggle.Provider>
     </SettingToggle.Provider>
     </RoomToggle.Provider>
