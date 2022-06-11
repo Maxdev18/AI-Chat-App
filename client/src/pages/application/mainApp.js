@@ -33,22 +33,20 @@ export const MainApp = ({ rooms, setRooms, profiles }) => {
   React.useEffect(() => {
     setToggleSettings(false)
     setTogCreateRoom(false)
-    setToggleProfile(false)
   }, [toggleRoom]);
 
   React.useEffect(() => {
     setToggleSettings(false)
     setTogCreateRoom(false)
-    setToggleRoom(false)
   }, [toggleProfile])
 
   return (
     <div className="main-app-container">
       {togCreateRoom ? <CreateRoom rooms={rooms} setRooms={setRooms}/> : null}
       {toggleSettings ? <ProfileSettings /> : null}
-      {toggleRoom ? <Room rooms={rooms} /> : null}
-      {toggleProfile ? <RoomProfile profiles={profiles} rooms={rooms}/> : null}
-      {(togCreateRoom === toggleSettings) && toggleRoom === false && toggleProfile === false ? <h1>Start a conversation...</h1> : null}
+      {toggleRoom && toggleProfile === false ? <Room rooms={rooms} /> : null}
+      {toggleProfile ? <RoomProfile profiles={profiles} rooms={rooms} /> : null}
+      {(togCreateRoom === toggleSettings) && (toggleRoom === false && toggleProfile === false) ? <h1>Start a conversation...</h1> : null}
     </div>
   )
 }

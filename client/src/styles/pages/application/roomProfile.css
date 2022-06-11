@@ -1,0 +1,60 @@
+.room-profile-cont {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  color: white;
+  padding-left: 52px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.user-room-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 228px;
+  height: 228px;
+  border-radius: 50%;
+  font-size: 4rem;
+}
+
+.room-name {
+  margin: 0px 0px 32px 0px;
+  font-size: 24px;
+}
+
+.room-desc-cont {
+  margin-top: 28px;
+}
+
+.room-desc-cont label {
+  font-size: 18px;
+}
+
+.room-desc {
+  width: 340px;
+  height: 120px;
+  padding: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  margin-top: 3px;
+  font-size: 13px;
+}
+
+.room-profile-cont button {
+  margin-top: 32px;
+  text-align: center;
+  background-color: rgb(255, 128, 128);
+  border: 0px;
+  border-radius: 20px;
+  width: 160px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.room-profile-cont button:hover {
+  transition: 400ms;
+  background-color: rgb(255, 82, 82);
+}

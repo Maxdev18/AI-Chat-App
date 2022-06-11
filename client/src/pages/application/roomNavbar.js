@@ -8,7 +8,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
   const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
   const { messages, setMessages } = React.useContext(Messages);
 
-  async function goToRoom(roomId, index) {
+  function goToRoom(roomId, index) {
     if(toggleRoom === true && roomId === messages.roomId) {
       return null;
     } else {
@@ -90,8 +90,9 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
         )
       } else if(room.members.length === 2) {
         i++;
+        let ind = i;
         return (
-          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, index)}>
+          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, ind)}>
             {friends ? renderFriendProfile(friends[i]) : null}
           </div>
         )

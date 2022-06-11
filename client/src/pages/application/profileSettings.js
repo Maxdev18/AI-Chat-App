@@ -73,14 +73,14 @@ export const ProfileSettings = () => {
 
     if(user.googleSignIn) {
       return (
-        <img src={`${user.settings.profilePic.pic}`} className="user-profile-setting" alt=""></img>
+        <img src={`${user.settings.profilePic.pic}`} className="user-profile-setting" alt="profile"></img>
       )
     } else {
       return (
         <label htmlFor="inputTag" className="user-profile-setting" onChange={updateProfilePic}>
           {user.settings.profilePic.pic.length > 1 ? (
             <>
-              <img className="profileImg" src={user.settings.profilePic.pic} alt="" />
+              <img className="profileImg" src={user.settings.profilePic.pic} alt="profile" />
               <input id="inputTag" type="file" accept="image/png, image/jpg, image/gif, image/jpeg"/>
             </>
           ) : (
