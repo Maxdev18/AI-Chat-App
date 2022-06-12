@@ -9,6 +9,7 @@
 
 /* Messages */
 .messages-cont {
+  overflow: scroll;
   height: 86%;
   width: 70%;
 }

@@ -92,10 +92,6 @@
   overflow-y: hidden;
   margin: 0px 24px;
 }
-
-.active {
-  background-color: #3971FF;
-}
 /* Media Queries */
 @media screen and (max-width: 878px) {
   .roomNavbar-container {

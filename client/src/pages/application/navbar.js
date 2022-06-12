@@ -11,6 +11,7 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
   const { toggleSettings, setToggleSettings } = React.useContext(SettingToggle);
   const { togCreateRoom, setTogCreateRoom } = React.useContext(CreateRoomToggle);
   const { toggleProfile, setToggleProfile } = React.useContext(ProfileToggle);
+  let [toggleBurger, setToggleBurger] = React.useState(false);
   let [search, setSearch] = React.useState('');
 
   // Add join room function
@@ -39,25 +40,8 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
     setToggleProfile(!toggleProfile);
   }
 
-  // Map through rooms which the current user has joined and render them
-  const renderProfile = () => {
-    const profileStyles = {
-      backgroundColor: '#' + user.settings.profilePic.hex
-    }
-
-    if(user.googleSignIn) {
-      return (
-        <img src={user.settings.profilePic.pic} className="user-profile-google" alt="profile" onClick={toggleProfileSettings} />
-      )
-    } else {
-      return (
-        <div className="user-profile" style={profileStyles} onClick={toggleProfileSettings}>
-          {user.settings.profilePic.pic.length > 1 ? (
-            <img className="profileImgNav" src={user.settings.profilePic.pic} alt="profile"></img>
-          ) : user.settings.profilePic.pic}
-        </div>
-      )
-    }
+  function toggleBurgerMenu() {
+    setToggleBurger(!toggleBurger);
   }
 
   function findFriend(room) {
@@ -114,23 +98,45 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
   return (
     <div className="nav-app-container">
       {toggleRoom ? (
+        <>
         <div className='nav-room-cont'>
           {messages ? renderNavRoomProfile() : null}
         </div>
+        </>
       ) : (
         <>
         <div className="search-container">
           <input className="searchRoom" name="searchRoom" placeholder="Find room..." onChange={e => setSearch(e.target.value)}/>
           <button className="btn-searchRoom" onClick={joinRoom}>Join Room</button>
         </div>
-
-        <div className="profile-nav-container">
-          <h2 onClick={toggleCreateRoom}>+</h2>
-          {user ? renderProfile() : null}
-          <Link className="help-link" to="/learn-ai-commands">?</Link>
-        </div>
         </>
       )}
+      <div className="profile-nav-container">
+        <Link className="help-link" to="/learn-ai-commands">?</Link>
+        <div className="dropdown">
+          <div className="burger" onClick={toggleBurgerMenu}>
+            {toggleBurger ? (
+              <>
+              <span className="active active-1"></span>
+              <span className="active active-2"></span>
+              <span className="active active-3"></span>
+              </>
+            ) : (
+              <>
+              <span className="active"></span>
+              <span className="active"></span>
+              <span className="active"></span>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+      {toggleBurger ? (
+        <div className="menu-list">
+          <h4 onClick={toggleCreateRoom}>Create room</h4>
+          <h4 onClick={toggleProfileSettings}>Settings</h4>
+        </div>
+      ) : null}
     </div>
   )
 }

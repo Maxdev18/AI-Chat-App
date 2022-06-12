@@ -19,13 +19,17 @@ export const MainApp = ({ rooms, setRooms, profiles }) => {
 
   // Manage all toggles for application
   React.useEffect(() => {
-    setToggleSettings(false)
+    if(toggleSettings && togCreateRoom) {
+      setToggleSettings(false)
+    }
     setToggleRoom(false)
     setToggleProfile(false)
   }, [togCreateRoom]);
 
   React.useEffect(() => {
-    setTogCreateRoom(false)
+    if(togCreateRoom && toggleSettings) {
+      setTogCreateRoom(false)
+    }
     setToggleRoom(false)
     setToggleProfile(false)
   }, [toggleSettings]);
@@ -46,7 +50,7 @@ export const MainApp = ({ rooms, setRooms, profiles }) => {
       {toggleSettings ? <ProfileSettings /> : null}
       {toggleRoom && toggleProfile === false ? <Room rooms={rooms} /> : null}
       {toggleProfile ? <RoomProfile profiles={profiles} rooms={rooms} /> : null}
-      {(togCreateRoom === toggleSettings) && (toggleRoom === false && toggleProfile === false) ? <h1>Start a conversation...</h1> : null}
+      {(togCreateRoom === false === toggleSettings === false) && (toggleRoom === false && toggleProfile === false) ? <h1>Start a conversation...</h1> : null}
     </div>
   )
 }

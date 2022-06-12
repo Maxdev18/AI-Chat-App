@@ -1,15 +1,14 @@
 /* Message */
 .message {
+  display: inline-block;
   width: 100%;
   margin-bottom: 18px;
   color: white;
 }
 
 .message-cont {
-  overflow: auto;
   position: relative;
   max-width: 70%;
-  min-height: 48px;
   float: left;
   display: flex;
 }
