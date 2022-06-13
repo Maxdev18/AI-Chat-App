@@ -1,5 +1,6 @@
 const User = require('../models/userSchema');
 const Room = require('../models/roomSchema');
+const Message = require('../models/messageSchema');
 
 // Generate unique room id
 async function generateRoomId() {
@@ -89,10 +90,6 @@ exports.createRoom = async (req, res) => {
   
 }
 
-exports.updateRoom = async (req, res) => {
-
-}
-
 exports.getRoom = async (req, res) => {
   const user = req.query[0];
 
@@ -160,5 +157,39 @@ exports.joinRoom = async (req, res) => {
 }
 
 exports.deleteRoom = async (req, res) => {
+  const room = JSON.parse(req.query.room);
+  const removeContact = req.query.removeContact;
+  const currentUserId = req.query.id;
 
+  if(removeContact && room.roomId) {
+    // this is a channel but not admin
+    try {
+      await Room.findOneAndUpdate(room, { $pull: { members: currentUserId } });
+      await Message.deleteMany({roomId: room._id})
+      return res.status(200).json({ message: "Deleted room successfully..."});
+    } catch(err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+  } else if(removeContact && !room.roomId) {
+    // this is not a channel
+    try {
+      await Room.findByIdAndDelete(room._id);
+      await Message.deleteMany({roomId: room._id});
+      return res.status(200).json({ message: "Deleted room successfully..."});
+    } catch(err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+  } else if(!removeContact) {
+    // this is a channel and admin
+    try {
+      await Room.findOneAndDelete(room._id) 
+      await Message.deleteMany({roomId: room._id})
+      return res.status(200).json({ message: "Deleted room successfully..."});
+    } catch(err) {
+      console.error(err);
+      return res.status(500).json(err);
+    }
+  }
 }

@@ -14,14 +14,13 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
   let [toggleBurger, setToggleBurger] = React.useState(false);
   let [search, setSearch] = React.useState('');
 
-  // Add join room function
   function joinRoom() {
     // axios post request to find and join room
     Axios.post('/api/application/rooms/join-room', { id: user._id, search })
       .then(data => {
         console.log(data.data);
         // update user state here
-        setRooms(data.data.members);
+        setRooms([...rooms, data.data.privateRoom]);
       })
       .catch(err => {
         console.error(err);

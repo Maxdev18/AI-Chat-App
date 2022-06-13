@@ -8,12 +8,12 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
   const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
   const { messages, setMessages } = React.useContext(Messages);
 
-  function goToRoom(roomId, index) {
+  function goToRoom(roomId, roomIndex, mainRoomIndex) {
     if(toggleRoom === true && roomId === messages.roomId) {
       return null;
     } else {
       setToggleRoom(true);
-      setMessages({roomId, roomIndex: index});
+      setMessages({roomId, roomIndex, mainRoomIndex});
     }
   }
 
@@ -62,7 +62,6 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
   }
   
   function renderRooms(roomsArr) {
-    let i = -1;
     return roomsArr?.map((room, index) => {
       let profileStyles;
       if(room.roomId) {
@@ -88,14 +87,16 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
             <div className="unread-messages-container">3</div>
           </div>
         )
-      } else if(room.members.length === 2) {
-        i++;
-        let ind = i;
-        return (
-          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, ind)}>
-            {friends ? renderFriendProfile(friends[i]) : null}
-          </div>
-        )
+      } else if(room.members.length === 2) {  
+        for(let j = 0; j < friends.length; j++) {
+          if(friends[j]._id == room.members[0]) {
+            return (
+              <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, j, index)}>
+                {friends ? renderFriendProfile(friends[j]) : null}
+              </div>
+            )
+          }
+        }
       }
     })
   }

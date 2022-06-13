@@ -1,13 +1,37 @@
-import { React } from '../../client-imports';
-import { Messages } from '../../contexts/contexts';
+import { React, Axios } from '../../client-imports';
+import { Messages, UserContext } from '../../contexts/contexts';
 import '../../styles/pages/application/roomProfile.css';
 
-export const RoomProfile = ({ profiles, rooms }) => {
+export const RoomProfile = ({ profiles, rooms, setRooms }) => {
+  const { user } = React.useContext(UserContext);
   const { messages } = React.useContext(Messages);
-  const profile = messages.roomId === rooms[messages.roomIndex]._id ? rooms[messages.roomIndex] : profiles[messages.roomIndex];
+  const profile = (messages.roomId === rooms[messages.roomIndex]._id) && rooms[messages.roomIndex].roomId ? 
+    rooms[messages.roomIndex] : profiles[messages.roomIndex];
 
-  async function deleteContact() {
+  // Remove room if not admin
+  async function removeContact() {
+    await Axios.get('/api/application/rooms/delete-room', { params: { room: rooms[messages.mainRoomIndex], removeContact: true, id: user._id} })
+      .then(() => {
+        const newRooms = rooms.filter(room => room._id !== rooms[messages.mainRoomIndex]._id);
+        console.log(newRooms);
+        setRooms(newRooms);
+      })
+      .catch(err => {
+        console.error(err);
+      })
+  }
 
+  // Delete room if admin
+  async function deleteRoom() {
+    await Axios.get('/api/application/rooms/delete-room', { params: {room: profile } })
+      .then(() => {
+        const newRooms = rooms.filter(room => room._id !== rooms[messages.roomIndex]._id);
+        console.log(newRooms);
+        setRooms(newRooms);
+      })
+      .catch(err => {
+        console.error(err);
+      })
   }
 
   function renderProfile() {
@@ -49,18 +73,24 @@ export const RoomProfile = ({ profiles, rooms }) => {
   return (
     <div className="room-profile-cont">
       <div className="profile-cont">
-        {profile.settings.profilePic?.pic || profile.settings.profilePic ? renderProfile() : null}
+        {profile?.settings.profilePic.pic || profile?.settings.profilePic ? renderProfile() : null}
       </div>
       
       <div className="room-desc-cont">
         <div className="room-name">{profile.name ? profile.name : profile.roomName}</div>
         <label>Bio:</label>
         <div className="room-desc">
-          {profile.settings.bio ? profile.settings.bio : profile.roomDesc}
+          {profile?.settings.bio ? profile.settings.bio : profile.roomDesc}
         </div>
       </div>
 
-      <button onClick={() => deleteContact()}> Delete Contact</button>
+      
+      {profile.admin === user._id ? (
+        <button onClick={() => deleteRoom()}>Delete Room</button>
+      ) : (
+        <button onClick={() => removeContact()}>Remove Contact</button>
+      )}
+      
     </div>
   )
 } 
