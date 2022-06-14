@@ -127,7 +127,8 @@ exports.joinRoom = async (req, res) => {
   const roomId = req.body.search
 
   // Find room or user in db and get data
-  const channelRoom = await Room.findOneAndUpdate({ roomId: roomId }, {
+  if(roomId.length === 11) {
+    const channelRoom = await Room.findOneAndUpdate({ roomId: roomId }, {
       $push: {
         members: userId
       }
@@ -135,10 +136,16 @@ exports.joinRoom = async (req, res) => {
     .then(data => {
       return data;
     })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ message: 'Room or user has not been found...' });
+    })
 
-  // If want to start a private conversation with a person then the room doesn't exist in the first place
-  // so we have to create a new room if we dont find it
-  const privateRoom = await User.findOne({ userAppId: roomId })
+    if(channelRoom) {
+      return res.status(200).json({ channelRoom, message: 'Channel found successfully...' });
+    }
+  } else if(roomId.length === 9) {
+    const privateRoom = await User.findOne({ userAppId: roomId })
     .then(async (data) => {
       const newRoom = new Room({
         members: [data._id, userId]
@@ -146,25 +153,30 @@ exports.joinRoom = async (req, res) => {
       const room = await newRoom.save();
       return room;
     })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ message: 'Room or user has not been found...' });
+    })
 
     if(privateRoom) {
       return res.status(200).json({ privateRoom, message: 'User found successfully...' });
-    } else if(channelRoom) {
-      return res.status(200).json({ channelRoom, message: 'Channel found successfully...' });
     } else {
       return res.status(500).json({ message: 'Room or user has not been found...' });
     }
-}
+  } else {
+      return res.status(400).json({ message: 'Invalid input, bad request...' });
+    }
+  }
 
 exports.deleteRoom = async (req, res) => {
   const room = JSON.parse(req.query.room);
   const removeContact = req.query.removeContact;
   const currentUserId = req.query.id;
-
+  console.log(room);
   if(removeContact && room.roomId) {
     // this is a channel but not admin
     try {
-      await Room.findOneAndUpdate(room, { $pull: { members: currentUserId } });
+      await Room.findOneAndUpdate({_id: room._id}, { $pull: { members: currentUserId } });
       await Message.deleteMany({roomId: room._id})
       return res.status(200).json({ message: "Deleted room successfully..."});
     } catch(err) {

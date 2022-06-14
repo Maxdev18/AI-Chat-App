@@ -73,7 +73,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
       // If roomId exists then renders channel profile, else, then renders friend
       if(room.roomId) {
         return (
-          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, index)}>
+          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, null, index)}>
             {room.settings.hex ? (
               <div className="room-profile" style={profileStyles}>
                 {room.settings.profilePic}

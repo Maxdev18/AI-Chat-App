@@ -18,7 +18,11 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles, mobile }) => {
     Axios.post('/api/application/rooms/join-room', { id: user._id, search })
       .then(data => {
         // update user state here
-        setRooms([...rooms, data.data.privateRoom]);
+        if(data.data.privateRoom) {
+          setRooms([...rooms, data.data.privateRoom]);
+        } else {
+          setRooms([...rooms, data.data.channelRoom]);
+        }
       })
       .catch(err => {
         console.error(err);

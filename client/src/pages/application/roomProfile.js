@@ -7,17 +7,17 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
   const { setToggleRoom } = React.useContext(RoomToggle);
   const { user } = React.useContext(UserContext);
   const { messages } = React.useContext(Messages);
-  const profile = (messages.roomId === rooms[messages.roomIndex]._id) && rooms[messages.roomIndex].roomId ? 
-    rooms[messages.roomIndex] : profiles[messages.roomIndex];
+  const profile = (messages.roomId === rooms[messages.mainRoomIndex]._id) && rooms[messages.mainRoomIndex].roomId ? 
+    rooms[messages.mainRoomIndex] : profiles[messages.roomIndex];
 
   // Remove room if not admin
   async function removeContact() {
     await Axios.get('/api/application/rooms/delete-room', { params: { room: rooms[messages.mainRoomIndex], removeContact: true, id: user._id} })
       .then(() => {
         const newRooms = rooms.filter(room => room._id !== rooms[messages.mainRoomIndex]._id);
-        setRooms(newRooms);
         setToggleProfile(false);
         setToggleRoom(false);
+        setRooms(newRooms);
       })
       .catch(err => {
         console.error(err);
