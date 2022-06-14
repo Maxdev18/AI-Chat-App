@@ -58,15 +58,23 @@ export const Room =({ rooms }) => {
         }
       }).then(data => {
         try {
-          setMessages(prev => ({
-            ...prev,
-            messages: [
-              ...prev.messages,
-              data.data.message
-            ]
-          }))
-        } catch {
-          setMessages({messages: [data.data.message]})
+          if(messages.messages) {
+            setMessages(prev => ({
+              ...prev,
+              messages: [
+                ...prev.messages,
+                data.data.message
+              ]
+            }))
+          } else {
+            setMessages(prev => ({
+              ...prev,
+              messages: [data.data.message]
+            }))
+          }
+        } catch(err) {
+          console.error(err);
+          
         }
         
       }).catch(err => {

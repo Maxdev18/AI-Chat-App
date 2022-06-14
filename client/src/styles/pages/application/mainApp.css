@@ -16,7 +16,13 @@
   color: rgba(255, 255, 255, .7);
 }
 
-/* Media Queries */
-@media screen and (max-width: 878px) {
-  
+@media (max-width: 878px) {
+  .main-app-container {
+    padding-top: 0px;
+    border-top: 2px solid black;
+  }
+
+  .main-app-container h1 {
+    display: none;
+  }
 }

@@ -1,12 +1,13 @@
 // Author Credit for image icon
 // https://pngtree.com/element/down?id=NDAxNzUwMw==&type=1&time=1653677310&token=OTc0OThhODMxNzE1ZDliYzQ3YzNkZGFhZGEwZmEwNTI=
 import { React, Axios } from '../../client-imports';
-import { UserContext } from '../../contexts/contexts';
+import { UserContext, CreateRoomToggle } from '../../contexts/contexts';
 import ProfilePlaceholder from '../../staticFiles/camera-icon.png';
 import '../../styles/pages/application/createRoom.css';
 
 export const CreateRoom = ({rooms, setRooms}) => {
   const { user, setUser } = React.useContext(UserContext);
+  const { setTogCreateRoom } = React.useContext(CreateRoomToggle);
   let [ roomName, setRoomName ] = React.useState('');
   let [ roomDescription, setRoomDescription ] = React.useState('');
   let [ roomProfile, setRoomProfile ] = React.useState(null);
@@ -19,7 +20,7 @@ export const CreateRoom = ({rooms, setRooms}) => {
     setProfileUrl(objectUrl);
   }
 
-  function createRoom(e) {
+  function createRoom() {
     const formData = new FormData();
     formData.append('file', roomProfile);
     formData.append('roomName', roomName);
@@ -35,9 +36,8 @@ export const CreateRoom = ({rooms, setRooms}) => {
 
     Axios.post(`/api/application/rooms/create-room`, formData, config)
       .then(data => {
-        console.log(data.data)
-        setRooms([...rooms, data.data.savedRoom])
-        console.log(rooms);
+        setRooms([...rooms, data.data.savedRoom]);
+        setTogCreateRoom(false);
       })
       .catch(err => {
         if(err) console.error(err);

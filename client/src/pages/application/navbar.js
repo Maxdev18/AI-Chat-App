@@ -1,13 +1,12 @@
 import '../../styles/pages/application/navbar.css';
 import React from 'react';
-import { SettingToggle, CreateRoomToggle, Messages, ProfileToggle } from '../../contexts/contexts';
+import { SettingToggle, CreateRoomToggle, Messages, ProfileToggle, UserContext, RoomToggle } from '../../contexts/contexts';
 import { Axios, Link } from '../../client-imports';
-import { UserContext, RoomToggle } from '../../contexts/contexts';
 
-export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
+export const NavbarDashboard = ({ rooms, setRooms, profiles, mobile }) => {
   const { user } = React.useContext(UserContext);
   const { messages } = React.useContext(Messages);
-  const { toggleRoom } = React.useContext(RoomToggle);
+  const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
   const { toggleSettings, setToggleSettings } = React.useContext(SettingToggle);
   const { togCreateRoom, setTogCreateRoom } = React.useContext(CreateRoomToggle);
   const { toggleProfile, setToggleProfile } = React.useContext(ProfileToggle);
@@ -18,7 +17,6 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
     // axios post request to find and join room
     Axios.post('/api/application/rooms/join-room', { id: user._id, search })
       .then(data => {
-        console.log(data.data);
         // update user state here
         setRooms([...rooms, data.data.privateRoom]);
       })
@@ -28,10 +26,12 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
   }
 
   function toggleProfileSettings() {
+    setToggleBurger(!toggleBurger);
     setToggleSettings(!toggleSettings);
   }
 
   function toggleCreateRoom() {
+    setToggleBurger(!toggleBurger);
     setTogCreateRoom(!togCreateRoom);
   }
 
@@ -93,21 +93,42 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles }) => {
       }
     }
   }
+
+  function goBack() {
+    setToggleRoom(false);
+    setToggleProfile(false);
+    setTogCreateRoom(false);
+    setToggleSettings(false);
+  }
   
   return (
     <div className="nav-app-container">
+      {(mobile && togCreateRoom) || (mobile && toggleSettings) ? (
+          <button className="btn-goback" onClick={() => goBack()}>{'<'}</button>
+        ) : null}
       {toggleRoom ? (
         <>
+        {mobile ? (
+          <button className="btn-goback" onClick={() => goBack()}>{'<'}</button>
+        ) : null}
         <div className='nav-room-cont'>
           {messages ? renderNavRoomProfile() : null}
         </div>
         </>
       ) : (
         <>
-        <div className="search-container">
-          <input className="searchRoom" name="searchRoom" placeholder="Find room..." onChange={e => setSearch(e.target.value)}/>
-          <button className="btn-searchRoom" onClick={joinRoom}>Join Room</button>
-        </div>
+        {(mobile && togCreateRoom) || (mobile && toggleSettings) ? (
+          <div className="search-container search-container-toggled">
+            <input className="searchRoom" name="searchRoom" placeholder="Find room..." onChange={e => setSearch(e.target.value)}/>
+            <button className="btn-searchRoom" onClick={joinRoom}>Join</button>
+          </div>
+        ) : (
+          <div className="search-container">
+            <input className="searchRoom" name="searchRoom" placeholder="Find room..." onChange={e => setSearch(e.target.value)}/>
+            <button className="btn-searchRoom" onClick={joinRoom}>Join</button>
+          </div>
+        )}
+        
         </>
       )}
       <div className="profile-nav-container">

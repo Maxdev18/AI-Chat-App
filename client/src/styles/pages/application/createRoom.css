@@ -54,3 +54,13 @@
 }
 
 /* Media Queries */
+@media (max-width: 878px) {
+  .create-room-container {
+    padding: 0px 16px;
+    align-items: center;
+  }
+  
+  .desc {
+    width: 100%;
+  }
+}

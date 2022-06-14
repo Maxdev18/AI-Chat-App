@@ -30,7 +30,6 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  overflow-y: hidden;
 }
 
 .nav-link {
@@ -40,6 +39,9 @@
 }
 
 .btn-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   font-size: 1.5rem;
 }

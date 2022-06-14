@@ -5,6 +5,7 @@
   flex-direction: column;
   position: relative;
   background-color: var(--sixty-color);
+  overflow-x: hidden;
 }
 
 /* Header Section */
@@ -55,6 +56,9 @@
 
 /* Content Section */
 .content-section-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   padding: 0px clamp(30px, 12%, 300px);
   margin-top: 5vh;
 }
@@ -74,7 +78,8 @@
 }
 
 .section-img {
-  width: 100%;
+  width: 420px;
+  height: 300px;
 }
 
 .section-text {

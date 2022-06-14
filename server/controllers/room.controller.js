@@ -173,6 +173,7 @@ exports.deleteRoom = async (req, res) => {
     }
   } else if(removeContact && !room.roomId) {
     // this is not a channel
+    // This one works but not the others
     try {
       await Room.findByIdAndDelete(room._id);
       await Message.deleteMany({roomId: room._id});

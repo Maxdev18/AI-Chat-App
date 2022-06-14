@@ -58,3 +58,19 @@
   transition: 400ms;
   background-color: rgb(255, 82, 82);
 }
+
+/* Media Queries */
+@media (max-width: 878px) {
+  .room-profile-cont {
+    padding: 0px 16px;
+    align-items: center;
+  }
+
+  .profile-cont {
+    align-items: center;
+  }
+
+  .room-name {
+    text-align: center;
+  }
+}

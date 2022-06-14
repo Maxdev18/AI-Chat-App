@@ -1,8 +1,10 @@
 import { React, Axios } from '../../client-imports';
-import { Messages, UserContext } from '../../contexts/contexts';
+import { Messages, UserContext, ProfileToggle, RoomToggle } from '../../contexts/contexts';
 import '../../styles/pages/application/roomProfile.css';
 
 export const RoomProfile = ({ profiles, rooms, setRooms }) => {
+  const { setToggleProfile } = React.useContext(ProfileToggle);
+  const { setToggleRoom } = React.useContext(RoomToggle);
   const { user } = React.useContext(UserContext);
   const { messages } = React.useContext(Messages);
   const profile = (messages.roomId === rooms[messages.roomIndex]._id) && rooms[messages.roomIndex].roomId ? 
@@ -13,8 +15,9 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
     await Axios.get('/api/application/rooms/delete-room', { params: { room: rooms[messages.mainRoomIndex], removeContact: true, id: user._id} })
       .then(() => {
         const newRooms = rooms.filter(room => room._id !== rooms[messages.mainRoomIndex]._id);
-        console.log(newRooms);
         setRooms(newRooms);
+        setToggleProfile(false);
+        setToggleRoom(false);
       })
       .catch(err => {
         console.error(err);

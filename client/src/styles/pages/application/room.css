@@ -47,3 +47,18 @@
   font-size: 1rem;
   flex: 1;
 }
+
+/* Media Queries */
+@media (max-width: 878px) {
+  .send-cont, .messages-cont {
+    width: 100%;
+  }
+
+  .room-cont {
+    padding: 0px 12px;
+  }
+
+  .messages-cont {
+    margin-top: 24px;
+  }
+}

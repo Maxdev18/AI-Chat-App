@@ -19,6 +19,8 @@ export const Dashboard = ({endpoint}) => {
   let [messages, setMessages] = React.useState([]);
   const socket = React.useRef();
 
+  let [mobile, setMobile] = React.useState(false);
+
   // Establish a websocket connection when logged into the dashboard
   React.useEffect(() => {
     socket.current = io(endpoint);
@@ -47,6 +49,14 @@ export const Dashboard = ({endpoint}) => {
     getRooms();
   }, [user]);
 
+  React.useEffect(() => {
+    if(window.innerWidth <= 878) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  }, [window.innerWidth]);
+
   return (
     <RoomToggle.Provider value={{toggleRoom, setToggleRoom}}>
     <SettingToggle.Provider value={{toggleSettings, setToggleSettings}}>
@@ -55,10 +65,12 @@ export const Dashboard = ({endpoint}) => {
     <Messages.Provider value={{messages, setMessages}}>
       <div className="dashboard-main-container">
         <div className="dashboard-container">
-          <RoomNavbar setFriendProfiles={setFriendProfiles} rooms={rooms} />
+          {!mobile ? (
+            <RoomNavbar setFriendProfiles={setFriendProfiles} rooms={rooms} />
+          ) : null}
           <div className="main-chat-container">
-            <NavbarDashboard profiles={friendProfiles} rooms={rooms} setRooms={setRooms}/>
-            <MainApp profiles={friendProfiles} rooms={rooms} setRooms={setRooms}/>
+            <NavbarDashboard mobile={mobile} profiles={friendProfiles} rooms={rooms} setRooms={setRooms}/>
+            <MainApp setFriendProfiles={setFriendProfiles} profiles={friendProfiles} rooms={rooms} setRooms={setRooms}/>
           </div>
         </div>
       </div>

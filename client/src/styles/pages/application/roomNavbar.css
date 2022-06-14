@@ -93,8 +93,12 @@
   margin: 0px 24px;
 }
 /* Media Queries */
-@media screen and (max-width: 878px) {
+@media (max-width: 878px) {
   .roomNavbar-container {
-    display: none;
+    width: 100%;
+  }
+
+  .rooms-container {
+    height: 100%;
   }
 }

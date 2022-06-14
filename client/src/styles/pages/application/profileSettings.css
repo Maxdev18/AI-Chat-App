@@ -143,5 +143,16 @@
 
 /* Media Queries */
 @media screen and (max-width: 878px) {
-  
+  .profile-settings-container {
+    padding: 0px 16px;
+    align-items: center;
+  }
+
+  .bio {
+    width: 100%;
+  }
+
+  .input-profile-container, .profile-desc, .save-btn-cont {
+    width: 90%;
+  }
 }

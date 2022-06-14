@@ -2,7 +2,7 @@ import '../../styles/pages/application/roomNavbar.css';
 import { UserContext, RoomToggle, Messages } from '../../contexts/contexts';
 import { Axios, React } from '../../client-imports';
 
-export const RoomNavbar = ({rooms, setFriendProfiles}) => {
+export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
   let [ friends, setFriends ] = React.useState([]);
   const { user } = React.useContext(UserContext);
   const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
@@ -56,7 +56,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
         <div className="profile-info-container">
           {friend?.name}
         </div>
-        <div className="unread-messages-container">3</div>
+        {/* <div className="unread-messages-container">3</div> */}
       </div>
     )
   }
@@ -84,7 +84,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
             <div className="profile-info-container">
               {room.roomName}
             </div>
-            <div className="unread-messages-container">3</div>
+            {/* <div className="unread-messages-container">3</div> */}
           </div>
         )
       } else if(room.members.length === 2) {  
@@ -103,11 +103,14 @@ export const RoomNavbar = ({rooms, setFriendProfiles}) => {
 
   return (
     <div className="roomNavbar-container">
-      <div className="logo-container">
-        <h1 className="logo-dashboard">
-          C<span>AI</span>
-        </h1>
-      </div>
+      {!mobile ? (
+        <div className="logo-container">
+          <h1 className="logo-dashboard">
+            C<span>AI</span>
+          </h1>
+        </div>
+      ) : null}
+      
       <div className="rooms-container">
         {rooms ? renderRooms(rooms) : null}
       </div>
