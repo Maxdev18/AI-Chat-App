@@ -73,4 +73,8 @@
   .room-name {
     text-align: center;
   }
+
+  .room-id {
+    text-align: center;
+  }
 }
