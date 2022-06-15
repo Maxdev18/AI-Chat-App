@@ -24,10 +24,17 @@ export const Dashboard = ({endpoint}) => {
   // Establish a websocket connection when logged into the dashboard
   React.useEffect(() => {
     socket.current = io(endpoint);
-    socket.current.on("connection", data => {
-      
-    });
-  }, [endpoint]);
+    console.log(socket.current)
+  }, []);
+
+  React.useEffect(() => {
+    if(user) {
+      socket.current.emit('addUser', user._id);
+      socket.current.on("getUsers", data => {
+        console.log(data);
+      });
+    }
+  }, [user]);
 
   // Fetch rooms associated with the current user
   React.useEffect(() => {

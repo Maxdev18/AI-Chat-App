@@ -15,9 +15,6 @@ const io = require('socket.io')(server, {
 
 const updateControllers = require('./controllers/update.controller');
 
-// Require socket modules
-const clientSockets = require('./sockets/client-socket');
-
 // Require routes
 const authRoutes = require('./routes/authentication');
 const roomRoutes = require('./routes/room.router');
@@ -63,12 +60,34 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
-    .then(result => {
+    .then(() => {
       //Create instance of socket connection to the client
+      let users = [];
+
       io.on('connection', socket => {
         console.log("Socket has been established...");
-        // Link socket emmiters and listeners from the required modules
-        clientSockets(socket);
+
+        function addUser(socketId, userId) {
+          !users.some(user => user.userId === userId) &&
+            users.push({ userId, socketId });
+        }
+
+        function removeUser(socketId) {
+          users = users.filter(user => user.socketId !== socketId);
+        }
+
+        // Add user
+        socket.on('addUser', userId => {
+          addUser(socket.id, userId);
+          io.emit('getUsers', users);
+        })
+
+        // Disconnect user
+        socket.on('disconnect', () => {
+          console.log('A user has disconnected...')
+          removeUser(socket.id);
+          io.emit('getUsers', users);
+        })
       })
       server.listen(PORT);
     })
