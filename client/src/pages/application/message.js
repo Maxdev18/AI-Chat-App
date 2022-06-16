@@ -17,10 +17,9 @@ export const Message = ({ right, left, msg, isChannel }) => {
       </div>
     )
   } else if(left) {
-    if(isChannel) {
-      const profileStyle = {
-        backgroundColor: '#' + msg.senderProfile.hex
-      }
+    const profileStyle = {
+      backgroundColor: '#' + msg.senderProfile.hex
+    }
 
     return (
       <div className="message">
@@ -44,7 +43,5 @@ export const Message = ({ right, left, msg, isChannel }) => {
         </div>
       </div>
     )
-    }
   }
-  
 }

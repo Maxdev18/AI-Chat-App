@@ -23,9 +23,11 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
       async function getRoomData() {
         let friendIds = [];
         rooms.map(room => {
-          let bool = room.members.find(m => m !== user._id);
-          if(bool) return friendIds.push(bool);
-          return null;
+          if(!room.roomId) {
+            let bool = room.members.find(m => m !== user._id);
+            if(bool) return friendIds.push(bool);
+            return null;
+          }
         });
 
         await Axios.get('/api/application/rooms/getUsers', { params: friendIds })
@@ -48,10 +50,10 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
   
     return (
       <div className="friend-profile-container">
-        {friend?.settings.profilePic.hex ? (
+        {friend?.settings.profilePic.pic.length === 1 ? (
           <div className="room-profile" style={profileStyles}>{friend?.settings.profilePic.pic}</div>
         ) : (
-          <img src={friend?.settings.profilePic.pic} alt="profile" />
+          <img className="room-profile" src={friend?.settings.profilePic.pic} alt="profile" />
         )}
         <div className="profile-info-container">
           {friend?.name}
@@ -87,15 +89,13 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
             {/* <div className="unread-messages-container">3</div> */}
           </div>
         )
-      } else if(room.members.length === 2) {  
+      } else if(room.members.length === 2) {
         for(let j = 0; j < friends.length; j++) {
-          if(friends[j]._id == room.members[0]) {
-            return (
-              <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, j, index)}>
-                {friends ? renderFriendProfile(friends[j]) : null}
-              </div>
-            )
-          }
+          return (
+            <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, j, index)}>
+              {friends ? renderFriendProfile(friends[j]) : null}
+            </div>
+          )
         }
       }
     })

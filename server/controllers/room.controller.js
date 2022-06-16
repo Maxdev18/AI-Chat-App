@@ -118,7 +118,7 @@ exports.getUsers = async (req, res) => {
       console.error(err);
       return res.status(500).json(err);
     })
-  
+
   return res.status(200).json({ userData, message: 'Retrieved user data successfully...' });
 }
 
@@ -148,7 +148,7 @@ exports.joinRoom = async (req, res) => {
     const privateRoom = await User.findOne({ userAppId: roomId })
     .then(async (data) => {
       const newRoom = new Room({
-        members: [data._id, userId]
+        members: [data._id.toString(), userId]
       })
       const room = await newRoom.save();
       return room;

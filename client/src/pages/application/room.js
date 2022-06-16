@@ -74,9 +74,7 @@ export const Room =({ rooms }) => {
           }
         } catch(err) {
           console.error(err);
-          
         }
-        
       }).catch(err => {
           console.error(err);
         });
@@ -102,8 +100,7 @@ export const Room =({ rooms }) => {
                 isChannel={isChannel}
                 right={true}
                 key={index}
-                msg={msg}
-                />
+                msg={msg}/>
             )
           } else {
             return (
@@ -114,7 +111,6 @@ export const Room =({ rooms }) => {
                 msg={msg}/>
             )
           }
-          
         }) : null}
       </div>
       <div className="send-cont">
