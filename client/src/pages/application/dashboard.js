@@ -16,7 +16,8 @@ export const Dashboard = ({endpoint}) => {
   
   let [rooms, setRooms] = React.useState([]);
   let [friendProfiles, setFriendProfiles] = React.useState([]);
-  let [messages, setMessages] = React.useState([]);
+  let [messages, setMessages] = React.useState(null);
+  let [prevMessage, setPrevMessage] = React.useState(null);
   const socket = React.useRef();
 
   let [mobile, setMobile] = React.useState(false);
@@ -24,17 +25,44 @@ export const Dashboard = ({endpoint}) => {
   // Establish a websocket connection when logged into the dashboard
   React.useEffect(() => {
     socket.current = io(endpoint);
-    console.log(socket.current)
-  }, []);
+    socket.current.on('getMessage', msg => {
+      if((user._id !== msg.sender) && (prevMessage?._id !== msg?._id)) {
+        setMessages(prev => ({
+          ...prev,
+          messages: [
+            ...prev.messages,
+            msg
+          ]
+        }))
+        setPrevMessage(messages.messages.slice(-1)[0]);
+      }
+    })
+  }, [endpoint]);
 
+  // Establish user socket connection
   React.useEffect(() => {
     if(user) {
       socket.current.emit('addUser', user._id);
-      socket.current.on("getUsers", data => {
-        console.log(data);
-      });
     }
   }, [user]);
+
+  // Join a room
+  React.useEffect(() => {
+    if(toggleRoom && messages.mainRoomIndex !== null) {
+      socket.current.emit('leaveRoom', rooms[messages.mainRoomIndex]._id);
+      socket.current.emit('joinRoom', rooms[messages.mainRoomIndex]._id);
+    }
+  }, [toggleRoom, messages?.mainRoomIndex]);
+
+  // Send a message in a room
+  React.useEffect(() => {
+    if(messages !== null) {
+      if(messages.messages) {
+        setPrevMessage(messages.messages.slice(-1)[0]);
+        socket.current.emit('sendMessage', messages.messages[messages.messages.length - 1]);
+      }
+    }
+  }, [messages?.messages]);
 
   // Fetch rooms associated with the current user
   React.useEffect(() => {
@@ -62,7 +90,7 @@ export const Dashboard = ({endpoint}) => {
     } else {
       setMobile(false);
     }
-  }, [window.innerWidth]);
+  }, []);
 
   return (
     <RoomToggle.Provider value={{toggleRoom, setToggleRoom}}>
