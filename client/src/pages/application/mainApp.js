@@ -23,27 +23,33 @@ export const MainApp = ({ rooms, setRooms, profiles, setFriendProfiles }) => {
   React.useEffect(() => {
     if(toggleSettings && togCreateRoom) {
       setToggleSettings(false)
+    } else if(togCreateRoom) {
+      setToggleRoom(false)
+      setToggleProfile(false)
     }
-    setToggleRoom(false)
-    setToggleProfile(false)
   }, [togCreateRoom]);
 
   React.useEffect(() => {
     if(togCreateRoom && toggleSettings) {
       setTogCreateRoom(false)
+    } else if(toggleSettings) {
+      setToggleRoom(false)
+      setToggleProfile(false)
     }
-    setToggleRoom(false)
-    setToggleProfile(false)
   }, [toggleSettings]);
 
   React.useEffect(() => {
-    setToggleSettings(false)
-    setTogCreateRoom(false)
+    if(toggleRoom) {
+      setToggleSettings(false)
+      setTogCreateRoom(false)
+    }
   }, [toggleRoom]);
 
   React.useEffect(() => {
-    setToggleSettings(false)
-    setTogCreateRoom(false)
+    if(toggleProfile) {
+      setToggleSettings(false)
+      setTogCreateRoom(false)
+    }
   }, [toggleProfile])
 
   React.useEffect(() => {
