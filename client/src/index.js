@@ -8,17 +8,11 @@ import './styles/index.css';
 
 let endpoint;
 if(window.location.hostname === 'localhost') {
-  endpoint = 'ws://localhost:5000';
-} else {
-  endpoint = 'ws://chattingai-backend.herokuapp.com';
-}
-
-// Set base url for axios
-const domainName = window.location.hostname;
-if(domainName === "localhost") {
   Axios.defaults.baseURL = "http://localhost:5000";
+  endpoint = 'http://localhost:5000';
 } else {
   Axios.defaults.baseURL = "https://chattingai-backend.herokuapp.com"; 
+  endpoint = 'https://chattingai-backend.herokuapp.com';
 }
 
 function App() {

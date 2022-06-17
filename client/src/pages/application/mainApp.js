@@ -7,7 +7,7 @@ import { RoomNavbar } from './roomNavbar';
 import { SettingToggle, CreateRoomToggle, RoomToggle, ProfileToggle } from '../../contexts/contexts';
 import React from 'react';
 
-export const MainApp = ({ rooms, setRooms, profiles, setFriendProfiles }) => {
+export const MainApp = ({ rooms, setRooms, profiles, setFriendProfiles, setSendMessage }) => {
   const { toggleSettings, setToggleSettings } = React.useContext(SettingToggle);
   const { togCreateRoom, setTogCreateRoom } = React.useContext(CreateRoomToggle);
   const { toggleRoom, setToggleRoom } = React.useContext(RoomToggle);
@@ -64,7 +64,7 @@ export const MainApp = ({ rooms, setRooms, profiles, setFriendProfiles }) => {
     <div className="main-app-container">
       {togCreateRoom ? <CreateRoom rooms={rooms} setRooms={setRooms}/> : null}
       {toggleSettings ? <ProfileSettings /> : null}
-      {toggleRoom && toggleProfile === false ? <Room rooms={rooms} /> : null}
+      {toggleRoom && toggleProfile === false ? <Room rooms={rooms} setSendMessage={setSendMessage} /> : null}
       {mobile && !toggleRoom && !toggleSettings && !togCreateRoom ? <RoomNavbar mobile={mobile} setFriendProfiles={setFriendProfiles} rooms={rooms} /> : null}
       {toggleProfile ? <RoomProfile profiles={profiles} rooms={rooms} setRooms={setRooms} /> : null}
       {(togCreateRoom === false === toggleSettings === false) && (toggleRoom === false && toggleProfile === false) ? <h1>Start a conversation...</h1> : null}

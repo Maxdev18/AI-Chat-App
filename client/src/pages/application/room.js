@@ -3,7 +3,7 @@ import { Messages, UserContext } from '../../contexts/contexts';
 import { Message } from './message';
 import '../../styles/pages/application/room.css';
 
-export const Room =({ rooms }) => {
+export const Room =({ rooms, setSendMessage }) => {
   const { user } = React.useContext(UserContext);
   const { messages, setMessages } = React.useContext(Messages);
   let [text, setText] = React.useState('');
@@ -65,12 +65,14 @@ export const Room =({ rooms }) => {
                 ...prev.messages,
                 data.data.message
               ]
-            }))
+            }));
+            setSendMessage(true);
           } else {
             setMessages(prev => ({
               ...prev,
               messages: [data.data.message]
-            }))
+            }));
+            setSendMessage(true);
           }
         } catch(err) {
           console.error(err);

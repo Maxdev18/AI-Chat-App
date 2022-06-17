@@ -10,8 +10,14 @@ export const Message = ({ right, left, msg, isChannel }) => {
         <div className="right">
           <p>{msg.text}</p>
           <p className="time">
-          <span>{date.getHours() > 13 ? (date.getHours() - 12) + ':' + date.getMinutes() + 'pm'
+          {date.getMinutes() < 10 ? (
+            <span>{date.getHours() > 13 ? (date.getHours() - 12) + ':0' + date.getMinutes() + 'pm'
+          : date.getHours() + ':0' + date.getMinutes() + 'am'}</span>
+          ) : (
+            <span>{date.getHours() > 13 ? (date.getHours() - 12) + ':' + date.getMinutes() + 'pm'
               : date.getHours() + ':' + date.getMinutes() + 'am'}</span>
+          )}
+          
           </p>
         </div>
       </div>
@@ -35,8 +41,13 @@ export const Message = ({ right, left, msg, isChannel }) => {
           <div className="left">
             <p>{msg.text}</p>
             <p className="time">
-              <span>{date.getHours() > 13 ? (date.getHours() - 12) + ':' + date.getMinutes() + 'pm'
-                : date.getHours() + ':' + date.getMinutes() + 'am'}</span>
+            {date.getMinutes() < 10 ? (
+                <span>{date.getHours() > 13 ? (date.getHours() - 12) + ':0' + date.getMinutes() + 'pm'
+                  : date.getHours() + ':0' + date.getMinutes() + 'am'}</span>
+              ) : (
+                <span>{date.getHours() > 13 ? (date.getHours() - 12) + ':' + date.getMinutes() + 'pm'
+                  : date.getHours() + ':' + date.getMinutes() + 'am'}</span>
+            )}
             </p>
           </div>
         </div>
