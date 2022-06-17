@@ -81,7 +81,12 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
       
       <div className="room-desc-cont">
         <div className="room-name">{profile.name ? profile.name : profile.roomName}</div>
-        <div className="room-id">Channel ID:{profile.roomId ? ' ' + profile.roomId : null}</div>
+        {profile.roomId ? (
+          <div className="room-id">Channel ID: {profile.roomId}</div>
+        ) : (
+          <div className="room-id">ID: {profile.userAppId}</div>
+        )}
+        
         <label>Bio:</label>
         <div className="room-desc">
           {profile?.settings.bio ? profile.settings.bio : profile.roomDesc}

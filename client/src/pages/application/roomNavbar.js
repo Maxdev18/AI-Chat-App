@@ -64,6 +64,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
   }
   
   function renderRooms(roomsArr) {
+    let i = 0;
     return roomsArr?.map((room, index) => {
       let profileStyles;
       if(room.roomId) {
@@ -90,13 +91,13 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
           </div>
         )
       } else if(room.members.length === 2) {
-        for(let j = 0; j < friends.length; j++) {
-          return (
-            <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, j, index)}>
-              {friends ? renderFriendProfile(friends[j]) : null}
-            </div>
-          )
-        }
+        let ind = i;
+        i++;
+        return (
+          <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, ind, index)}>
+            {friends ? renderFriendProfile(friends[ind]) : null}
+          </div>
+        )
       }
     })
   }
