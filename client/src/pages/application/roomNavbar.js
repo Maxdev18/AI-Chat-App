@@ -113,7 +113,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
       ) : null}
       
       <div className="rooms-container">
-        {rooms ? renderRooms(rooms) : null}
+        {rooms !== 0 ? renderRooms(rooms) : null}
       </div>
     </div>
   )
