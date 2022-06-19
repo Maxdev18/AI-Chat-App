@@ -57,6 +57,7 @@ export const Room =({ rooms, setSendMessage }) => {
           hex: user.settings.profilePic.hex
         }
       }).then(data => {
+        console.log(data);
         try {
           if(messages.messages) {
             setMessages(prev => ({

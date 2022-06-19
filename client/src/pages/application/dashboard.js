@@ -27,6 +27,7 @@ export const Dashboard = ({endpoint}) => {
   React.useEffect(() => {
     socket.current = io(endpoint);
     socket.current.on('getMessage', msg => {
+      console.log(msg);
       setArrivalMessage(msg);
     })
   }, [endpoint]);
@@ -57,6 +58,7 @@ export const Dashboard = ({endpoint}) => {
   React.useEffect(() => {
     if(sendMessage) {
       socket.current.emit('sendMessage', messages.messages[messages.messages.length - 1]);
+      setSendMessage(false);
     }
   }, [sendMessage]);
 
