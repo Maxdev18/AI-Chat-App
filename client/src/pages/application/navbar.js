@@ -82,7 +82,7 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles, mobile }) => {
           return (
             <div className="room-basics">
               {room.settings.profilePic.length > 1 ? (
-                <img className="userProfile" alt="profile" src={room.settings.profilePic} onClick={toggleRoomProfile}/>
+                <img className="user-profile" alt="profile" src={room.settings.profilePic} onClick={toggleRoomProfile}/>
               ) : null}
               {room.settings.profilePic.length === 1 ? (
                 <div className="user-profile" style={{backgroundColor: '#' + room.settings.hex}} onClick={toggleRoomProfile}>{room.settings.profilePic}</div>

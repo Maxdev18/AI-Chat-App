@@ -7,7 +7,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
   const { setToggleRoom } = React.useContext(RoomToggle);
   const { user } = React.useContext(UserContext);
   const { messages } = React.useContext(Messages);
-  const profile = (messages.roomId === rooms[messages.mainRoomIndex]._id) && rooms[messages.mainRoomIndex].roomId ? 
+  const profile = (messages.roomId === rooms[messages.mainRoomIndex]?._id) && rooms[messages.mainRoomIndex]?.roomId ? 
     rooms[messages.mainRoomIndex] : profiles[messages.roomIndex];
 
   // Remove room if not admin
@@ -28,8 +28,9 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
   async function deleteRoom() {
     await Axios.get('/api/application/rooms/delete-room', { params: {room: profile } })
       .then(() => {
-        const newRooms = rooms.filter(room => room._id !== rooms[messages.roomIndex]._id);
-        console.log(newRooms);
+        const newRooms = rooms.filter(room => room._id !== rooms[messages.mainRoomIndex]._id);
+        setToggleProfile(false);
+        setToggleRoom(false);
         setRooms(newRooms);
       })
       .catch(err => {
@@ -49,7 +50,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
     } else if(profile.settings.profilePic.pic?.length > 1) {
       return (
         <>
-          <img className="profileImg" src={profile.settings.profilePic.pic} alt="profile" />
+          <img className="user-room-profile" src={profile.settings.profilePic.pic} alt="profile" />
         </>
       )
     } else if(profile.settings.profilePic.pic?.length === 1) {
@@ -61,7 +62,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
     } else if(profile.settings.profilePic.length > 1) {
       return (
         <>
-          <img className="profileImg" src={profile.settings.profilePic} alt="profile" />
+          <img className="user-room-profile" src={profile.settings.profilePic} alt="profile" />
         </>
       )
     } else if(profile.settings.profilePic.length === 1) {
@@ -76,7 +77,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
   return (
     <div className="room-profile-cont">
       <div className="profile-cont">
-        {profile?.settings.profilePic.pic || profile?.settings.profilePic ? renderProfile() : null}
+        {profile.settings.profilePic.pic || profile.settings.profilePic ? renderProfile() : null}
       </div>
       
       <div className="room-desc-cont">
@@ -89,7 +90,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
         
         <label>Bio:</label>
         <div className="room-desc">
-          {profile?.settings.bio ? profile.settings.bio : profile.roomDesc}
+          {profile.settings.bio ? profile.settings.bio : profile.roomDesc}
         </div>
       </div>
 

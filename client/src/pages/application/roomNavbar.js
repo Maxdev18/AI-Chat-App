@@ -82,7 +82,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
                 {room.settings.profilePic}
               </div>
             ) : (
-              <img src={room.settings.profilePic} alt="profile"></img>
+              <img className="room-profile" src={room.settings.profilePic} alt="profile"></img>
             )}
             <div className="profile-info-container">
               {room.roomName}
