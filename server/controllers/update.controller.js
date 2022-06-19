@@ -1,4 +1,5 @@
 const User = require('../models/userSchema');
+const Room = require('../models/roomSchema');
 const path = require('path');
 
 exports.getProfile = async (req, res) => {
@@ -8,14 +9,33 @@ exports.getProfile = async (req, res) => {
     root: path.join(__dirname, '..', '..')
   }
 
-  await User.findOne({ 'settings.profilePic.picName': imgUrl })
+  const user = await User.findOne({ 'settings.profilePic.picName': imgUrl })
     .then(user => {
-      res.status(200).sendFile(`/images/${user.settings.profilePic.picName}`, options);
+      return user;
     })
-    .catch(err=> {
-      if(err) {
-        console.error(err);
-        res.status(500).json({message: "fetch image failed..."})
-      }
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: "fetch image failed..."})
+      return null;
     })
+
+  if(user !== null) {
+    return res.status(200).sendFile(`/images/${user.settings.profilePic.picName}`, options);
+  } else {
+    const channel = await Room.findOne({ 'settings.picName': imgUrl })
+    .then(channel => {
+      return channel;
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({message: "fetch image failed..."});
+      return null;
+    })
+
+    if(channel !== null) {
+      return res.status(200).sendFile(`/images/${channel.settings.picName}`, options);
+    } else {
+      res.status(500).json({message: "fetch image failed..."});
+    }
+  }
 }

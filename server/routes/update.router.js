@@ -5,10 +5,9 @@ const { v4: uuidv4 } = require('uuid');
 const User = require('../models/userSchema');
 const Message = require('../models/messageSchema');
 
-let newId;
 let newFileName;
 const generateNewId = () => {
-  newId = uuidv4();
+  const newId = uuidv4();
   return newId;
 }
 
