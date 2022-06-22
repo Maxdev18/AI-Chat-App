@@ -79,7 +79,7 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
           <div className="joined-room-container" key={index} onClick={() => goToRoom(room._id, null, index)}>
             {room.settings.hex ? (
               <div className="room-profile" style={profileStyles}>
-                {room.settings.profilePic}
+                {room.settings.profileURL}
               </div>
             ) : (
               <img className="room-profile" src={room.settings.profileURL} alt="profile"></img>

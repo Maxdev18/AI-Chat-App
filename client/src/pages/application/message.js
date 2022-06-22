@@ -1,7 +1,7 @@
 import { React } from '../../client-imports';
 import '../../styles/pages/application/message.css';
 
-export const Message = ({ right, left, msg, isChannel }) => {
+export const Message = ({ right, left, msg }) => {
   const date = new Date(msg.createdAt);
 
   if(right) {

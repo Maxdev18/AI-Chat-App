@@ -85,7 +85,7 @@ export const NavbarDashboard = ({ rooms, setRooms, profiles, mobile }) => {
                 <img className="user-profile" alt="profile" src={room.settings.profileURL} onClick={toggleRoomProfile}/>
               ) : null}
               {room.settings.profileURL.length === 1 ? (
-                <div className="user-profile" style={{backgroundColor: '#' + room.settings.hex}} onClick={toggleRoomProfile}>{room.settings.profilePic}</div>
+                <div className="user-profile" style={{backgroundColor: '#' + room.settings.hex}} onClick={toggleRoomProfile}>{room.settings.profileURL}</div>
               ) : null}
               <div className="room-info">
                 {room.roomName}

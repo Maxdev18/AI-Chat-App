@@ -39,36 +39,43 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
   }
 
   function renderProfile() {
-    const profileStyles = {
-      backgroundColor: profile.settings.hex ? '#' + profile.settings.hex : '#' + profile.settings.profilePic.hex
+    let profileStyles;
+    if(profile.settings.hex) {
+      profileStyles = {
+        backgroundColor: '#' + profile.settings.hex
+      }
+    } else if(profile.settings.profilePic) {
+      profileStyles = {
+        backgroundColor: '#' + profile.settings.profilePic.hex
+      }
     }
 
     if(profile.googleSignIn) {
       return (
         <img src={`${profile.settings.profilePic.pic}`} className="user-profile-setting" alt="profile"></img>
       )
-    } else if(profile.settings.profilePic.pic?.length > 1) {
+    } else if(profile.settings.profilePic?.pic.length > 1) {
       return (
         <>
           <img className="user-room-profile" src={profile.settings.profilePic.pic} alt="profile" />
         </>
       )
-    } else if(profile.settings.profilePic.pic?.length === 1) {
+    } else if(profile.settings.profilePic?.pic.length === 1) {
       return (
         <div className="user-room-profile" style={profileStyles}>
           {profile.settings.profilePic.pic}
         </div>
       )
-    } else if(profile.settings.profilePic.length > 1) {
+    } else if(profile.settings.profileURL.length > 1) {
       return (
         <>
-          <img className="user-room-profile" src={profile.settings.profilePic} alt="profile" />
+          <img className="user-room-profile" src={profile.settings.profileURL} alt="profile" />
         </>
       )
-    } else if(profile.settings.profilePic.length === 1) {
+    } else if(profile.settings.profileURL.length === 1) {
       return (
         <div className="user-room-profile" style={profileStyles}>
-          {profile.settings.profilePic}
+          {profile.settings.profileURL}
         </div>
       )
     }
@@ -77,7 +84,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
   return (
     <div className="room-profile-cont">
       <div className="profile-cont">
-        {profile.settings.profilePic.pic || profile.settings.profilePic ? renderProfile() : null}
+        {profile.settings.profilePic?.pic || profile.settings.profileURL ? renderProfile() : null}
       </div>
       
       <div className="room-desc-cont">

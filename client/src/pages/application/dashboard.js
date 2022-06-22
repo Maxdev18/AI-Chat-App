@@ -49,9 +49,14 @@ export const Dashboard = ({endpoint}) => {
 
   // Arrival message
   React.useEffect(() => {
-    arrivalMessage &&
-    rooms[messages?.mainRoomIndex].members.includes(arrivalMessage.sender) &&
-      setMessages(prev => ({ ...prev, messages: [...prev.messages, arrivalMessage]}));
+    if(arrivalMessage && rooms[messages?.mainRoomIndex].members.includes(arrivalMessage.sender)) {
+      if(messages.messages !== undefined) {
+        setMessages(prev => ({ ...prev, messages: [...prev.messages, arrivalMessage]}));
+      } else {
+        setMessages(prev => ({...prev, messages: [arrivalMessage]}))
+      }
+    }
+      
   }, [arrivalMessage, rooms[messages?.mainRoomIndex]]);
 
   // Send a message in a room
