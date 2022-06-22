@@ -1,7 +1,14 @@
 # AI Chat App
 
+### Note:
+Currently the AI is not implemented yet but I have the readme file contain how and what\
+the app will do once it's fully complete. But I'm not going to continue on this project once\
+it's done because I would like to move onto something new. If you would like to open a pull request\
+for now and add or fix a couple of things, feel free. If you would like to report a bug you could\
+send an email through the site or open an issue on this repository. Thank you!
+
 This is a complete full-stack chat app using primarily the MERN stack. The web application is also\
-published in a public [domain](insert url here). Some of the basic functionality of the app consists the user\
+published in a public [domain](https://chattingai-frontend.herokuapp.com/). Some of the basic functionality of the app consists the user\
 being able to create rooms and joins rooms. One thing that mainly stands out is the integration of AI.\
 
 ### AI Features
@@ -10,9 +17,8 @@ being able to create rooms and joins rooms. One thing that mainly stands out is 
 the room that the user is looking for.
 - The AI also has the ability of creating rooms on command, rather\
 than the user clicking through mulitple times to create a room.
-- Ability for adding people to a room on command rather than typing it out and maybe misspelling\
-a user name. Or, the user can tell the AI the user's id.
-- Can kick out people from a room.
+- Adding people to a room on command rather than typing it out or the\ 
+user can tell the AI the user's or channel id.
 
 ### About the AI
 
@@ -25,8 +31,8 @@ to be able to add a voice assistant to their projects or application.
 
 ### Application Features
 
-- Create rooms and talk to people
-- Make CRUD operations with integrated AI
+- Create rooms, channels, and talk to people(like any other chat app)
+- Make CRUD operations with integrated AI(the exciting part)
 
 ### Application technologies
 
@@ -37,27 +43,48 @@ to be able to add a voice assistant to their projects or application.
 - For live persistent connection between clients, websockets were used from the\
 library Socket.IO.
 
-### Application back-end
+### Application backend
 
-- There is an admin back-end route with overview of the site.
-- Includes a dashboard with current number of active sockets, total number of users registered,\
-current active users, etc.
-- Used a library called ChartJS for rendering charts and graphs easier.
-- No way for anyone to get into the admin panel, obviuosly for security reasons, so I have\
-taken screenshots instead.
+- Consists of Express and NodeJS as the server implementation.
+- For web sockets, SocketIO is used and uses port `5000` on `localhost` and uses the\
+root directory during production, so the API routes and the web sockets are all hosted on\
+the same port.
+- Also saves uploaded images from the client and stores them in the backend. In the case of\
+using `localhost`, it will be saved onto the developer's system, but saved onto the hosting service's\
+server while in production like heroku.
 
 ## Installation Requirements
 
 ### `git clone https://github.com/Maxdev18/AI-Chat-App.git`
 
-Clones the repository onto your system.
+Clones the repository to specified directory onto your system.
 
 ### `npm install` or `npm i`
 
-Install all necessary dependencies and packages required to run the application.
+Install all necessary dependencies and packages required to run the application.\
+You will need to do this in the root directory and the client directory.
 
 ### `npm run dev`
 
 Runs both the front and back end servers concurrently and seperate from each other. Front-end runs\
 on `localhost:3000`, and back-end runs on `localhost:5000`. The back-end only contains\
 the back-end route/s for the admin login.
+
+## Neccessary environment variables
+In order to run the application with all the features, you will need to set your own\
+ENV variables. There are ENV variables for the frontend and the backend which consists\
+from Google, EmailJS, JWT, and the MongoDB API keys. Since this was built with react, you will\
+need to initialize the frontend ENV variable with `REACT_APP`.
+
+### Frontend environment variables
+`REACT_APP_OAUTH_SECRET`\
+`REACT_APP_EMAILJS_SERVICE_ID`\
+`REACT_APP_EMAILJS_TEMPLATE_ID`\
+`REACT_APP_EMAILJS_USER_ID`
+
+### Backend environment variables
+`MONGO_ID`\
+`JWT_SECRET`\
+`EMAILJS_SERVICE_ID`\
+`EMAILJS_TEMPLATE_ID`\
+`EMAILJS_USER_ID`
