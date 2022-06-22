@@ -1,41 +1,53 @@
 const User = require('../models/userSchema');
-const Room = require('../models/roomSchema');
-const path = require('path');
+const Message = require('../models/messageSchema');
+const cloudinary = require('../utils/cloudinary');
 
-exports.getProfile = async (req, res) => {
-  const imgUrl = req.params.imgUrl;
+exports.updateProfile = async (req, res) => {
+  const newProfile = req.body;
+  let result, user, image;
 
-  const options = {
-    root: path.join(__dirname, '..', '..')
+  // Check if file exists, if so, then generate url link to that image
+  if(newProfile.file) {
+    result = await cloudinary.uploader.upload(newProfile.file, {
+      upload_preset: 'mvb1ow5h',
+      allowed_formats: ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp']
+    }, (err, result) => {
+      if(err) console.error(err)
+      return result;
+    });
   }
 
-  const user = await User.findOne({ 'settings.profilePic.picName': imgUrl })
-    .then(user => {
+  if(newProfile.name) {
+    // Only runs when there is no image upload
+    user = await User.findOneAndUpdate({ _id: newProfile.id }, { 
+      name: newProfile.name,
+      'settings.bio': newProfile.bio
+    }).then(user => {
       return user;
-    })
-    .catch(err => {
+    }).catch(err=> {
+      res.status(500).json({ message: "Update failed..." });
       console.error(err);
-      res.status(500).json({message: "fetch image failed..."})
-      return null;
-    })
+    });
+  }
 
-  if(user !== null) {
-    return res.status(200).sendFile(`/images/${user.settings.profilePic.picName}`, options);
+  if(newProfile.file) {
+    image = result.secure_url;
+    // Updates the current user's profile
+    image = await User.findOneAndUpdate({ _id: newProfile.id }, {'settings.profilePic.pic': image})
+      .then(async (user) => {
+        await Message.updateMany({ sender: user._id }, {'senderProfile.picUrl': image});
+        return image;
+      }).catch(err => {
+        res.status(500).json({ message: "Update failed..." });
+        console.error(err);
+      })
+  }
+
+  if(result && user) {
+    res.status(200).json({ image, message: "Update successful..."});
+  } else if(user) {
+    res.status(200).json({ message: "Update successful..."});
   } else {
-    const channel = await Room.findOne({ 'settings.picName': imgUrl })
-    .then(channel => {
-      return channel;
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({message: "fetch image failed..."});
-      return null;
-    })
-
-    if(channel !== null) {
-      return res.status(200).sendFile(`/images/${channel.settings.picName}`, options);
-    } else {
-      res.status(500).json({message: "fetch image failed..."});
-    }
+    res.status(500).json({ message: 'Something went wrong...'})
   }
 }

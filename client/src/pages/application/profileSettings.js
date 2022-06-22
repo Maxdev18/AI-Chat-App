@@ -6,12 +6,23 @@ export const ProfileSettings = () => {
   const { user, setUser } = React.useContext(UserContext);
   let [ name, setName ] = React.useState(user.name);
   let [ bio, setBio ] = React.useState(user.settings.bio);
+  let [ image, setImage ] = React.useState('');
+  let [ profileUrl, setProfileUrl ] = React.useState('');
   const navigate = useNavigate();
 
-  let profileData = {
-    id: user._id,
-    name,
-    bio
+  function updateProfilePic(e) {
+    const file = e.target.files[0];
+    setFile(file);
+    const objectUrl = URL.createObjectURL(file);
+    setProfileUrl(objectUrl);
+  }
+
+  function setFile(file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    }
   }
 
   function logout() {
@@ -20,49 +31,29 @@ export const ProfileSettings = () => {
   }
 
   function updateProfile() {
+    const profileData = {
+      file: image,
+      id: user._id,
+      name,
+      bio
+    }
+
     Axios.post('/api/application/update/update-profile', profileData)
-      .then(() => {
-        setUser(prev => ({
-          ...prev,
-          settings: {
-            ...prev.settings,
-            bio: profileData.bio
-          }
-        }))
-      })
-      .catch(err=> {
-        if(err) console.error(err);
-      });
-  }
-
-  function updateProfilePic(e) {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('id', user._id);
-
-    const config = {
-      headers: {
-          'content-type': 'multipart/form-data'
-      }
-    };
-
-    // Post image to the server and to database
-    Axios.post('/api/application/update/update-profile', formData, config)
       .then(data => {
         setUser(prev => ({
           ...prev,
           settings: {
             ...prev.settings,
+            bio: profileData.bio,
             profilePic: {
               ...prev.settings.profilePic,
-              pic: data.data.imgUrl
+              pic: data.data.image
             }
           }
         }))
       })
-      .catch(err => {
-        if(err) console.error(err);
+      .catch(err=> {
+        console.error(err);
       });
   }
 

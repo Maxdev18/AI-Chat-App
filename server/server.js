@@ -13,8 +13,6 @@ const io = require('socket.io')(server, {
     credentials: true
   }});
 
-const updateControllers = require('./controllers/update.controller');
-
 // Require socket handlers
 const messageSocketHandler = require('./sockets/socket');
 
@@ -38,17 +36,15 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(express.urlencoded({limit: '50mb', extended: true }));
 app.use(express.json()) ;
 app.use(express.static('client'));
-app.use(express.urlencoded({ extended: true }));
 
 //Set basic routes
 app.get('/', (req, res) => {
   res.send('Just the back-end route for controllers and other route handling');
 });
-
-app.get('/images/:imgUrl', updateControllers.getProfile)
 
 //API routes
 app.use('/auth',authRoutes);

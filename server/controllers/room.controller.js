@@ -1,6 +1,50 @@
 const User = require('../models/userSchema');
 const Room = require('../models/roomSchema');
 const Message = require('../models/messageSchema');
+const cloudinary = require('../utils/cloudinary');
+
+// Generate unique room id
+async function generateRoomId() {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+  let id = '', room;
+
+  while(!room) {
+    for(let i = 0; i < 11; i++) {
+      id += chars[Math.floor(Math.random() * 36)];
+    }
+
+    room = await Room.findOne({ roomId: id })
+      .then(data => {
+        return data;
+      });
+
+    if(room) {
+      room = '', id = '';
+      continue;
+    } else {
+      break;
+    }
+  }
+  
+  return id;
+}
+
+// Generate default room profile picture
+function generateProfilePic(pic) {
+  let profilePic = {};
+
+  // Generate random hex code for profile background color
+  const hexChars = 'ABCDEF1234567890';
+  let hex = '';
+
+  for(let i = 0; i < 6; i++) {
+    hex += hexChars[Math.floor(Math.random() * 16)]
+  }
+
+  profilePic.pic = pic;
+  profilePic.hex = hex;
+  return profilePic;
+}
 
 exports.getRoom = async (req, res) => {
   const user = req.query[0];
@@ -32,6 +76,58 @@ exports.getUsers = async (req, res) => {
     })
 
   return res.status(200).json({ userData, message: 'Retrieved user data successfully...' });
+}
+
+exports.createRoom = async (req, res) => {
+  const room = req.body;
+  const roomProfileImg = req.body.file;
+
+  if(roomProfileImg) {
+    const result = await cloudinary.uploader.upload(roomProfileImg, {
+      upload_preset: 'mvb1ow5h',
+      allowed_formats: ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp']
+    }, (err, result) => {
+      if(err) {
+        console.error(err)
+      } else {
+        return result;
+      }
+    });
+    
+    const newRoom = new Room({
+      roomName: room.roomName,
+      roomDesc: room.roomDesc,
+      roomId: await generateRoomId(),
+      admin: room.admin,
+      adminName: room.adminName,
+      members: [room.admin],
+      settings: {
+        hex: '',
+        profileURL: result.secure_url,
+        picPublicId: result.public_id
+      }
+    });
+    
+    const savedRoom = await newRoom.save();
+    res.status(200).json({ savedRoom, message: "Created room successfully..." });
+  } else {
+    const profile = generateProfilePic(room.roomName[0]);
+    const newRoom = new Room({
+      roomName: room.roomName,
+      roomDesc: room.roomDesc,
+      roomId: await generateRoomId(),
+      admin: room.admin,
+      adminName: room.adminName,
+      members: [room.admin],
+      settings: {
+        hex: profile.hex,
+        profileURL: profile.pic,
+        picPublicId: ''
+      }
+    });
+    const savedRoom = await newRoom.save();
+    res.status(200).json({ savedRoom, message: "Created room successfully..." });
+  }
 }
 
 exports.joinRoom = async (req, res) => {
@@ -84,7 +180,7 @@ exports.deleteRoom = async (req, res) => {
   const room = JSON.parse(req.query.room);
   const removeContact = req.query.removeContact;
   const currentUserId = req.query.id;
-  console.log(room);
+
   if(removeContact && room.roomId) {
     // this is a channel but not admin
     try {

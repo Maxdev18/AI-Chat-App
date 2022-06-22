@@ -6,41 +6,44 @@ import ProfilePlaceholder from '../../staticFiles/camera-icon.png';
 import '../../styles/pages/application/createRoom.css';
 
 export const CreateRoom = ({rooms, setRooms}) => {
-  const { user, setUser } = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
   const { setTogCreateRoom } = React.useContext(CreateRoomToggle);
   let [ roomName, setRoomName ] = React.useState('');
   let [ roomDescription, setRoomDescription ] = React.useState('');
-  let [ roomProfile, setRoomProfile ] = React.useState(null);
+  let [ image, setImage ] = React.useState(null);
   let [ profileUrl, setProfileUrl ] = React.useState('');
 
   function updateRoomProfile(e) {
     const file = e.target.files[0];
-    setRoomProfile(file);
+    setFile(file);
     const objectUrl = URL.createObjectURL(file);
     setProfileUrl(objectUrl);
   }
 
+  function setFile(file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    }
+  }
+
   function createRoom() {
-    const formData = new FormData();
-    formData.append('file', roomProfile);
-    formData.append('roomName', roomName);
-    formData.append('roomDesc', roomDescription);
-    formData.append('admin', user._id);
-    formData.append('adminName', user.name);
+    let formData = {
+      "file": image,
+      "roomName": roomName,
+      "roomDesc": roomDescription,
+      "admin": user._id,
+      "adminName": user.name
+    }
 
-    const config = {
-      headers: {
-          'content-type': 'multipart/form-data'
-      }
-    };
-
-    Axios.post(`/api/application/rooms/create-room`, formData, config)
+    Axios.post("/api/application/rooms/create-room", formData)
       .then(data => {
         setRooms([...rooms, data.data.savedRoom]);
         setTogCreateRoom(false);
       })
       .catch(err => {
-        if(err) console.error(err);
+        console.error(err);
       })
   }
 
