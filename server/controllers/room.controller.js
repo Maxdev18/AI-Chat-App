@@ -132,11 +132,11 @@ exports.createRoom = async (req, res) => {
 
 exports.joinRoom = async (req, res) => {
   const userId = req.body.id;
-  const roomId = req.body.search
+  const roomID = req.body.search || req.body.roomID;
 
   // Find room or user in db and get data
-  if(roomId.length === 11) {
-    const channelRoom = await Room.findOneAndUpdate({ roomId: roomId }, {
+  if(roomID.length === 11) {
+    const channelRoom = await Room.findOneAndUpdate({ roomId: roomID }, {
       $push: {
         members: userId
       }
@@ -152,8 +152,8 @@ exports.joinRoom = async (req, res) => {
     if(channelRoom) {
       return res.status(200).json({ channelRoom, message: 'Channel found successfully...' });
     }
-  } else if(roomId.length === 9) {
-    const privateRoom = await User.findOne({ userAppId: roomId })
+  } else if(roomID.length === 9) {
+    const privateRoom = await User.findOne({ userAppId: roomID })
     .then(async (data) => {
       const newRoom = new Room({
         members: [data._id.toString(), userId]

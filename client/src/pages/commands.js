@@ -174,35 +174,6 @@ export const Commands = () => {
                 </div>
               </div>
             </div>
-
-            <div className="command-container">
-              <h2 className="commands-sub-title">Ban people from a room</h2>
-              <p className="p-txt">
-                This command only applies to admins of a room. They 
-                are the only one who are able to perform this 
-                operation successfully. This might sound like a 
-                tedious task to do for one person, but remember 
-                that this application is not a fully blown chat app. 
-                This isn’t a legitimate business. The required 
-                information needed to perform the operation is 
-                the username and the room. We need to know which 
-                room the user is located in and which user that 
-                is within the room. The command and the response 
-                from the AI are listed down below:
-              </p>
-
-              <div className="command-wrapper-container">
-                <div className="command-wrapper">
-                  <p className="p-txt com">Command:</p>
-                  <p className="p-txt">“Ban (username) from room (room)”</p>
-                </div>
-                  
-                <div className="command-response">
-                  <p className="p-txt com">Response from AI:</p>
-                  <p className="p-txt">“Banned (username) from room (room)”</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

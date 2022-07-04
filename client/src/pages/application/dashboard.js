@@ -6,6 +6,7 @@ import { RoomNavbar } from './roomNavbar';
 import { MainApp } from './mainApp';
 import { SettingToggle, CreateRoomToggle, RoomToggle, Messages, ProfileToggle } from '../../contexts/contexts';
 import { UserContext } from '../../contexts/contexts';
+import alanBtn from '@alan-ai/alan-sdk-web';
 
 export const Dashboard = ({endpoint}) => {
   const { user } = React.useContext(UserContext);
@@ -27,11 +28,43 @@ export const Dashboard = ({endpoint}) => {
   React.useEffect(() => {
     socket.current = io(endpoint);
     socket.current.on('getMessage', msg => {
-      console.log(msg);
       setArrivalMessage(msg);
     })
   }, [endpoint]);
 
+  // Mount Alan AI component
+  React.useEffect(() => {
+    if(user) {
+      alanBtn({
+        key: `${process.env.REACT_APP_ALAN_KEY}/stage`,
+        onCommand:  async (commandData) => {
+          console.log(commandData);
+          switch (commandData.command) {
+            case 'joinRoom':
+              await Axios.post('/api/application/rooms/join-room', { roomID: commandData.data, id: user._id })
+                .then(data => {
+                  if(data.data.privateRoom) {
+                    setRooms([...rooms, data.data.privateRoom]);
+                  } else {
+                    setRooms([...rooms, data.data.channelRoom]);
+                  }
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+              break;
+            case 'deleteRoom':
+              break;
+            case 'openRoom':
+              break;
+            default:
+              break;
+          }
+        }
+      })
+    }
+  }, [user])
+  
   // Establish user socket connection
   React.useEffect(() => {
     if(user) {
