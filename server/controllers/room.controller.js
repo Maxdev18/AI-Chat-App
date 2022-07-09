@@ -177,11 +177,10 @@ exports.joinRoom = async (req, res) => {
   }
 
 exports.deleteRoom = async (req, res) => {
-  const room = JSON.parse(req.query.room);
-  const removeContact = req.query.removeContact;
-  const currentUserId = req.query.id;
+  const room = req.body.room;
+  const currentUserId = req.body.id;
 
-  if(removeContact && room.roomId) {
+  if((room.admin !== currentUserId) && room.roomId) {
     // this is a channel but not admin
     try {
       await Room.findOneAndUpdate({_id: room._id}, { $pull: { members: currentUserId } });
@@ -191,9 +190,8 @@ exports.deleteRoom = async (req, res) => {
       console.error(err);
       return res.status(500).json(err);
     }
-  } else if(removeContact && !room.roomId) {
-    // this is not a channel
-    // This one works but not the others
+  } else if(!room.admin && !room.roomId) {
+    // this is a private chat
     try {
       await Room.findByIdAndDelete(room._id);
       await Message.deleteMany({roomId: room._id});
@@ -202,7 +200,7 @@ exports.deleteRoom = async (req, res) => {
       console.error(err);
       return res.status(500).json(err);
     }
-  } else if(!removeContact) {
+  } else if(room.admin) {
     // this is a channel and admin
     try {
       await Room.findOneAndDelete(room._id) 

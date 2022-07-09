@@ -8,6 +8,6 @@ router.post('/create-room', roomController.createRoom);
 router.get('/get-room', roomController.getRoom);
 router.get('/getUsers', roomController.getUsers);
 router.post('/join-room', roomController.joinRoom);
-router.get('/delete-room', roomController.deleteRoom);
+router.post('/delete-room', roomController.deleteRoom);
 
 module.exports = router;
