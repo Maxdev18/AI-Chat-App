@@ -6,7 +6,6 @@ import { RoomNavbar } from './roomNavbar';
 import { MainApp } from './mainApp';
 import { SettingToggle, CreateRoomToggle, RoomToggle, Messages, ProfileToggle } from '../../contexts/contexts';
 import { UserContext } from '../../contexts/contexts';
-import alanBtn from '@alan-ai/alan-sdk-web';
 
 export const Dashboard = ({endpoint}) => {
   const { user } = React.useContext(UserContext);
@@ -32,46 +31,6 @@ export const Dashboard = ({endpoint}) => {
     })
   }, [endpoint]);
 
-  // Mount Alan AI component
-  React.useEffect(() => {
-    if(user) {
-      alanBtn({
-        key: `${process.env.REACT_APP_ALAN_KEY}/stage`,
-        onCommand:  async (commandData) => {
-          console.log(commandData);
-          switch (commandData.command) {
-            case 'joinRoom':
-              await Axios.post('/api/application/rooms/join-room', { roomID: commandData.data, id: user._id })
-                .then(data => {
-                  if(data.data.privateRoom) {
-                    setRooms([...rooms, data.data.privateRoom]);
-                  } else {
-                    setRooms([...rooms, data.data.channelRoom]);
-                  }
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-              break;
-            case 'deleteRoom':
-              break;
-            case 'openRoom':
-              break;
-            default:
-              break;
-          }
-        }
-      })
-    }
-  }, [user])
-  
-  // Establish user socket connection
-  React.useEffect(() => {
-    if(user) {
-      socket.current.emit('addUser', user._id);
-    }
-  }, [user]);
-
   // Join a room
   React.useEffect(() => {
     if(toggleRoom && messages.mainRoomIndex !== null) {
@@ -88,8 +47,7 @@ export const Dashboard = ({endpoint}) => {
       } else {
         setMessages(prev => ({...prev, messages: [arrivalMessage]}))
       }
-    }
-      
+    } 
   }, [arrivalMessage, rooms[messages?.mainRoomIndex]]);
 
   // Send a message in a room
@@ -102,22 +60,27 @@ export const Dashboard = ({endpoint}) => {
 
   // Fetch rooms associated with the current user
   React.useEffect(() => {
-    async function getRooms() {
-      if(user) {
-        await Axios.get('/api/application/rooms/get-room', { params: user._id })
-          .then(res => {
-            let roomsFetched = [];
-            for(let i = 0; i < Object.keys(res.data.rooms).length; i++) {
-              roomsFetched.push(res.data.rooms[i]);
-            }
-            setRooms(roomsFetched);
-          })
-          .catch(err => {
-            console.error(err);
-          })
+    if(user) {
+      async function getRooms() {
+          // Establish user socket connection
+          socket.current.emit('addUser', user._id);
+
+          await Axios.get('/api/application/rooms/get-room', { params: user._id })
+            .then(res => {
+              let roomsFetched = [];
+              for(let i = 0; i < Object.keys(res.data.rooms).length; i++) {
+                roomsFetched.push(res.data.rooms[i]);
+              }
+              if(roomsFetched.length > 0) {
+                setRooms(roomsFetched);
+              }
+            })
+            .catch(err => {
+              console.error(err);
+            })
       }
-    }
-    getRooms();
+      getRooms();
+    } 
   }, [user]);
 
   React.useEffect(() => {
@@ -140,7 +103,7 @@ export const Dashboard = ({endpoint}) => {
             <RoomNavbar setFriendProfiles={setFriendProfiles} rooms={rooms} />
           ) : null}
           <div className="main-chat-container">
-            <NavbarDashboard mobile={mobile} profiles={friendProfiles} rooms={rooms} setRooms={setRooms}/>
+            <NavbarDashboard mobile={mobile} profiles={friendProfiles} rooms={rooms} setRooms={setRooms} />
             <MainApp setFriendProfiles={setFriendProfiles} profiles={friendProfiles} rooms={rooms} setRooms={setRooms} setSendMessage={setSendMessage} />
           </div>
         </div>

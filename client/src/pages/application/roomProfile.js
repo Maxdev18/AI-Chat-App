@@ -12,7 +12,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
 
   // Remove room if not admin
   async function removeContact() {
-    await Axios.get('/api/application/rooms/delete-room', { params: { room: rooms[messages.mainRoomIndex], removeContact: true, id: user._id} })
+    await Axios.post('/api/application/rooms/delete-room', { room: rooms[messages.mainRoomIndex], id: user._id })
       .then(() => {
         const newRooms = rooms.filter(room => room._id !== rooms[messages.mainRoomIndex]._id);
         setToggleProfile(false);
@@ -26,7 +26,7 @@ export const RoomProfile = ({ profiles, rooms, setRooms }) => {
 
   // Delete room if admin
   async function deleteRoom() {
-    await Axios.get('/api/application/rooms/delete-room', { params: {room: profile } })
+    await Axios.post('/api/application/rooms/delete-room', { room: profile })
       .then(() => {
         const newRooms = rooms.filter(room => room._id !== rooms[messages.mainRoomIndex]._id);
         setToggleProfile(false);

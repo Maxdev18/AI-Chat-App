@@ -30,14 +30,17 @@ export const RoomNavbar = ({rooms, setFriendProfiles, mobile}) => {
           }
         });
 
-        await Axios.get('/api/application/rooms/getUsers', { params: friendIds })
+        if(friendIds.length > 0) {
+          await Axios.get('/api/application/rooms/getUsers', { params: friendIds })
           .then(data => {
+            console.log('here')
             setFriends(data.data.userData);
             setFriendProfiles([...data.data.userData]);
           })
           .catch(err => {
             console.error(err);
           })
+        }
       }
     getRoomData()
     }
