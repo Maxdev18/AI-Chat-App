@@ -7,9 +7,36 @@
   padding: 0px clamp(30px, 20%, 300px);
 }
 
+.howMade-desc-container {
+  margin-top: 46px;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Text Styling */
+.howMade-title {
+  text-align: center;
+}
 .temp-h1 {
   margin-top: calc(96px + 10vw);
   font-size: clamp(2rem, 6vh, 6rem);
   text-align: center;
+}
+
+.howMade-subtitle {
+  margin-top: 36px;
+  color: var(--ten-color);
+  font-size: clamp(1.2rem, 2.5vw, 3rem)
+}
+
+.howMade-desc {
+  margin-top: 18px;
+  font-size: clamp(.8rem, 2vw, 1rem);
+}
+
+/* Media Query */
+@media screen and (max-width: 656px) {
+  .howMade-container {
+    padding: 0px 36px;
+  }
 }
